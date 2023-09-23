@@ -1144,9 +1144,9 @@ myApp.controller("recAppointmentController", [
               // $location.path('/login')
             // }
             //  if
-              Swal.fire("Great!", response.data.message, "success");
-              $location.path("/login");
             // }
+            Swal.fire("Great!", response.data.message, "success");
+            $location.path("/login");
           })
           .catch(function (error) {
             console.log(error);
