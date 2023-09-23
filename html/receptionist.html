@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="/node_modules/angular/angular.min.js"></script>
+    <script src="/node_modules/@uirouter/angularjs/release/angular-ui-router.min.js"></script>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/node_modules/bootstrap-icons/font/bootstrap-icons.css">
+   
+    
+</head>
+<body ng-app="myModule" ng-controller="recController">
+     <div class="container-fluid" style="background-color: #e2e1e14e;">
+        <div class="row">
+              <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+                <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasExampleLabel">Dashboard</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body " style="background-color: #fbfbfb;">
+                  <div ng-repeat="details in leftPanel">
+                      <a href="" ng-click="patient(details.id)"><h5 class="mt-5"> {{ details.patientPanel}}</h5></a>
+                      <h5 class="mt-5"> {{ details.recpstPanel}}</h5>
+                      <h5 class="mt-5"> {{ details.doctorPanel}}</h5>
+                  </div>
+                </div>
+              </div>
+
+          <nav class="navbar container-fluid d-flex justify-content-between">
+            <i class="bi bi-house-door ms-5" style="font-size: 32px;"  data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample"></i>
+            <div class="col-md-4">
+              <form class="" role="search">
+                <input class="form-control autocomplete-control topbar-search rounded-pill p-2" type="search" placeholder="Search" aria-label="Search" style="background-color: #ccd2d4;" ng-model="searchname">
+              </form>
+            </div>
+            <div class="d-flex col-md-1">
+              <p class="p-2" style="font-size: 24px;">Logout</p>
+              <i class="bi bi-box-arrow-right" style="font-size: 28px;" ng-click="logout()"></i>
+
+            </div>
+          </nav>
+        </div>
+      </div>
+
+            <!-- <div class="modal fade" ng-class="{ 'show': Modal, 'd-block': Modal }" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog-lg modal-dialog-scrollable mt-5 p-5">
+                    <div class="modal-content border border-black">
+                        <div class="modal-header">
+                            <p style="font-size: 32px; color: #6259e6;" class="modal-title fs-5" id="staticBackdropLabel">Patient Details</p>
+                            <button type="button" class="btn-close" ng-click="closeModal()"></button>
+                        </div>
+                        <div class="modal-body ">
+                            <div class="card-body m-4 ">
+                              
+                                <div class="row d-flex justify-content-center">
+                                  <div class="row mt-2">
+                                    <div class="col">
+                                      <table class="table p-5">
+                                        <thead>
+                                          <tr>
+                                            <th scope="col" style ="font-size: 16px; font-family: Arial, Helvetica, sans-serif;">#</th>
+                                            <th scope="col" style ="font-size: 16px; font-family: Arial, Helvetica, sans-serif;">Name</th>
+                                            <th scope="col" style ="font-size: 16px; font-family: Arial, Helvetica, sans-serif;">Address</th>
+                                            <th scope="col" style ="font-size: 16px; font-family: Arial, Helvetica, sans-serif;">Email</th>
+                                            <th scope="col" style ="font-size: 16px; font-family: Arial, Helvetica, sans-serif;">Phone</th>
+                                            <th scope="col" style ="font-size: 16px; font-family: Arial, Helvetica, sans-serif;">Age</th>
+                                            <th scope="col" style ="font-size: 16px; font-family: Arial, Helvetica, sans-serif;">Gender</th>
+                                            
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                             <th scope="row"></th>
+                                            
+                                            <td><input type="text" class="form-control border border-black w-50 " ng-model="searchName" placeholder="Name"></td>
+                                            <td><input type="text" class="form-control border border-black w-50 " ng-model="searchAddress" placeholder="Address"></td>
+                                            <td><input type="text" class="form-control border border-black w-50 " ng-model="searchEmail" placeholder="Email"></td>
+                                            <td><input type="text" class="form-control border border-black w-50 " ng-model="searchPhone" placeholder="Phone"></td>
+                                            <td><input type="text" class="form-control border border-black w-50 " ng-model="searchAge" placeholder="Age"></td>
+                                            <td><input type="text" class="form-control border border-black w-50 " ng-model="searchGender" placeholder="Gender"></td>
+                                    
+                                                                                                                                                                    
+                                        
+                                           </tr>
+
+                                          <tr ng-repeat="patient in patientList | filter: {
+                                            patient_id__user_id__first_name: searchName,
+                                            patient__address: searchAddress,
+                                            patient_id__user_id__email: searchEmail,
+                                            patient__Phone: searchPhone,  
+                                            patient__age: searchAge,
+                                            patient__gender: searchGender
+                                        }">
+                                            <th scope="row">{{$index + 1}}</th>
+                                            <td style="font-size: 18px;">{{patient.patient_id__user_id__first_name}} {{patient.patient_id__user_id__last_name}}</td>
+                                            <td style="font-size: 18px;">{{patient.patient__address}}</td>
+                                            <td style="font-size: 18px;">{{patient.patient_id__user_id__email}}</td>
+                                            <td style="font-size: 18px;">{{patient.patient__Phone}}</td>
+                                            <td style="font-size: 18px;">{{patient.patient__age}}</td>
+                                            <td style="font-size: 18px;">{{patient.patient__gender}}</td>
+                                            <td style="font-size: 18px;"><button class="btn text-white" style="background-color: #6259e6;" ng-click="show(patient.patient_id)">view</button></td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                           
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-outline-success" ng-click="closeModal()">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+            <!-- <div class="modal fade" ng-class="{ 'show': detailsModal, 'd-block': detailsModal }">
+              <div class="modal-dialog-lg modal-dialog-scrollable mt-5 p-5">
+                  <div class="modal-content">
+                      <div class="modal-header text-bg-secondary p-3">
+                         
+                          <h5 class="card-title text-white" style="font-size: 22px;">Appointments of Patient with their doctor's</h5>
+                          <button type="button" class="btn-close" ng-click="closeDetailsModal()"></button>
+                      </div>
+                      <div class="modal-body">
+                        <div class="card-body m-4 ">
+                          
+                         <div class="row d-flex justify-content-center">
+                           <div class="row mt-2">
+                             <div class="col">
+                               <table class="table p-5">
+                                 <thead>
+                                   <tr>
+                                     <th scope="col" style ="font-size: 16px; font-family: Arial, Helvetica, sans-serif;">#</th>
+                                     <th scope="col" style ="font-size: 16px; font-family: Arial, Helvetica, sans-serif;">Name</th>
+                                     <th scope="col" style ="font-size: 16px; font-family: Arial, Helvetica, sans-serif;">Email</th>
+                                     <th scope="col" style ="font-size: 16px; font-family: Arial, Helvetica, sans-serif;">Phone</th>
+                                     <th scope="col" style ="font-size: 16px; font-family: Arial, Helvetica, sans-serif;">Doctor</th>
+                                     <th scope="col" style ="font-size: 16px; font-family: Arial, Helvetica, sans-serif;">Speciality</th>
+                                     <th scope="col" style ="font-size: 16px; font-family: Arial, Helvetica, sans-serif;">Date and time</th>
+                                    
+                                   </tr>
+                                 </thead>
+                                 <tbody>
+                                      <th scope="row"></th>
+                                     
+                                     <td><input type="text" class="form-control border border-black w-50 " ng-model="searchName" placeholder="Name"></td>
+                                     <td><input type="text" class="form-control border border-black w-50 " ng-model="searchEmail" placeholder="Email"></td>
+                                     <td><input type="text" class="form-control border border-black w-50 " ng-model="searchPhone" placeholder="Phone"></td>
+                                     <td><input type="text" class="form-control border border-black w-50 " ng-model="searchDoctor" placeholder="Doctor"></td>
+                                     <td><input type="text" class="form-control border border-black w-50 " ng-model="searchSpeciality" placeholder="Speciality"></td>
+                                   
+                                                                                                                                                             
+                                 
+                                    </tr>
+                                    
+                                   <tr ng-repeat="patient in appointments | filter: {
+                                     patient_id__user_id__first_name: searchName,
+                                     patient_id__user_id__email: searchEmail,
+                                     patient__Phone: searchPhone,
+                                     doctor_id__user_id__first_name: searchDoctor,
+                                     doctor_id__speciality: searchSpeciality,
+                                     patient__gender: searchGender
+                                 }">
+                                 <th scope="row">{{$index + 1}}</th>
+                                 <td style="font-size: 18px;">{{patient.patient_id__user_id__first_name}} {{patient.patient_id__user_id__last_name}}</td>
+                                 <td style="font-size: 18px;">{{patient.patient_id__user_id__email}}</td>
+                                 <td style="font-size: 18px;">{{patient.patient__Phone}}</td>
+                                 <td style="font-size: 18px;">{{patient.doctor_id__user_id__first_name}} {{ patient.doctor_id__user_id__last_name }}</td>
+                                 <td style="font-size: 18px;">{{patient.doctor_id__specialityname_id__speciality}}</td>
+                                
+                                 <td style="font-size: 18px;">{{patient.date}} & {{patient.time}}
+                                </td>
+                                
+                                                                
+                                
+                                     <td style="font-size: 18px;"><button class="btn text-white" style="background-color: #6259e6;" ng-click="app(patient.id)">appointment</button></td>
+                                   </tr>
+                                 </tbody>
+                               </table>
+                             </div>
+                           </div>
+                         </div>
+                       </div>
+
+                      </div>
+                      <div class="modal-footer">
+  </div>
+                  </div>
+              </div>
+          </div> -->
+
+          <!-- <div class="modal fade" ng-class="{ 'show': patientDetailsModal, 'd-block': patientDetailsModal }">
+            <div class="modal-dialog-lg modal-dialog-scrollable mt-5 p-5">
+                <div class="modal-content">
+                    <div class="modal-header">
+                          <h5 class="card-title" style="font-size: 22px;">Patient Detais</h5>
+                        <button type="button" class="btn-close" ng-click="closepatientDetailsModal()"></button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="card-body m-4 ">
+                        
+                       <div class="row d-flex justify-content-center">
+                         <div class="row mt-2">
+                           <div class="col">
+                             <table class="table p-5">
+                               <thead>
+                                 <tr>
+                                   <th scope="col" style ="font-size: 16px; font-family: Arial, Helvetica, sans-serif;">#</th>
+                                   <th scope="col" style ="font-size: 16px; font-family: Arial, Helvetica, sans-serif;">Name</th>
+                                   <th scope="col" style ="font-size: 16px; font-family: Arial, Helvetica, sans-serif;">Email</th>
+                                   <th scope="col" style ="font-size: 16px; font-family: Arial, Helvetica, sans-serif;">Phone</th>
+                                   <th scope="col" style ="font-size: 16px; font-family: Arial, Helvetica, sans-serif;">Doctor</th>
+                                   <th scope="col" style ="font-size: 16px; font-family: Arial, Helvetica, sans-serif;">Speciality</th>
+                                   <th scope="col" style ="font-size: 16px; font-family: Arial, Helvetica, sans-serif;">Gender</th>
+                                      </tr>
+                               </thead>
+                               <tbody>
+                                    <th scope="row">
+                                   
+                                   <td><input type="text" class="form-control border border-black w-50 " ng-model="searchName" placeholder="Name"></td>
+                                   <td><input type="text" class="form-control border border-black w-50 " ng-model="searchEmail" placeholder="Email"></td>
+                                   <td><input type="text" class="form-control border border-black w-50 " ng-model="searchPhone" placeholder="Phone"></td>
+                                   <td><input type="text" class="form-control border border-black w-50 " ng-model="searchAddress" placeholder="Address"></td>
+                                   <td><input type="text" class="form-control border border-black w-50 " ng-model="searchAge" placeholder="Age"></td>
+                                   <td><input type="text" class="form-control border border-black w-50 " ng-model="searchGender" placeholder="Gender"></td>
+                           
+                                                                                                                                                           
+                               
+                                       </tr>
+
+                                 <tr ng-repeat="patient in patients | filter: {
+                                   first_name: searchName,
+                                   email: searchEmail,
+                                   patient__Phone: searchPhone,
+                                   patient__address: searchAddress,
+                                   patient__age: searchAge,
+                                   patient__gender: searchGender
+                               }">
+                                   <th scope="row">{{$index + 1}}</th>
+                                   <td style="font-size: 18px;">{{patient.first_name}} {{patient.last_name}}</td>
+                                   <td style="font-size: 18px;">{{patient.email}}</td>
+                                   <td style="font-size: 18px;">{{patient.patient__Phone}}</td>
+                                   <td style="font-size: 18px;">{{patient.patient__address}}</td>
+                                   <td style="font-size: 18px;">{{patient.patient__age}}</td>
+                                   <td style="font-size: 18px;">{{patient.patient__gender}}</td>
+                                        </tr>
+                               </tbody>
+                             </table>
+                           </div>
+                         </div>
+                       </div>
+                     </div>
+
+                    </div>
+                    <div class="modal-footer">
+                          </div>
+                </div>
+            </div>
+        </div> -->
+
+
+            
+                <!-- <div class="col-md-8 p-5 vh-100 d-flex justify-content-center " style="background-color:#f0f0f0;">
+                        
+                        <div class="card-body col-md-8">
+                              <div class="container-fluid ">
+                                <div class="row mt-2">
+                                  <div class="col-md-12">
+                                      <H1 class="d-flex justify-content-center mt-5">Doctor details</H1>  
+                                        <table id="exportable" class="table mt-5 border border-black" style="border-color: #6259e6;">
+                                            <thead>
+                              <tr>
+                                <th scope="col" style ="font-size: 18px; font-family: Arial, Helvetica, sans-serif;">#</th>
+                                <th scope="col" style ="font-size: 18px; font-family: Arial, Helvetica, sans-serif;">Name</th>
+                                <th scope="col" style ="font-size: 18px; font-family: Arial, Helvetica, sans-serif;">Address</th>
+                                <th scope="col" style ="font-size: 18px; font-family: Arial, Helvetica, sans-serif;">Qualification</th>
+                                <th scope="col" style ="font-size: 18px; font-family: Arial, Helvetica, sans-serif;">Email</th>
+                                <th scope="col" style ="font-size: 18px; font-family: Arial, Helvetica, sans-serif;">Speciality</th>
+                                <th scope="col" style ="font-size: 18px; font-family: Arial, Helvetica, sans-serif;">Fees</th>
+                                <th></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <th scope="row">
+                                   
+                                <td><input type="text" class="form-control border border-black w-50 " ng-model="searchName" placeholder="Name"></td>
+                                <td><input type="text" class="form-control border border-black w-50 " ng-model="searchAddress" placeholder="Address"></td>
+                                <td><input type="text" class="form-control border border-black w-50 " ng-model="searchQualification" placeholder="Qualification"></td>
+                                <td><input type="text" class="form-control border border-black w-50 " ng-model="searchEmail" placeholder="Email"></td>
+                                <td><input type="text" class="form-control border border-black w-50 " ng-model="searchSpeciality" placeholder="Speciality"></td>
+                                <td><input type="text" class="form-control border border-black w-50 " ng-model="searchFee" placeholder="Fee"></td>
+                                <td></td> 
+                              
+                              </tr>
+
+                              <tr ng-repeat="doctor in doctorDetails| filter: {
+                                first_name: searchName,
+                                doctor__address: searchAddress,
+                                doctor__qualification: searchQualification,
+                                email: searchEmail,
+                                doctor__specialityname_id__speciality: searchSpeciality,
+                                doctor__fees: searchFee
+                            }">
+                                <th scope="row p-5 m-5">{{$index + 1}}</th>
+                                <td style="font-size: 16px;">{{doctor.first_name}} {{doctor.last_name}}</td>
+                                <td style="font-size: 16px;">{{doctor.doctor__address}}</td>
+                                <td style="font-size: 16px;">{{doctor.doctor__qualification}}</td>
+                                <td style="font-size: 16px;">{{doctor.email}}</td>
+                                <td style="font-size: 16px;">{{doctor.doctor__specialityname_id__speciality}}</td>
+                                <td style="font-size: 16px;">{{doctor.doctor__fees}}</td>
+                                <td style="font-size: 16px;"><button class="btn text-white" style="background-color: #6259e6;" ng-click="view(doctor.doctor__id)">Patients</button></td>
+                            </tr>
+                        </tbody>
+                          </table>
+                          <button class="btn text-white" style="background-color: #6259e6;" ng-click="exportTableToExcel('exportable', 'doctor')">Export this table to excel</button>
+                        </div>
+                      </div>
+                    </div>  
+                  </div>  
+                </div>
+
+
+
+                <div class="col-md-2">
+                  <h1 class="mt-5">Patient details</h1>
+                  <div class="container-fluid mt-5" style="height: 900px; overflow-y: auto;">
+                    <input type="text" class="form-control border border-black" ng-model="searchName" placeholder="Name">
+                    <div class="row">
+                      <div class="col-md-12 mt-5 overflow-auto">
+                       <div class="card">
+                      <div class="card-body"> 
+                          <h5 class="card-title">Name</h5>
+                          <p class="card-text">Time</p>
+                      </div>
+                  </div>
+                    </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                </div>
+            </div>  
+                
+          </div>
+ -->
+
+</body>
+</html>

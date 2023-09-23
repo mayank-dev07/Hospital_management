@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="/node_modules/angular/angular.min.js"></script>
+    <script src="/node_modules/@uirouter/angularjs/release/angular-ui-router.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="/node_modules/bootstrap/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/node_modules/bootstrap-icons/font/bootstrap-icons.css"
+    />
+</head>
+<body>
+    <div class="container-fluid" style="background-color: #e2e1e14e">
+        <div class="row">
+          <div
+            class="offcanvas offcanvas-start"
+            tabindex="-1"
+            id="offcanvasExample"
+            aria-labelledby="offcanvasExampleLabel"
+          >
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasExampleLabel">
+                Dashboard
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="offcanvas"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="offcanvas-body" style="background-color: #fbfbfb">
+              <div ng-repeat="details in leftPanel">
+                <a href="" ng-click="patient(details.patientLink)">
+                  <h5 class="mt-5">{{ details.patientPanel}}</h5>
+                </a>
+                <a href="" ng-click="receptionist(details.id)">
+                  <h5 class="mt-5">{{ details.recpstPanel}}</h5>
+                </a>
+                <h5 class="mt-5">{{ details.doctorPanel}}</h5>
+              </div>
+            </div>
+          </div>
+  
+          <nav class="navbar container-fluid d-flex justify-content-between">
+            <i
+              class="bi bi-house-door ms-5"
+              style="font-size: 32px"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#offcanvasExample"
+              aria-controls="offcanvasExample"
+            ></i>
+            <div class="col-md-4">
+              <form class="" role="search">
+                <input
+                  class="form-control autocomplete-control topbar-search rounded-pill p-2"
+                  type="search"
+                  placeholder="Search"
+                  aria-label="Search"
+                  style="background-color: #ccd2d4"
+                  ng-model="searchname"
+                />
+              </form>
+            </div>
+            <div class="d-flex col-md-1">
+              <p class="p-2" style="font-size: 24px">Logout</p>
+              <i class="bi bi-box-arrow-right" style="font-size: 28px"></i>
+            </div>
+          </nav>
+        </div>
+      </div>
+  
+      <div ng-show="loader">
+        <div class="vh-100 d-flex justify-content-center align-items-center">
+          <div class="text-center">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container-fluid vh-100 d-flex justify-content-center ">
+        <div class="col-md-7 mt-5">
+            <div>
+              
+            </div>
+        </div>
+      </div>
+    </body>
+</html>

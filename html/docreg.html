@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="/node_modules/angular/angular.min.js"></script>
+    <script src="/node_modules/@uirouter/angularjs/release/angular-ui-router.min.js"></script>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    
+    
+</head>
+<style>
+  body {
+            background-color: hsl(218, 41%, 15%);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center; 
+            align-items: center; 
+            background-image: radial-gradient(650px circle at 0% 0%,
+            hsl(218, 41%, 35%) 15%,
+            hsl(218, 41%, 30%) 35%,
+            hsl(218, 41%, 20%) 75%,
+            hsl(218, 41%, 19%) 80%,
+            transparent 100%),
+          radial-gradient(1250px circle at 100% 100%,
+            hsl(218, 41%, 45%) 15%,
+            hsl(218, 41%, 30%) 35%,
+            hsl(218, 41%, 20%) 75%,
+            hsl(218, 41%, 19%) 80%,
+            transparent 100%);
+        }
+</style>
+<body ng-app="myModule" ng-controller="docregController">
+  <div class="container-fluid mt-5"></div>
+  <div class="row m-5">
+      <div class="col-md-5">
+          <h1 class="fw-bold ms-5 p-4 text-white">
+              Hospital <br>
+              <span style="color: hsl(218, 81%, 75%)">Registration Form</span>
+          </h1>
+          <div class="m-5">
+              <img src="/images/[removal.ai]_ccd6f421-326b-432f-b880-9a4bd593b44e-png-transparent-nursing-nurse-physician-patient-doctors-and-nurses-furniture-people-public-relations.png"
+                  class="img-fluid" alt="">
+          </div>
+          <div class="row mt-5">
+              <div class="col-md-3"></div>
+              <div class="col-md-8 align-items-center d-flex justify-content-center mt-5">
+                <p class="text-white text-center p-3">If already registered, then login</p>
+                <button class="p-2 rounded-4 rounded text-white ms-5 d-grid gap-1  col-6 bg-black border-black border"
+            style=" font-size: 20px;" ng-click="login()">Login</button>
+            </div>
+          </div>
+      </div>
+
+      <div class="col-md-7">
+          <div class="card m-5 border border-black">
+            <div class="float-end rounded border border-black p-3" style="background-color: #060678;">
+              <div class="container-fluid d-flex justify-content-center ">
+              <div>
+                    <a ui-sref="docreg"  class="p-1 mb-0 h1 text-white" style="font-size: 18px;">Click to  Register as a patient</a> 
+
+      </div>
+    </div>
+  </div>
+              <div class="card-body m-4">
+                  <form class="row g-3">
+                      <div class="col-md-6">
+                          <label for="exampleInputEmail1" class="form-label">Email address</label>
+                          <input type="email" class="p-2 form-control border border-black" id="exampleInputEmail1"
+                              aria-describedby="emailHelp" ng-model="registerationEmail" required>
+                      </div>
+                      <div class="col-md-6">
+                        <label for="exampleInputName" class="form-label">username</label>
+                        <input type="tel" class="p-2 form-control border border-black " id="exampleInputName"
+                            ng-model="registerationUsername" required>
+                    </div>
+                  
+                      <div class="col-md-6">
+                          <label for="exampleInputfName" class="form-label">First name</label>
+                          <input type="text" class="p-2 form-control border border-black " id="exampleInputfName"
+                              aria-describedby="emailHelp" ng-model="registerationfirstName" required>
+                      </div>
+                      <div class="col-md-6">
+                          <label for="exampleInputlName" class="form-label">Last name</label>
+                          <input type="text" class="p-2 form-control border border-black " id="exampleInputlName"
+                              aria-describedby="emailHelp" ng-model="registerationlastName" required>
+                      </div>
+                      <!-- <div class="row mt-3"> -->
+                        <div class="col-md-6">
+                          <label for="exampleInputName" class="form-label">Phone number</label>
+                          <input type="tel" class="p-2 form-control border border-black " id="exampleInputName"
+                              ng-model="registerationPhone" required>
+                      </div>
+                      
+                      <div class="col-md-3">
+                        <label for="exampleInputName" class="form-label">Fee</label>
+                        <input type="text" class="p-2 form-control border border-black " id="exampleInputName"
+                        ng-model="registerationFee" required>
+                      </div>
+                      <div class="col-md-6 mt-5 d-flex">
+                        <label class="input-group-text" for="inputGroupSelect01">Qualification</label>
+                        <select class="form-select " id="inputGroupSelect01" ng-model="registerationQualification">
+                          <option selected>Choose...</option>
+                          <option>MBBS</option>
+                          <option>BDS</option>
+                          <option>BAMS</option>
+                          <option>BHMS</option>
+                        </select>
+                      </div>
+                      <div class="col-md-6 mt-5 d-flex">
+                        <label class="input-group-text" for="inputGroupSelect01">Specialization</label>
+                        <select class="form-select " id="inputGroupSelect01" ng-model="registerationSpecialization">
+                          <option selected></option>
+                          <option ng-repeat="spec in speciality" value="{{ spec.id}}">{{ spec.speciality}}</option>
+        
+                        </select>
+                       </div>
+                      <!-- </div> -->
+                      <div class="col-12">
+                          <label for="inputAddress2" class="form-label">Address</label>
+                          <input type="text" class="p-2 form-control border border-black" id="inputAddress2"
+                              ng-model="registerationAddress" required>
+                      </div>
+
+                      <div class="col-md-6">
+                        <label for="exampleInputPassword1" class="form-label">Password</label>
+                        <input type="password" class="p-2 form-control border border-black"
+                            id="exampleInputPassword1" ng-model="registerationPassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
+                    </div>
+                    <div class="col-6">
+                      <label for="exampleInputPassword" class="form-label">Confirm Password</label>
+                      <input type="password" class="p-2 form-control border border-black"
+                      id="exampleInputPassword" ng-model="registerationConfirmPassword">
+                  </div>
+                     
+                  <div class="d-grid gap-1 col-4 mx-auto mt-4">
+                    <button class="p-3 mt-5 border-black rounded-pill bg-black text-white" type="button"
+                        ng-click="registration()">Register</button>
+                </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+</body>
+  </html>

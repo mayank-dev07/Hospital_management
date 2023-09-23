@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="/node_modules/angular/angular.min.js"></script>
+    <script src="/node_modules/@uirouter/angularjs/release/angular-ui-router.min.js"></script>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="/node_modules/bootstrap/dist/js/bootstrap.min.js"> -->
+</head>
+<body ng-controller="loginController">  
+<section class="background-radial-gradient overflow-hidden">
+    <style>
+      .background-radial-gradient {
+        background-color: hsl(218, 41%, 15%);
+        background-image: radial-gradient(650px circle at 0% 0%,
+            hsl(218, 41%, 35%) 15%,
+            hsl(218, 41%, 30%) 35%,
+            hsl(218, 41%, 20%) 75%,
+            hsl(218, 41%, 19%) 80%,
+            transparent 100%),
+          radial-gradient(1250px circle at 100% 100%,
+            hsl(218, 41%, 45%) 15%,
+            hsl(218, 41%, 30%) 35%,
+            hsl(218, 41%, 20%) 75%,
+            hsl(218, 41%, 19%) 80%,
+            transparent 100%);
+      }
+  
+      #radius-shape-1 {
+        height: 220px;
+        width: 220px;
+        top: -60px;
+        left: -130px;
+        background: radial-gradient(#44006b, #ad1fff);
+        overflow: hidden;
+      }
+  
+      #radius-shape-2 {
+        border-radius: 38% 62% 63% 37% / 70% 33% 67% 30%;
+        bottom: -60px;
+        right: -110px;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(#44006b, #ad1fff);
+        overflow: hidden;
+      } 
+    </style>
+  
+  <div class="vh-100 d-flex justify-content-evenly align-items-center ">
+      <div class="container-fluid">
+
+        <div class="row align-items-center">
+            <div class="col-md-1">
+              
+            </div>
+          <div class="col-md-3" >
+          <h1 class=" fw-bold" style="color: hsl(218, 81%, 95%)">
+            Login  <br />
+            <span style="color: hsl(218, 81%, 75%)">Hospital Form</span>
+          </h1>
+        </div>
+        <div class="col-md-2">
+
+        </div>
+        <div class="col-md-5">  
+          <div class="card rounded-4" >
+            <div class="card-body m-5 " >
+                <h1 class="text-center mb-5  ">Welcome back!</h1>
+                <div class="d-flex justify-content-center">
+                    Dedicate yourself to hope, healing, and recover.
+                </div>
+                <div class="row">
+                  <div class=" col">
+                      <div class="card-body">
+                          <form class="row ">
+                            <div class="col-md-12 mt-5">
+                                <input  type="text" class="p-3 form-control form-control border border-black rounded-pill" id="exampleInput"  aria-describedby="emailHelp" ng-model="loginName" placeholder="username"
+                                required>
+                              </div>
+                              <div class="col-md-12 mt-3">
+                                <input  type="password" class="p-3 form-control form-control border border-black rounded-pill" id="exampleInputPassword1" ng-model="loginPassword"  placeholder="password"  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
+                               
+                              </div>
+                              <div class="d-grid gap-2 col-5 mx-auto mt-5">
+                                <button class="p-2 mt-5 border-black rounded-pill bg-black text-white" type="button" ng-click="login()" style="font-size: 24px;">Login</button>
+                              </div>
+                              
+                            </form>
+                          </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </section>
+</body>
+</html>
