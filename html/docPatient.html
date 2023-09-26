@@ -111,16 +111,16 @@
                     </thead>
                     <tbody class="border-primary">
                       <!-- <th> -->
-                        <tr ng-repeat="patient in patientDetails| filter: { first_name: searchname }">
+                        <tr ng-repeat="patient in patientDetails| filter: { patient_id__user_id__first_name: searchname }">
                           <th>{{$index + 1}}</th>
-                          <td style="font-size: 22px;">{{ patient.first_name}} {{
-                            patient.last_name }}</td>
-                          <td style="font-size: 22px;">{{ patient.patient__address}}</td>
+                          <td style="font-size: 22px;">{{ patient.patient_id__user_id__first_name}} {{
+                            patient.patient_id__user_id__last_name }}</td>
+                          <td style="font-size: 22px;">{{ patient.patient_id__address}}</td>
                           <!-- <td style="font-size: 22px;">{{patient.doctor_id__specialityname_id__speciality}}</td> -->
-                          <td style="font-size: 22px;">{{patient.email}}</td>
-                          <td style="font-size: 22px;">{{patient.patient__Phone}}</td>
-                          <td style="font-size: 22px;">{{patient.patient__age}}</td>
-                          <td style="font-size: 22px;">{{patient.patient__gender}}</td>
+                          <td style="font-size: 22px;">{{patient.patient_id__user_id__email}}</td>
+                          <td style="font-size: 22px;">{{patient.patient_id__Phone}}</td>
+                          <td style="font-size: 22px;">{{patient.patient_id__age}}</td>
+                          <td style="font-size: 22px;">{{patient.patient_id__gender}}</td>
                           <!-- <td> <button class="btn btn-outline-success" ng-click="approve(patient.id)"> Approve</button>
                           </td>
                           <td> <button class="btn btn-outline-danger" ng-click="reject(patient.id)"> Reject</button></td> -->
