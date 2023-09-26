@@ -37,13 +37,9 @@
             </div>
             <div class="offcanvas-body" style="background-color: #fbfbfb">
               <div ng-repeat="details in leftPanel">
-                <a href="" ng-click="patient(details.patientLink)">
-                  <h5 class="mt-5">{{ details.patientPanel}}</h5>
+                <a href="" ng-click="patient(details.panelLink)">
+                  <h5 class="mt-5">{{ details.panel}}</h5>
                 </a>
-                <a href="" ng-click="receptionist(details.id)">
-                  <h5 class="mt-5">{{ details.recpstPanel}}</h5>
-                </a>
-                <h5 class="mt-5">{{ details.doctorPanel}}</h5>
               </div>
             </div>
           </div>
@@ -87,7 +83,7 @@
         </div>
       </div>
       
-    <div class="col-md-12 mt-5">
+    <div class="col-md-12 mt-5" ng-show="appointment">
       <div class="col-md-2"></div>
       <div class="container-fluid col-md-10 mt-5">
         <h4
@@ -99,49 +95,55 @@
         <div class="row mt-3">
           <div class="card-body ms-5">
             <div class="d-flex justify-content-center">
-              <table id="appointment" class="table table-striped table-hover">
-                <thead>
-                  <tr>
-                    <th class="display-1" style="font-size: 20px">#</th>
-                    <th class="display-1" style="font-size: 20px">
+              <table id="appointment" class="table border-primary">
+                <thead class="border-success">
+                  
+                    <th class="display-1" style="font-size: 30px">S.No</th>
+                    <th class="display-1" style="font-size: 30px">
                       Patient Name
                     </th>
-                    <th class="display-1" style="font-size: 20px">
+                    <th class="display-1" style="font-size: 30px">
                       Doctor name
                     </th>
-                    <th class="display-1" style="font-size: 20px">
+                    <th class="display-1" style="font-size: 30px">
                       Speciality
                     </th>
-                    <th class="display-1" style="font-size: 20px">
+                    <th class="display-1" style="font-size: 30px">
                       Patient Email
                     </th>
-                    <th class="display-1" style="font-size: 20px">
+                    <th class="display-1" style="font-size: 30px">
                       Patient Phone
                     </th>
-                    <th class="display-1" style="font-size: 20px">Date</th>
-                    <th class="display-1" style="font-size: 20px">time</th>
+                    <th class="display-1" style="font-size: 30px">Date</th>
+                    <th class="display-1" style="font-size: 30px">time</th>
                     <th></th>
-                  </tr>
+                  <!-- </tr> -->
                 </thead>
                 <tbody>
-                  <th>
+                  <!-- <th> -->
                     <tr
                       ng-repeat="doctor in appointments| filter: { first_name: searchname }"
                     >
                       <th>{{$index + 1}}</th>
                       <td style="font-size: 18px">
-                        {{ doctor.patient_id__user_id__first_name }} {{
-                        doctor.patient_id__user_id__last_name }}
+                        {{ doctor.patient__user__first_name
+                        }} {{
+                        doctor.patient__user__last_name
+                      }}
                       </td>
                       <td style="font-size: 18px">
-                        {{ doctor.doctor_id__user_id__first_name }} {{
-                        doctor.doctor_id__user_id__last_name }}
+                        {{ doctor.doctor__user__first_name
+                        }} {{
+                        doctor.doctor_id__user__last_name
+
+                      }}
                       </td>
                       <td style="font-size: 18px">
-                        {{doctor.doctor_id__specialityname_id__speciality}}
+                        {{doctor.doctor_id__speciality__speciality
+                        }}
                       </td>
                       <td style="font-size: 18px">
-                        {{doctor.patient_id__user_id__email}}
+                        {{doctor.patient__user__email}}
                       </td>
                       <td style="font-size: 18px">{{doctor.patient__Phone}}</td>
                       <td style="font-size: 18px">{{doctor.date}}</td>

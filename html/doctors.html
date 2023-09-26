@@ -37,7 +37,7 @@
           </div>
           <div class="offcanvas-body" style="background-color: #fbfbfb">
             <div ng-repeat="details in leftPanel">
-              <a href="" ng-click="patient(details.patientLink)">
+              <a href="" ng-click="patient(details.panelLink)">
                 <h5 class="mt-5">{{ details.panel}}</h5>
               </a>
             </div>
@@ -64,8 +64,12 @@
             </form>
           </div>
           <div class="d-flex col-md-1">
-            <p class="p-2" style="font-size: 24px" >Logout</p>
-            <i class="bi bi-box-arrow-right" style="font-size: 28px" ng-click="logout()"></i>
+            <p class="p-2" style="font-size: 24px">Logout</p>
+            <i
+              class="bi bi-box-arrow-right"
+              style="font-size: 28px"
+              ng-click="logout()"
+            ></i>
           </div>
         </nav>
       </div>
@@ -91,64 +95,125 @@
         <div class="row mt-3">
           <div class="card-body ms-5">
             <div class="d-flex justify-content-center">
-              <table id="exportable" class="table table-striped table-hover">
-                <thead>
+              <table id="exportable" class="table border-primary">
+                <thead class="border-success">
                   <tr>
-                    <th class="display-1" style="font-size: 20px">#</th>
-                    <th class="display-1" style="font-size: 20px">Name</th>
-                    <th class="display-1" style="font-size: 20px">Address</th>
-                    <th class="display-1" style="font-size: 20px">
+                    <th class="display-1" style="font-size: 30px">S.No</th>
+                    <th class="display-1" style="font-size: 30px">Name</th>
+                    <th class="display-1" style="font-size: 30px">Address</th>
+                    <th class="display-1" style="font-size: 30px">
                       Qualification
                     </th>
-                    <th class="display-1" style="font-size: 20px">Email</th>
-                    <th class="display-1" style="font-size: 20px">
+                    <th class="display-1" style="font-size: 30px">Email</th>
+                    <th class="display-1" style="font-size: 30px">
                       Speciality
                     </th>
-                    <th class="display-1" style="font-size: 20px">Fees</th>
+                    <th class="display-1" style="font-size: 30px">Fees</th>
                     <th></th>
                   </tr>
                 </thead>
                 <tbody>
-                  <th>
-                    <tr
-                      ng-repeat="doctor in doctorDetails| filter: { first_name: searchname }"
-                    >
-                      <th>{{$index + 1}}</th>
-                      <td style="font-size: 18px">
-                        {{doctor.first_name}} {{doctor.last_name}}
-                      </td>
-                      <td style="font-size: 18px">
-                        {{doctor.doctor__address}}
-                      </td>
-                      <td style="font-size: 18px">
-                        {{doctor.doctor__qualification}}
-                      </td>
-                      <td style="font-size: 18px">{{doctor.email}}</td>
-                      <td style="font-size: 18px">
-                        {{doctor.doctor__specialityname_id__speciality}}
-                      </td>
-                      <td style="font-size: 18px">{{doctor.doctor__fees}}</td>
-                      <td>
-                        <button
-                          type="button"
-                          class="btn text-white"
-                          data-bs-toggle="modal"
-                          style="background-color: #276acf; font-size: 18px"
-                          data-bs-target="#exampleModal"
-                          ng-click="patient(doctor.doctor__id)"
-                        >
-                          view
-                        </button>
-                      </td>
-                    </tr>
-                  </th>
+                  <tr>
+                    <td></td>
+                    <td>
+                      <input
+                        type="text"
+                        class="form-control border border-black w-50"
+                        ng-model="searchname"
+                        placeholder="Name"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        class="form-control border border-black w-50"
+                        ng-model="searchAddress"
+                        placeholder="Address"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        class="form-control border border-black w-50"
+                        ng-model="searchQualification"
+                        placeholder="Qualification"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        class="form-control border border-black w-50"
+                        ng-model="searchEmail"
+                        placeholder="Email"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        class="form-control border border-black w-50"
+                        ng-model="searchSpeciality"
+                        placeholder="Speciality"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        class="form-control border border-black w-50"
+                        ng-model="searchFees"
+                        placeholder="Fees"
+                      />
+                    </td>
+
+                    <th></th>
+
+                    <th>
+                      <tr
+                        ng-repeat="doctor in doctorDetails| filter: { 
+                      first_name: searchname ,
+                      doctor__address:searchAddress,
+                      doctor__qualification__qualification:searchQualification,
+                      email:searchEmail,
+                      doctor__speciality__speciality:searchSpeciality,
+                      doctor__fees: searchFees
+                    }"
+                      >
+                        <th>{{$index + 1}}</th>
+                        <td style="font-size: 18px">
+                          {{doctor.first_name}} {{doctor.last_name}}
+                        </td>
+                        <td style="font-size: 18px">
+                          {{doctor.doctor__address}}
+                        </td>
+                        <td style="font-size: 18px">
+                          {{doctor.doctor__qualification__qualification}}
+                        </td>
+                        <td style="font-size: 18px">{{doctor.email}}</td>
+                        <td style="font-size: 18px">
+                          {{doctor.doctor__speciality__speciality}}
+                        </td>
+                        <td style="font-size: 18px">{{doctor.doctor__fees}}</td>
+                        <td>
+                          <button
+                            type="button"
+                            class="btn text-white"
+                            data-bs-toggle="modal"
+                            style="background-color: #276acf; font-size: 18px"
+                            data-bs-target="#exampleModal"
+                            ng-click="view(doctor.doctor__id)"
+                          >
+                            view
+                          </button>
+                        </td>
+                      </tr>
+                    </th>
+                  </tr>
                 </tbody>
               </table>
             </div>
             <button
-              class="btn text-black float-end"
-              style="background-color: #c9d1d1; font-size: 18px"
-              ng-click="exportTableToExcel('exportable', 'doctor')"
+              class="btn text-white float-end"
+              style="background-color: #276acf; font-size: 18px"
+              ng-click="exportTableToExcel('appointment', 'appointment')"
             >
               Export to excel
             </button>
@@ -177,59 +242,59 @@
               <div class="row mt-3">
                 <div class="card-body ms-5">
                   <div class="d-flex justify-content-center">
-                    <table id="patient" class="table table-striped table-hover">
-                      <thead>
+                    <table id="patient" class="table">
+                      <thead class="border-success">
                         <tr>
-                          <th class="display-1" style="font-size: 20px">#</th>
-                          <th class="display-1" style="font-size: 20px">
+                          <th class="display-1" style="font-size: 30px">
+                            S.No
+                          </th>
+                          <th class="display-1" style="font-size: 30px">
                             Name
                           </th>
-                          <th class="display-1" style="font-size: 20px">
+                          <th class="display-1" style="font-size: 30px">
                             Address
                           </th>
-                          <th class="display-1" style="font-size: 20px">
+                          <th class="display-1" style="font-size: 30px">
                             Email
                           </th>
-                          <th class="display-1" style="font-size: 20px">
+                          <th class="display-1" style="font-size: 30px">
                             Phone
                           </th>
-                          <th class="display-1" style="font-size: 20px">Age</th>
-                          <th class="display-1" style="font-size: 20px">
+                          <th class="display-1" style="font-size: 30px">Age</th>
+                          <th class="display-1" style="font-size: 30px">
                             Gender
                           </th>
                           <th></th>
                         </tr>
                       </thead>
-                      <tbody>
-                        <th>
-                          <tr
-                            ng-repeat="doctor in patientDetails"
-                          >
-                            <th>{{$index + 1}}</th>
-                            <td style="font-size: 18px">
-                              {{doctor.patient_id__user_id__first_name}} {{doctor.last_name}}
-                            </td>
-                            <td style="font-size: 18px">
-                              {{doctor.patient__address}}
-                            </td>
-                            <td style="font-size: 18px">{{doctor.email}}</td>
-                            <td style="font-size: 18px">
-                              {{doctor.patient__Phone}}
-                            </td>
-                            <td style="font-size: 18px">
-                              {{doctor.patient__age}}
-                            </td>
-                            <td style="font-size: 18px">
-                              {{doctor.patient__gender}}
-                            </td>
-                          </tr>
-                        </th>
+                      <tbody class="border-primary">
+                        <tr ng-repeat="doctor in patientDetails">
+                          <th>{{$index + 1}}</th>
+                          <td style="font-size: 18px">
+                            {{doctor.patient_id__user_id__first_name}}
+                            {{doctor.last_name}}
+                          </td>
+                          <td style="font-size: 18px">
+                            {{doctor.patient__address}}
+                          </td>
+                          <td style="font-size: 18px">
+                            {{doctor.patient_id__user_id__email}}
+                          </td>
+                          <td style="font-size: 18px">
+                            {{doctor.patient__Phone}}
+                          </td>
+                          <td style="font-size: 18px">
+                            {{doctor.patient__age}}
+                          </td>
+                          <td style="font-size: 18px">
+                            {{doctor.patient__gender}}
+                          </td>
+                        </tr>
                       </tbody>
                     </table>
                   </div>
                   <button
-                    class="btn text-black float-end"
-                    style="background-color: #c9d1d1; font-size: 18px"
+                    class="btn btn-primary float-end"
                     ng-click="exportTableToExcel('patient', 'patient')"
                   >
                     Export to excel

@@ -89,8 +89,8 @@
       
       <div class="container-fluid vh-100 d-flex justify-content-center ">
         <div class="col-md-7 mt-5">
-            <p class="text-black d-flex justify-content-center" style="font-size: 32px;"> Prescription </p>
-            <hr class="border border-dark border-4 opacity-50 ms-5 me-5 ">
+            <p class="text-black d-flex justify-content-center fw-bold" style="font-size: 32px;"> Prescription </p>
+            <hr class="border border-warning border-4 opacity-50 ms-5 me-5 ">
             <p class=" d-flex justify-content-center" style="font-size: 26px;">Patient's &nbsp; Details</p>
             <div class="card-body m-3">
               <div class="row d-flex justify-content-evenly p-3" >
@@ -126,18 +126,14 @@
       
       
             
-              <hr class="border border-dark border-3 opacity-50 mt-3">
+              <hr class="border border-danger border-3 opacity-50 mt-3">
               <p class=" d-flex justify-content-center" style="font-size: 26px;">Medical Details</p>
-              <div class="row ms-5 me-5 d-flex justify-content-center">
+              <div class="row mt-5 d-flex justify-content-center">
                 <div class="col-md-5">
-                  <label for="exampleInputEmail1" class="form-label">Suffering from</label>
-                  <input type="text" class="p-2 form-control border border-black" id="exampleInputEmail1"
-                    aria-describedby="emailHelp" ng-model="appointmentDisease" placeholder=" Enter NA if none">
+                  <p style="font-size: 18px;">Suffering From: &nbsp; {{ detail.patient__age }}</p>
                 </div>
                 <div class="col-md-5">
-                  <label for="exampleInputEmail1" class="form-label">Current Symptoms</label>
-                  <input type="text" class="p-2 form-control border border-black" id="exampleInputEmail1"
-                    aria-describedby="emailHelp" ng-model="appointmentSymptoms" placeholder=" Enter NA if none">
+                  <p style="font-size: 18px;">Current Symptoms: &nbsp; {{ detail.patient__age }}</p>
                 </div>
 
                 <div class="d-flex justify-content-evenly mt-5">
@@ -155,8 +151,8 @@
                   <input type="text" class="p-2 form-control border border-black" id="exampleInputEmail1"
                   aria-describedby="emailHelp" ng-model="Purpose" placeholder=" Enter NA if none">
                 </div>
-                <button class="btn text-black float-end mt-4" style="background-color: #c9d1d1;" ng-click="add()">
-                  Add
+                <button class="btn text-white float-end mt-4 btn-danger"  ng-click="add()">
+                  <i class="bi bi-file-earmark-plus" style="font-size: 24px;"></i>
               </button>
               </div>
 
@@ -189,7 +185,7 @@
             </div>
             
             <div class="card-body m-3">
-                    <hr class="border border-dark border-3 opacity-50 mt-3">
+                    <hr class="border border-primary border-3 opacity-50 mt-3">
                     <div class="row d-flex justify-content-evenly p-3" >
                       <!-- <div class="row "> -->
                         <div class="col-md-4">
@@ -207,14 +203,14 @@
                   </div>
             
               <div class="d-flex justify-content-center mt-5">
-                <div class="col-md-6">
-                  <button class="btn text-black" style="background-color: #c9d1d1; font-size: 18px;"
+                <!-- <div class="col-md-6"> -->
+                  <button class="btn btn-primary text-white" style="font-size: 20px;"
       ng-click="confirm()">Submit Prescription</button>
-                </div class="col-md-6">
+                <!-- </div class="col-md-6">
                   <button class="btn text-black" style="background-color: #c9d1d1; font-size: 18px;"
       ng-click="cancel()">Cancel Prescription</button>
-                <div>
-                </div>
+                <div> -->
+                <!-- </div> -->
               </div>
           </div></div>
     </body>
