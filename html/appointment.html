@@ -1,186 +1,208 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<script src="/node_modules/angular/angular.min.js"></script>
-    <script src="/node_modules/@uirouter/angularjs/release/angular-ui-router.min.js"></script>
-    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/node_modules/bootstrap-icons/font/bootstrap-icons.css">
 
-<body ng-app="myModule"  >
-  <div class="col-md-12 vh-100 overflow-scroll" ui-view>
-  <div class="container-fluid " style="background-color: #e2e1e14e;">
-    <div class="row">
-      <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample"
-        aria-labelledby="offcanvasExampleLabel">
-        <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasExampleLabel">Dashboard</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body " style="background-color: #fbfbfb;">
-          <div ng-repeat="details in leftPanel">
-            <a href="" ng-click="patient(details.panelLink)">
-              <h5 class="mt-5"> {{ details.panel}}</h5>
-            </a>
+      <div
+        class="d-flex justify-content-center"
+        ng-repeat="detail in details"
+        ng-controller="appointmentController"
+      >
+        <div class="col-md-7 m-3">
+          <p
+            class="d-flex justify-content-center text-danger-emphasis"
+            style="font-size: 26px"
+          >
+            Patient's &nbsp; Details
+          </p>
+          <div class="card-body m-3">
+            <div class="row d-flex justify-content-evenly p-3">
+              <div class="row">
+                <div class="col-md-4">
+                  <p style="font-size: 20px">
+                    Patient name: &nbsp; {{ detail.first_name }} {{
+                    detail.last_name}}
+                  </p>
+                </div>
+                <div class="col-md-4">
+                  <p style="font-size: 20px">
+                    Email: &nbsp; {{ detail.email }}
+                  </p>
+                </div>
+                <div class="col-md-2">
+                  <p style="font-size: 20px">
+                    Age: &nbsp; {{ detail.patient__age }}
+                  </p>
+                </div>
+                <div class="col-md-2">
+                  <p style="font-size: 20px">
+                    Sex: &nbsp; {{ detail.patient__gender }}
+                  </p>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-7">
+                  <p style="font-size: 20px">
+                    Address: &nbsp; {{ detail.patient__address }}
+                  </p>
+                </div>
+                <div class="col-md-4">
+                  <p style="font-size: 20px">
+                    Phone: &nbsp; {{ detail.patient__Phone }}
+                  </p>
+                </div>
+              </div>
             </div>
+          </div>
+
+          <form class="row rounded-5 g-0">
+            <hr class="border border-success border-3 opacity-50 mt-3" />
+            <p
+              class="d-flex justify-content-center text-danger-emphasis"
+              style="font-size: 26px"
+            >
+              Doctor's &nbsp; Details
+            </p>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="input-group mt-4">
+                  <label
+                    class="input-group-text p-2 border-success"
+                    for="inputGroupSelect01"
+                    >Choose Doctor
+                  </label>
+                  <select
+                    class="form-select border-success"
+                    id="inputGroupSelect01"
+                    ng-model="doc"
+                    ng-options="doctor as doctor.first_name for doctor in doctors"
+                  >
+                    <option value="">Choose a Doctor</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-5 d-flex justify-content-between">
+              <div class="col-md-4">
+                <label for="textInput" class="form-label"
+                  >Appointment date</label
+                >
+                <input
+                  type="date"
+                  name="textInput"
+                  class="form-control form-control border-success"
+                  placeholder="Enter date"
+                  id="textInput"
+                  aria-describedby="emailHelp"
+                  ng-model="appDate"
+                />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="inputGroupSelect02"
+                  >Appointment time</label
+                >
+                <select
+                  class="form-select border-success"
+                  id="inputGroupSelect02"
+                  ng-model="appointmentTime"
+                >
+                  <option selected value="">Select</option>
+                  <option>9:00 AM - 10:00 AM</option>
+                  <option>10:00 AM - 11:00 AM</option>
+                  <option>11:00 AM - 12:00 AM</option>
+                  <option>1:00 PM - 2:00 PM</option>
+                  <option>2:00 PM - 3:00 PM</option>
+                </select>
+              </div>
+            </div>
+            <hr class="border border-success border-3 opacity-50 mt-5" />
+            <p
+              class="d-flex justify-content-center text-danger-emphasis"
+              style="font-size: 26px"
+            >
+              Medical history
+            </p>
+            <div class="row">
+              <div class="col-md-6">
+                <label for="exampleInputEmail1" class="form-label"
+                  >Suffering from</label
+                >
+                <input
+                  type="text"
+                  class="p-2 form-control border border-success"
+                  id="exampleInputEmail1"
+                  aria-describedby="emailHelp"
+                  ng-model="appointmentDisease"
+                  placeholder=" Enter NA if none"
+                />
+              </div>
+              <div class="col-md-6">
+                <label for="exampleInputEmail1" class="form-label"
+                  >Current Symptoms</label
+                >
+                <input
+                  type="text"
+                  class="p-2 form-control border border-success"
+                  id="exampleInputEmail1"
+                  aria-describedby="emailHelp"
+                  ng-model="appointmentSymptoms"
+                  placeholder=" Enter NA if none"
+                />
+              </div>
+              <div class="col-md-6 d-flex mt-5">
+                <label class="input-group-text p-2" for="inputGroupSelect01"
+                  >Do you have any medical allergies</label
+                >
+                <select
+                  class="form-select border-success"
+                  id="inputGroupSelect01"
+                  ng-model="allergy"
+                >
+                  <option selected value="">Select</option>
+                  <option>no</option>
+                  <option>not-sure</option>
+                  <option>yes</option>
+                </select>
+              </div>
+              <div class="col-md-6 d-flex mt-5">
+                <label class="input-group-text p-2" for="inputGroupSelect01"
+                  >How often do you consume alcohol</label
+                >
+                <select
+                  class="form-select border-success"
+                  id="inputGroupSelect01"
+                  ng-model="alcohol"
+                >
+                  <option selected value="">Select</option>
+                  <option>never</option>
+                  <option>ocassionanly</option>
+                  <option>daily</option>
+                </select>
+              </div>
+            </div>
+            <div class=" col-md-12 d-flex justify-content-center mt-5">
+              <div class="row ">
+                <div class="col-md-6 ">
+                  <button
+                  class="btn btn-success"
+                  style="font-size: 18px"
+                  ng-click="confirm()"
+                >
+                  Confirm Appointment
+                </button>
+              </div>
+              <div class="col-md-6">
+                <button
+                  class="btn btn-danger"
+                  style="font-size: 18px"
+                  ng-click="cancel()"
+                >
+                Cancel Appointment
+              </button>
+            </div>
+                <div></div>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
-
-      <nav class="navbar container-fluid d-flex justify-content-between">
-        <i class="bi bi-house-door ms-5" style="font-size: 32px;" data-bs-toggle="offcanvas"
-          data-bs-target="#offcanvasExample" aria-controls="offcanvasExample"></i>
-        <div class="col-md-5">
-          <p class=" d-flex justify-content-center fw-bold" style="font-size: 34px;"> Appointment to the concerned
-            doctor</p>
-        </div>
-        <div class="d-flex col-md-1">
-          <p class="p-2" style="font-size: 24px;">Logout</p>
-          <i class="bi bi-box-arrow-right" style="font-size: 28px;" ng-click="logout()"></i>
-
-        </div>
-      </nav>
     </div>
-  </div>
-
-  <div ng-show = "loader">
-    <div class="vh-100 d-flex justify-content-center align-items-center">
-      <div class="text-center">
-        <div class="spinner-border" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="d-flex justify-content-center " ng-repeat="detail in details" ng-controller="appointmentController">
-    <div class="col-md-7 m-5 ">
-     
-      <hr class="border border-success border-4 opacity-50 ms-5 me-5 ">
-      <p class=" d-flex justify-content-center text-danger-emphasis" style="font-size: 26px;">Patient's &nbsp; Details</p>
-      <div class="card-body m-3">
-        <div class="row d-flex justify-content-evenly p-3" >
-          <div class="row">
-            <div class="col-md-4">
-              <p style="font-size: 20px;">Patient name: &nbsp; {{ detail.first_name }} {{ detail.last_name}}</p>
-            </div>
-            <div class="col-md-4">
-              <p style="font-size: 20px;">Email: &nbsp; {{ detail.email }}</p>
-
-            </div>
-            <div class="col-md-2">
-              <p style="font-size: 20px;">Age: &nbsp; {{ detail.patient__age }}</p>
-
-            </div>
-            <div class="col-md-2">
-              <p style="font-size: 20px;">Sex: &nbsp; {{ detail.patient__gender }}</p>
-
-            </div>
-          </div>
-          <div class="row mt-3">
-            <div class="col-md-7">
-              <p style="font-size: 20px;">Address: &nbsp; {{ detail.patient__address }}</p>
-
-            </div>
-            <div class="col-md-4">
-              <p style="font-size: 20px;">Phone: &nbsp; {{ detail.patient__Phone }}</p>
-
-            </div>
-          </div>
-        </div>
-      </div>
-
-
-      <form class="row rounded-5 g-0 ">
-        <hr class="border border-success border-3 opacity-50 mt-3">
-        <p class=" d-flex justify-content-center text-danger-emphasis" style="font-size: 26px;">Doctor's &nbsp; Details</p>
-        <div class="row">
-          <div class="col-md-12">
-            <div class="input-group mt-4 ">
-              <label class="input-group-text p-2 border-success" for="inputGroupSelect01">Choose Doctor </label>
-              <select class="form-select border-success" id="inputGroupSelect01" ng-model="doc"
-              ng-options="doctor as doctor.first_name for doctor in doctors">
-                <option value="">Choose a Doctor</option>
-
-              </select>
-            </div>
-          </div>
-          <!-- <div class="col-md-6">
-            <div class="input-group mt-4 " >
-              <label class="input-group-text p-2" for="inputGroupSelect01">Choose Doctor </label>
-              <select class="form-select" id="inputGroupSelect01" ng-model="doc.doctor" 
-              ng-options="doctor as doctor for doctor in doctors" value="{{ doctor.id }}">{{
-                doctor.speciality }}>
-              </select>
-            </div>
-          </div> -->
-        </div>
-
-        <div class="row mt-5 d-flex justify-content-between">
-          <div class="col-md-4">
-            <label for="textInput" class="form-label ">Appointment date</label>
-            <input type="date" name="textInput" class="form-control form-control border-success "
-              placeholder="Enter date" id="textInput" aria-describedby="emailHelp" ng-model="appDate">
-          </div>
-          <div class="col-md-6">
-            <label class="form-label" for="inputGroupSelect02">Appointment time</label>
-            <select class="form-select border-success" id="inputGroupSelect02" ng-model="appointmentTime">
-              <option selected value="">Select</option>
-              <option>9:00 AM - 10:00 AM</option>
-              <option>10:00 AM - 11:00 AM</option>
-              <option>11:00 AM - 12:00 AM</option>
-              <option>1:00 PM - 2:00 PM</option>
-              <option>2:00 PM - 3:00 PM</option>
-            </select>
-          </div>
-        </div>
-        <hr class="border border-success border-3 opacity-50 mt-5">
-        <p class=" d-flex justify-content-center text-danger-emphasis" style="font-size: 26px;">Medical history</p>
-        <div class="row">
-          <div class="col-md-6">
-            <label for="exampleInputEmail1" class="form-label">Suffering from</label>
-            <input type="text" class="p-2 form-control border border-success" id="exampleInputEmail1"
-              aria-describedby="emailHelp" ng-model="appointmentDisease" placeholder=" Enter NA if none">
-          </div>
-          <div class="col-md-6">
-            <label for="exampleInputEmail1" class="form-label">Current Symptoms</label>
-            <input type="text" class="p-2 form-control border border-success" id="exampleInputEmail1"
-              aria-describedby="emailHelp" ng-model="appointmentSymptoms" placeholder=" Enter NA if none">
-          </div>
-          <div class="col-md-6 d-flex mt-5">
-            <label class="input-group-text p-2" for="inputGroupSelect01">Do you have any medical allergies</label>
-            <select class="form-select border-success" id="inputGroupSelect01" ng-model="allergy">
-              <option selected value="">Select</option>
-              <option>no</option>
-              <option>not-sure</option>
-              <option>yes</option>
-            </select>
-          </div>
-          <div class="col-md-6 d-flex mt-5">
-            <label class="input-group-text p-2 " for="inputGroupSelect01">How often do you consume alcohol</label>
-            <select class="form-select border-success" id="inputGroupSelect01" ng-model="alcohol">
-              <option selected value="">Select</option>
-              <option>never</option>
-              <option>ocassionanly</option>
-              <option>daily</option>
-            </select>
-          </div>
-        </div>
-        <div class="d-flex justify-content-center mt-5">
-          <div class="col-md-6">
-            <button class="btn btn-success" style=" font-size: 18px;"
-ng-click="confirm()">Confirm Appointment</button>
-          </div class="col-md-6">
-            <button class="btn btn-danger" style=" font-size: 18px;"
-ng-click="cancel()">Cancel Appointment</button>
-          <div>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div> 
-  </div>
-</body>
+  </body>
 </html>

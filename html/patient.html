@@ -1,137 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="/node_modules/angular/angular.min.js"></script>
-    <script src="/node_modules/@uirouter/angularjs/release/angular-ui-router.min.js"></script>
-    <link
-      rel="stylesheet"
-      href="/node_modules/bootstrap/dist/css/bootstrap.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="/node_modules/bootstrap-icons/font/bootstrap-icons.css"
-    />
-</head>
-<body ng-app="myModule" ng-controller="patientController">
-    <div class="container-fluid" style="background-color: #e2e1e14e">
-        <div class="row">
-          <div
-            class="offcanvas offcanvas-start"
-            tabindex="-1"
-            id="offcanvasExample"
-            aria-labelledby="offcanvasExampleLabel"
-          >
-            <div class="offcanvas-header">
-              <h5 class="offcanvas-title" id="offcanvasExampleLabel">
-                Dashboard
-              </h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="offcanvas"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="offcanvas-body" style="background-color: #fbfbfb">
-              <div ng-repeat="details in leftPanel">
-                <a href="" ng-click="patient(details.panelLink)">
-                  <h5 class="mt-5">{{ details.panel}}</h5>
-                </a>
-              </div>
-            </div>
-          </div>
-  
-          <nav class="navbar container-fluid d-flex justify-content-between">
-            <i
-              class="bi bi-house-door ms-5"
-              style="font-size: 32px"
-              data-bs-toggle="offcanvas"
-              data-bs-target="#offcanvasExample"
-              aria-controls="offcanvasExample"
-            ></i>
-            <div class="col-md-4">
-              <form class="" role="search">
-                <input
-                  class="form-control autocomplete-control topbar-search rounded-pill p-2"
-                  type="search"
-                  placeholder="Search"
-                  aria-label="Search"
-                  style="background-color: #ccd2d4"
-                  ng-model="searchname"
-                />
-              </form>
-            </div>
-            <div class="d-flex col-md-1">
-              <p class="p-2" style="font-size: 24px">Logout</p>
-              <i class="bi bi-box-arrow-right" style="font-size: 28px;" ng-click="logout()"></i>
+<div class="col-md-12 mt-5">
+  <div class="col-md-2"></div>
+  <div class="container-fluid col-md-10 mt-5">
+    <h4
+      class="d-flex justify-content-center blockquote"
+      style="font-size: 34px; color: #276acf"
+    >
+      Patients details
+    </h4>
+    <div class="row mt-3">
+      <div class="card-body ms-5">
+        <div class="d-flex justify-content-center">
+          <table id="allPatient" class="table">
+            <thead class="border-success">
+              <tr>
+                <th class="display-1" style="font-size: 30px">S.No</th>
+                <th class="display-1" style="font-size: 30px">Patient Name</th>
+                <th class="display-1" style="font-size: 30px">Address</th>
 
-            </div>
-          </nav>
+                <th class="display-1" style="font-size: 30px">Patient Email</th>
+                <th class="display-1" style="font-size: 30px">Patient Phone</th>
+                <th class="display-1" style="font-size: 30px">Age</th>
+                <th class="display-1" style="font-size: 30px">Gender</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody class="border-primary">
+              <tr
+                ng-repeat="patient in patientDetails| filter: { first_name: searchname }"
+              >
+                <th>{{$index + 1}}</th>
+                <td style="font-size: 22px">
+                  {{ patient.first_name}} {{ patient.last_name }}
+                </td>
+                <td style="font-size: 22px">{{ patient.patient__address}}</td>
+                <td style="font-size: 22px">{{patient.email}}</td>
+                <td style="font-size: 22px">{{patient.patient__Phone}}</td>
+                <td style="font-size: 22px">{{patient.patient__age}}</td>
+                <td style="font-size: 22px">{{patient.patient__gender}}</td>
+                <td>
+                  <button
+                    class="btn btn-outline-danger"
+                    ng-click="reject(patient.id)"
+                  >
+                    Reject
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+        <button
+          class="btn btn-primary float-end"
+          ng-click="exportTableToExcel('allPatient', 'AllPatient')"
+        >
+          Export to excel
+        </button>
       </div>
-  
-      <div ng-show="loader">
-        <div class="vh-100 d-flex justify-content-center align-items-center">
-          <div class="text-center">
-            <div class="spinner-border" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
-          </div>
-        </div>
-      </div>  
-  
-      <div class="col-md-12 mt-5 ">
-          <div class="col-md-2"></div>
-          <div class="container-fluid col-md-10 mt-5">
-            <h4  class="d-flex justify-content-center blockquote"
-            style="font-size: 34px; color: #276acf"
-         >Patients details</h4>
-            <div class="row mt-3">
-  
-              <div class="card-body ms-5">
-  
-                <div class="d-flex justify-content-center">
-                  <table id="allPatient" class="table ">
-                    <thead class="border-success">
-  
-                      <tr>
-                        <th class="display-1" style="font-size: 30px;"> S.No</th>
-                        <th class="display-1" style="font-size: 30px;"> Patient Name</th>
-                        <th class="display-1" style="font-size: 30px;"> Address</th>
-                        <!-- <th class="display-1" style="font-size: 30px;"> Speciality</th> -->
-                        <th class="display-1" style="font-size: 30px;"> Patient Email</th>
-                        <th class="display-1" style="font-size: 30px;"> Patient Phone</th>
-                        <th class="display-1" style="font-size: 30px;"> Age</th>
-                        <th class="display-1" style="font-size: 30px;"> Gender</th>
-                        <th></th>
-                      </tr>
-                    </thead>
-                    <tbody class="border-primary">
-                      <!-- <th> -->
-                        <tr ng-repeat="patient in patientDetails| filter: { first_name: searchname }">
-                          <th>{{$index + 1}}</th>
-                          <td style="font-size: 22px;">{{ patient.first_name}} {{
-                            patient.last_name }}</td>
-                          <td style="font-size: 22px;">{{ patient.patient__address}}</td>
-                          <!-- <td style="font-size: 22px;">{{patient.doctor_id__specialityname_id__speciality}}</td> -->
-                          <td style="font-size: 22px;">{{patient.email}}</td>
-                          <td style="font-size: 22px;">{{patient.patient__Phone}}</td>
-                          <td style="font-size: 22px;">{{patient.patient__age}}</td>
-                          <td style="font-size: 22px;">{{patient.patient__gender}}</td>
-                          <!-- <td> <button class="btn btn-outline-success" ng-click="approve(patient.id)"> Approve</button>
-                          </td>
-                          <td> <button class="btn btn-outline-danger" ng-click="reject(patient.id)"> Reject</button></td> -->
-                    </tbody>
-                  </table>
-                </div>
-                <button class="btn btn-primary float-end"
-                  ng-click="exportTableToExcel('allPatient', 'AllPatient')">Export to excel</button>
-              </div>
-            </div>
-          </div>
-        </div>
-</body>
-</html>
+    </div>
+  </div>
+</div>

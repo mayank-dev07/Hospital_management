@@ -38,7 +38,7 @@
           </div>
           <div class="offcanvas-body" style="background-color: #fbfbfb">
             <div ng-repeat="details in leftPanel">
-              <a href="" ng-click="patient(details.panelLink)">
+              <a ui-sref="{{details.panelLink}}">
                 <h5 class="mt-5">{{ details.panel}}</h5>
               </a>
             </div>
@@ -47,7 +47,7 @@
 
         <nav class="navbar container-fluid d-flex justify-content-between">
           <i
-            class="bi bi-house-door ms-5"
+            class="bi bi-list ms-4"
             style="font-size: 32px"
             data-bs-toggle="offcanvas"
             data-bs-target="#offcanvasExample"
@@ -76,493 +76,179 @@
         </nav>
       </div>
     </div>
-    <div class="col-md-12 mt-3 vh-100 overflow-scroll" ui-view>
-      <div ng-show="loader">
-        <div class="vh-100 d-flex justify-content-center align-items-center">
-          <div class="text-center">
-            <div class="spinner-border" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <div ng-show="showcarousel">
-        <div
-          id="carouselDarkVariant"
-          class="carousel slide carousel-fade carousel-dark"
-          data-bs-ride="carousel"
-        >
-          <div class="carousel-indicators">
-            <button
-              data-bs-target="#carouselDarkVariant"
-              data-bs-slide-to="0"
-              class="active"
-              aria-current="true"
-              aria-label="Slide 1"
-            ></button>
-            <button
-              data-bs-target="#carouselDarkVariant"
-              data-bs-slide-to="1"
-              aria-label="Slide 1"
-            ></button>
-            <button
-              data-bs-target="#carouselDarkVariant"
-              data-bs-slide-to="2"
-              aria-label="Slide 1"
-            ></button>
-          </div>
-
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <img
-                src="/images/medical-business-instagram-posts-collection_23-2149488297.avif"
-                class="d-block w-100"
-                alt="Motorbike Smoke"
-              />
-              <div class="carousel-caption d-none d-md-block"></div>
-            </div>
-
-            <div class="carousel-item">
-              <img
-                src="/images/instagram-posts-collection-health-medicine_23-2149534038.avif"
-                class="d-block w-100"
-                alt="Mountaintop"
-              />
-              <div class="carousel-caption d-none d-md-block"></div>
-            </div>
-
-            <div class="carousel-item">
-              <img
-                src="/images/medical-template-design_23-2150658298.avif"
-                class="d-block w-100"
-                alt="Woman Reading a Book"
-              />
-              <div class="carousel-caption d-none d-md-block"></div>
-            </div>
-          </div>
-
-          <button
-            class="carousel-control-prev"
-            type="button"
-            data-bs-target="#carouselDarkVariant"
-            data-bs-slide="prev"
-          >
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button
-            class="carousel-control-next"
-            type="button"
-            data-bs-target="#carouselDarkVariant"
-            data-bs-slide="next"
-          >
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
-        </div>
-
-        <hr class="border border-dark border-3 opacity-50 m-5" />
-
-        <div class="container-fluid d-flex justify-content-evenly">
-          <div class="col-md-3">
-            <img
-              src="/images/doctors-conducting-dialysis-procedure-kidney-treatment_74855-10607.avif"
-              class="card-img-top"
-              alt="..."
-            />
-          </div>
-          <div class="col-md-3">
-            <img
-              src="/images/patient-lying-bed-during-intensive-therapy_74855-7774.avif"
-              class="card-img-top"
-              alt="..."
-            />
-          </div>
-          <div class="col-md-3">
-            <img
-              src="/images/ambulance-concept-illustration_114360-6861.avif"
-              class="card-img-top"
-              alt="..."
-            />
-          </div>
-        </div>
-
-        <footer class="text-center text-lg-start bg-light text-muted mt-5">
-          <section
-            class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom"
-          >
-            <div></div>
-          </section>
-
-          <section class="">
-            <div class="container text-center text-md-start mt-5">
-              <div class="row mt-3">
-                <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
-                  <h6 class="text-uppercase fw-bold mb-4">
-                    <i class="fas fa-gem me-3"></i>Medical services
-                  </h6>
-                  <p>Primary health care</p>
-                  <p>Critical care</p>
-                  <p>Modern medical lab</p>
-                  <p>Cancer</p>
-                  <p>Dialysis</p>
-                </div>
-
-                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
-                  <h6 class="text-uppercase fw-bold mb-4">Mission</h6>
-                  <p>
-                    The mission of India Hospital is to provide quality health
-                    services and facilities for the community, to promote
-                    wellness, to relieve suffering, and to restore health as
-                    swiftly, safely, and humanely as it can be done, consistent
-                    with the best service we can give at the highest value for
-                    all concerned.
-                  </p>
-                </div>
-
-                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
-                  <h6 class="text-uppercase fw-bold mb-4">Vision</h6>
-                  <p>
-                    To provide each patient with the world-class care,
-                    exceptional service and compassion we would want for our
-                    loved ones and To Lead the evolution of healthcare to enable
-                    every member of the communities we serve to enjoy a better,
-                    healthier life.
-                  </p>
-                </div>
-
-                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
-                  <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
-                  <p><i class="fas fa-home me-3"></i> India, Ghaziabad</p>
-                  <p>
-                    <i class="fas fa-envelope me-3"></i>
-                    Hospital@management.com
-                  </p>
-                  <p><i class="fas fa-phone me-3"></i> +91 99988 99988</p>
-                  <p><i class="fas fa-print me-3"></i> +91 99988 99977</p>
-                </div>
-              </div>
-            </div>
-          </section>
-
+    <div class="col-md-12 mt-3">
+      <div class="container-fluid vh-100" ui-view>
+        <div ng-show="showcarousel">
           <div
-            class="text-center p-4"
-            style="background-color: rgba(0, 0, 0, 0.05)"
-          ></div>
-        </footer>
-      </div>
+            id="carouselDarkVariant"
+            class="carousel slide carousel-fade carousel-dark"
+            data-bs-ride="carousel"
+          >
+            <div class="carousel-indicators">
+              <button
+                data-bs-target="#carouselDarkVariant"
+                data-bs-slide-to="0"
+                class="active"
+                aria-current="true"
+                aria-label="Slide 1"
+              ></button>
+              <button
+                data-bs-target="#carouselDarkVariant"
+                data-bs-slide-to="1"
+                aria-label="Slide 1"
+              ></button>
+              <button
+                data-bs-target="#carouselDarkVariant"
+                data-bs-slide-to="2"
+                aria-label="Slide 1"
+              ></button>
+            </div>
 
-      <div ng-show="showDoctorDetails">
-        <div class="col-md-12 mt-5">
-          <div class="col-md-2"></div>
-          <div class="container-fluid col-md-10 mt-5">
-            <h4
-              class="d-flex justify-content-center blockquote"
-              style="font-size: 32px"
-            >
-              Doctor details
-            </h4>
-            <div class="row mt-3">
-              <div class="card-body ms-5">
-                <div class="d-flex justify-content-center">
-                  <table
-                    id="exportable"
-                    class="table table-striped table-hover"
-                  >
-                    <thead>
-                      <tr>
-                        <th class="display-1" style="font-size: 20px">#</th>
-                        <th class="display-1" style="font-size: 20px">Name</th>
-                        <th class="display-1" style="font-size: 20px">
-                          Address
-                        </th>
-                        <th class="display-1" style="font-size: 20px">
-                          Qualification
-                        </th>
-                        <th class="display-1" style="font-size: 20px">Email</th>
-                        <th class="display-1" style="font-size: 20px">
-                          Speciality
-                        </th>
-                        <th class="display-1" style="font-size: 20px">Fees</th>
-                        <th></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <th>
-                        <tr
-                          ng-repeat="doctor in doctorDetails| filter: { first_name: searchname }"
-                        >
-                          <th>{{$index + 1}}</th>
-                          <td style="font-size: 18px">
-                            {{doctor.first_name}} {{doctor.last_name}}
-                          </td>
-                          <td style="font-size: 18px">
-                            {{doctor.doctor__address}}
-                          </td>
-                          <td style="font-size: 18px">
-                            {{doctor.doctor__qualification}}
-                          </td>
-                          <td style="font-size: 18px">{{doctor.email}}</td>
-                          <td style="font-size: 18px">
-                            {{doctor.doctor__specialityname_id__speciality}}
-                          </td>
-                          <td style="font-size: 18px">
-                            {{doctor.doctor__fees}}
-                          </td>
-                        </tr>
-                      </th>
-                    </tbody>
-                  </table>
-                </div>
-                <button
-                  class="btn text-black float-end"
-                  style="background-color: #c9d1d1; font-size: 18px"
-                  ng-click="exportTableToExcel('exportable', 'doctor')"
-                >
-                  Export to excel
-                </button>
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img
+                  src="/images/medical-business-instagram-posts-collection_23-2149488297.avif"
+                  class="d-block w-100"
+                  alt="Motorbike Smoke"
+                />
+                <div class="carousel-caption d-none d-md-block"></div>
+              </div>
+
+              <div class="carousel-item">
+                <img
+                  src="/images/instagram-posts-collection-health-medicine_23-2149534038.avif"
+                  class="d-block w-100"
+                  alt="Mountaintop"
+                />
+                <div class="carousel-caption d-none d-md-block"></div>
+              </div>
+
+              <div class="carousel-item">
+                <img
+                  src="/images/medical-template-design_23-2150658298.avif"
+                  class="d-block w-100"
+                  alt="Woman Reading a Book"
+                />
+                <div class="carousel-caption d-none d-md-block"></div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
 
-      <div ng-show="showPatientDetails">
-        <div class="col-md-12 mt-5">
-          <div class="col-md-2"></div>
-          <div class="container-fluid col-md-10 mt-5">
-            <h4
-              class="d-flex justify-content-center blockquote"
-              style="font-size: 32px"
+            <button
+              class="carousel-control-prev"
+              type="button"
+              data-bs-target="#carouselDarkVariant"
+              data-bs-slide="prev"
             >
-              Patient details
-            </h4>
-            <div class="row mt-3">
-              <div class="card-body ms-5">
-                <div class="d-flex justify-content-center">
-                  <table id="patient" class="table table-striped table-hover">
-                    <thead>
-                      <tr>
-                        <th class="display-1" style="font-size: 20px">#</th>
-                        <th class="display-1" style="font-size: 20px">Name</th>
-                        <th class="display-1" style="font-size: 20px">
-                          Address
-                        </th>
-                        <th class="display-1" style="font-size: 20px">Email</th>
-                        <th class="display-1" style="font-size: 20px">Phone</th>
-                        <th class="display-1" style="font-size: 20px">Age</th>
-                        <th class="display-1" style="font-size: 20px">
-                          Gender
-                        </th>
-                        <th></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <th>
-                        <tr
-                          ng-repeat="doctor in doctorDetails| filter: { first_name: searchname }"
-                        >
-                          <th>{{$index + 1}}</th>
-                          <td style="font-size: 18px">
-                            {{doctor.first_name}} {{doctor.last_name}}
-                          </td>
-                          <td style="font-size: 18px">
-                            {{doctor.patient__address}}
-                          </td>
-                          <td style="font-size: 18px">{{doctor.email}}</td>
-                          <td style="font-size: 18px">
-                            {{doctor.patient__Phone}}
-                          </td>
-                          <td style="font-size: 18px">
-                            {{doctor.patient__age}}
-                          </td>
-                          <td style="font-size: 18px">
-                            {{doctor.patient__gender}}
-                          </td>
-                        </tr>
-                      </th>
-                    </tbody>
-                  </table>
+              <span
+                class="carousel-control-prev-icon"
+                aria-hidden="true"
+              ></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button
+              class="carousel-control-next"
+              type="button"
+              data-bs-target="#carouselDarkVariant"
+              data-bs-slide="next"
+            >
+              <span
+                class="carousel-control-next-icon"
+                aria-hidden="true"
+              ></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+
+          <hr class="border border-dark border-3 opacity-50 m-5" />
+
+          <div class="container-fluid d-flex justify-content-evenly">
+            <div class="col-md-3">
+              <img
+                src="/images/doctors-conducting-dialysis-procedure-kidney-treatment_74855-10607.avif"
+                class="card-img-top"
+                alt="..."
+              />
+            </div>
+            <div class="col-md-3">
+              <img
+                src="/images/patient-lying-bed-during-intensive-therapy_74855-7774.avif"
+                class="card-img-top"
+                alt="..."
+              />
+            </div>
+            <div class="col-md-3">
+              <img
+                src="/images/ambulance-concept-illustration_114360-6861.avif"
+                class="card-img-top"
+                alt="..."
+              />
+            </div>
+          </div>
+
+          <footer class="text-center text-lg-start bg-light text-muted mt-5">
+            <section
+              class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom"
+            >
+              <div></div>
+            </section>
+
+            <section class="">
+              <div class="container text-center text-md-start mt-5">
+                <div class="row mt-3">
+                  <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                    <h6 class="text-uppercase fw-bold mb-4">
+                      <i class="fas fa-gem me-3"></i>Medical services
+                    </h6>
+                    <p>Primary health care</p>
+                    <p>Critical care</p>
+                    <p>Modern medical lab</p>
+                    <p>Cancer</p>
+                    <p>Dialysis</p>
+                  </div>
+
+                  <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                    <h6 class="text-uppercase fw-bold mb-4">Mission</h6>
+                    <p>
+                      The mission of India Hospital is to provide quality health
+                      services and facilities for the community, to promote
+                      wellness, to relieve suffering, and to restore health as
+                      swiftly, safely, and humanely as it can be done,
+                      consistent with the best service we can give at the
+                      highest value for all concerned.
+                    </p>
+                  </div>
+
+                  <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                    <h6 class="text-uppercase fw-bold mb-4">Vision</h6>
+                    <p>
+                      To provide each patient with the world-class care,
+                      exceptional service and compassion we would want for our
+                      loved ones and To Lead the evolution of healthcare to
+                      enable every member of the communities we serve to enjoy a
+                      better, healthier life.
+                    </p>
+                  </div>
+
+                  <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                    <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
+                    <p><i class="fas fa-home me-3"></i> India, Ghaziabad</p>
+                    <p>
+                      <i class="fas fa-envelope me-3"></i>
+                      Hospital@management.com
+                    </p>
+                    <p><i class="fas fa-phone me-3"></i> +91 99988 99988</p>
+                    <p><i class="fas fa-print me-3"></i> +91 99988 99977</p>
+                  </div>
                 </div>
-                <button
-                  class="btn text-black float-end"
-                  style="background-color: #c9d1d1; font-size: 18px"
-                  ng-click="exportTableToExcel('patient', 'patient')"
-                >
-                  Export to excel
-                </button>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
+            </section>
 
-      <div
-        ng-show="showAppointmentDetails"
-        class="d-flex justify-content-center"
-      >
-        <div class="row d-flex justify-content-center">
-          <div class="row mt-2">
-            <div class="col">
-              <table class="table p-5">
-                <thead>
-                  <tr>
-                    <th
-                      scope="col"
-                      style="
-                        font-size: 16px;
-                        font-family: Arial, Helvetica, sans-serif;
-                      "
-                    >
-                      #
-                    </th>
-                    <th
-                      scope="col"
-                      style="
-                        font-size: 16px;
-                        font-family: Arial, Helvetica, sans-serif;
-                      "
-                    >
-                      Name
-                    </th>
-                    <th
-                      scope="col"
-                      style="
-                        font-size: 16px;
-                        font-family: Arial, Helvetica, sans-serif;
-                      "
-                    >
-                      Address
-                    </th>
-                    <th
-                      scope="col"
-                      style="
-                        font-size: 16px;
-                        font-family: Arial, Helvetica, sans-serif;
-                      "
-                    >
-                      Email
-                    </th>
-                    <th
-                      scope="col"
-                      style="
-                        font-size: 16px;
-                        font-family: Arial, Helvetica, sans-serif;
-                      "
-                    >
-                      Phone
-                    </th>
-                    <th
-                      scope="col"
-                      style="
-                        font-size: 16px;
-                        font-family: Arial, Helvetica, sans-serif;
-                      "
-                    >
-                      Age
-                    </th>
-                    <th
-                      scope="col"
-                      style="
-                        font-size: 16px;
-                        font-family: Arial, Helvetica, sans-serif;
-                      "
-                    >
-                      Gender
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <th scope="row"></th>
-
-                  <td>
-                    <input
-                      type="text"
-                      class="form-control border border-black w-50"
-                      ng-model="searchName"
-                      placeholder="Name"
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      class="form-control border border-black w-50"
-                      ng-model="searchAddress"
-                      placeholder="Address"
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      class="form-control border border-black w-50"
-                      ng-model="searchEmail"
-                      placeholder="Email"
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      class="form-control border border-black w-50"
-                      ng-model="searchPhone"
-                      placeholder="Phone"
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      class="form-control border border-black w-50"
-                      ng-model="searchAge"
-                      placeholder="Age"
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      class="form-control border border-black w-50"
-                      ng-model="searchGender"
-                      placeholder="Gender"
-                    />
-                  </td>
-
-                  <tr
-                    ng-repeat="patient in patientList | filter: {
-                                      patient_id__user_id__first_name: searchName,
-                                      patient__address: searchAddress,
-                                      patient_id__user_id__email: searchEmail,
-                                      patient__Phone: searchPhone,  
-                                      patient__age: searchAge,
-                                      patient__gender: searchGender
-                                  }"
-                  >
-                    <th scope="row">{{$index + 1}}</th>
-                    <td style="font-size: 18px">
-                      {{patient.patient_id__user_id__first_name}}
-                      {{patient.patient_id__user_id__last_name}}
-                    </td>
-                    <td style="font-size: 18px">
-                      {{patient.patient__address}}
-                    </td>
-                    <td style="font-size: 18px">
-                      {{patient.patient_id__user_id__email}}
-                    </td>
-                    <td style="font-size: 18px">{{patient.patient__Phone}}</td>
-                    <td style="font-size: 18px">{{patient.patient__age}}</td>
-                    <td style="font-size: 18px">{{patient.patient__gender}}</td>
-                    <td style="font-size: 18px">
-                      <button
-                        class="btn text-white"
-                        style="background-color: #6259e6"
-                        ng-click="show(patient.patient_id)"
-                      >
-                        view
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+            <div
+              class="text-center p-4"
+              style="background-color: rgba(0, 0, 0, 0.05)"
+            ></div>
+          </footer>
         </div>
       </div>
     </div>

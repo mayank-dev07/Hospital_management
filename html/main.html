@@ -1,292 +1,239 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-        <script src="/node_modules/angular/angular.min.js"></script>
-        <script src="/node_modules/@uirouter/angularjs/release/angular-ui-router.min.js"></script>
-        <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/node_modules/bootstrap-icons/font/bootstrap-icons.css">
-    </head>
-    <body ng-app="myModule" ng-controller="mainController" >
-        <div class="vh-100 overflow-scroll" ui-view>
-        <div class="container-fluid" style="background-color: #e2e1e14e">
-            <div class="row">
-                <div
-                    class="offcanvas offcanvas-start"
-                    tabindex="-1"
-                    id="offcanvasExample"
-                    aria-labelledby="offcanvasExampleLabel"
-                >
-                    <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="offcanvasExampleLabel">
-                            Dashboard
-                        </h5>
-                        <button
-                            type="button"
-                            class="btn-close"
-                            data-bs-dismiss="offcanvas"
-                            aria-label="Close"
-                        ></button>
-                    </div>
-                    <div class="offcanvas-body" style="background-color: #fbfbfb">
-                        <div ng-repeat="details in leftPanel">
-                            <a href="" ng-click="patient(details.panelLink)">
-                                <h5 class="mt-5">{{ details.panel}}</h5>
-                            </a>
-                            
-                        </div>
-                    </div>
+<div class="d-flex justify-content-center" ng-repeat="detail in details">
+  <div class="row">
+    <div class="col-md-12">
+      <p
+        class="d-flex justify-content-center blockquote mt-5"
+        style="font-size: 36px; color: #276acf; text-transform: capitalize"
+      >
+        {{detail.first_name }} {{ detail.last_name}}
+      </p>
+      <div class="row d-flex justify-content-center mt-3">
+        <div class="col-md-12">
+          <div class="card-body">
+            <div class="d-flex justify-content-evenly">
+              <div class="d-flex">
+                <div class="p-3">
+                  <p style="font-size: 24px">
+                    <span class="fw-bold text-info-emphasis">Email:</span>
+                    &nbsp; <span>{{ detail.email }}</span>
+                  </p>
                 </div>
-                <nav class="navbar container-fluid d-flex justify-content-between">
-                    <i
-                        class="fa-solid fa-bars"
-                        style="font-size: 32px"
-                        data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasExample"
-                        aria-controls="offcanvasExample"
-                    ></i>
-                    <div class="col-md-4">
-                        <form class="" role="search">
-                            <input
-                                class="form-control autocomplete-control topbar-search rounded-pill p-2"
-                                type="search"
-                                placeholder="Search"
-                                aria-label="Search"
-                                style="background-color: #ccd2d4"
-                                ng-model="searchname"
-                            >
-                        </form>
-                    </div>
-                    <div class="d-flex col-md-1">
-                        <p class="p-2" style="font-size: 24px">Logout</p>
-                        <i class="bi bi-box-arrow-right" style="font-size: 28px;" ng-click="logout()"></i>
-
-                    </div>
-                </nav>
+                <div class="p-3">
+                  <p style="font-size: 24px">
+                    <span class="fw-bold text-info-emphasis">Address:</span>
+                    &nbsp; <span> {{ detail.patient__address }}</span>
+                  </p>
+                </div>
+                <div class="p-3">
+                  <p style="font-size: 24px">
+                    <span class="fw-bold text-info-emphasis">Phone:</span>
+                    &nbsp; <span> {{ detail.patient__Phone }}</span>
+                  </p>
+                </div>
+              </div>
+              <div class="d-flex">
+                <div class="p-3">
+                  <p style="font-size: 24px">
+                    <span class="fw-bold text-info-emphasis">Age:</span>
+                    &nbsp; <span>{{ detail.patient__age }}</span>
+                  </p>
+                </div>
+                <div class="p-3">
+                  <p style="font-size: 24px">
+                    <span class="fw-bold text-info-emphasis">Sex:</span>
+                    &nbsp; <span> {{ detail.patient__gender }}</span>
+                  </p>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
-        <div ng-show="loader">
-            <div class="vh-100 d-flex justify-content-center align-items-center">
-                <div class="text-center">
-                    <div class="spinner-border" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="row" ng-repeat="detail in doctorProfile">
+    <div class="col-md-12">
+      <p
+        class="d-flex justify-content-center blockquote"
+        style="font-size: 36px; color: #276acf; text-transform: capitalize"
+      >
+        {{detail.first_name }} {{ detail.last_name}}
+      </p>
+
+      <div class="row d-flex justify-content-center mt-3">
+        <div class="col-md-12 border border-primary m-5">
+          <div class="card-body">
+            <div class="d-flex justify-content-evenly">
+              <div class="justify-content-evenly mt-4">
+                <div>
+                  <p style="font-size: 24px">
+                    <span class="fw-bold text-info-emphasis">Email:</span>
+                    &nbsp; <span>{{ detail.email }}</span>
+                  </p>
                 </div>
+                <div>
+                  <p style="font-size: 24px">
+                    <span class="fw-bold text-info-emphasis"
+                      >Qualification:</span
+                    >
+                    &nbsp; <span> {{ detail.patient__Phone }}</span>
+                  </p>
+                </div>
+                <div>
+                  <p style="font-size: 24px">
+                    <span class="fw-bold text-info-emphasis">Speciality:</span>
+                    &nbsp; <span> {{ detail.patient__Phone }}</span>
+                  </p>
+                </div>
+              </div>
+              <div class="justify-content-evenly mt-4">
+                <div>
+                  <p style="font-size: 24px">
+                    <span class="fw-bold text-info-emphasis">Doctor Fees:</span>
+                    &nbsp; <span>{{ detail.patient__age }}</span>
+                  </p>
+                </div>
+                <div>
+                  <p style="font-size: 24px">
+                    <span class="fw-bold text-info-emphasis">Phone:</span>
+                    &nbsp; <span> {{ detail.patient__gender }}</span>
+                  </p>
+                </div>
+                <div>
+                  <p style="font-size: 24px">
+                    <span class="fw-bold text-info-emphasis">Address:</span>
+                    &nbsp; <span> {{ detail.doctor__address }}</span>
+                  </p>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
-        <div class="d-flex justify-content-center">
+      </div>
+    </div>
+  </div> -->
+</div>
+<div>
+  <div class="col-md-12 mt-5" ng-show="patientDoctor">
+    <div class="col-md-2"></div>
+    <div class="container-fluid col-md-10 mt-5">
+      <h4
+        class="d-flex justify-content-center blockquote"
+        style="font-size: 32px; color: #276acf"
+      >
+        Doctor details
+      </h4>
+      <div class="row mt-3">
+        <div class="card-body ms-5">
+          <div class="d-flex justify-content-center">
+            <table id="exportable" class="table border-primary">
+              <thead>
+                <tr class="border-success">
+                  <th class="display-1" style="font-size: 30px">S.No</th>
+                  <th class="display-1" style="font-size: 30px">Name</th>
+                  <th class="display-1" style="font-size: 30px">Address</th>
+                  <th class="display-1" style="font-size: 30px">
+                    Qualification
+                  </th>
+                  <th class="display-1" style="font-size: 30px">Email</th>
+                  <th class="display-1" style="font-size: 30px">Speciality</th>
+                  <th class="display-1" style="font-size: 30px">Fees</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td></td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control border border-black w-50"
+                      ng-model="searchname"
+                      placeholder="Name"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control border border-black w-50"
+                      ng-model="searchAddress"
+                      placeholder="Address"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control border border-black w-50"
+                      ng-model="searchqualification"
+                      placeholder="Qualification"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control border border-black w-50"
+                      ng-model="searchEmail"
+                      placeholder="Email"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control border border-black w-50"
+                      ng-model="searchSpeciality"
+                      placeholder="Speciality"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control border border-black w-50"
+                      ng-model="searchFees"
+                      placeholder="Fees"
+                    />
+                  </td>
 
-        <div class="row" ng-repeat="detail in details">
-            <div class="col-md-12">
-                <p class="d-flex justify-content-center blockquote mt-5" style="font-size: 36px; 
-          color: #276acf; 
-          text-transform: capitalize;">
-                    {{detail.first_name }} {{ detail.last_name}}
-                </p>
-                <div class="row d-flex justify-content-center mt-3">
-                    <div class="col-md-12">
-                        <div class="card-body">
-                            <div class=" d-flex justify-content-evenly">
-                                <div class="d-flex">
-                                   
-                                    <div class="p-3">
-                                        <p style="font-size: 24px; ">
-                                            <span class="fw-bold text-info-emphasis">Email:</span>
-                                            &nbsp; <span>{{ detail.email
-                      }}</span>
-                                        </p>
-                                    </div>
-                                    <div class="p-3">
-                                        <p style="font-size: 24px">
-                                            <span class="fw-bold text-info-emphasis">Address:</span>
-                                            &nbsp; <span> {{
-                      detail.patient__address }}</span>
-                                        </p>
-                                    </div>
-                                    <div class="p-3">
-                                        <p style="font-size: 24px">
-                                            <span class="fw-bold text-info-emphasis">Phone:</span>
-                                            &nbsp; <span> {{
-                      detail.patient__Phone }}</span>
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class=" d-flex ">
-                                    <div class="p-3">
-                                        <p style="font-size: 24px">
-                                            <span class="fw-bold text-info-emphasis">Age:</span>
-                                            &nbsp; <span>{{
-                      detail.patient__age }}</span>
-                                        </p>
-                                    </div>
-                                    <div class="p-3">
-                                        <p style="font-size: 24px">
-                                            <span class="fw-bold text-info-emphasis">Sex:</span>
-                                            &nbsp; <span> {{
-                      detail.patient__gender }}</span>
-                                        </p>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                </div>
-            </div>
-            <div class="row" ng-repeat="detail in doctorProfile" x>
-                <div class="col-md-12">
-                    <p class="d-flex justify-content-center blockquote " style="font-size: 36px; 
-              color: #276acf; 
-              text-transform: capitalize;">
-                        {{detail.first_name }} {{ detail.last_name}}
-                    </p>
-
-                    <div class="row d-flex justify-content-center mt-3">
-                        <div class="col-md-12 border border-primary  m-5">
-                            <div class="card-body">
-                                <div class=" d-flex justify-content-evenly">
-                                    <div class="justify-content-evenly mt-4">
-                                        <div>
-                                            <p style="font-size: 24px; ">
-                                                <span class="fw-bold text-info-emphasis">Email:</span>
-                                                &nbsp; <span>{{ detail.email
-                          }}</span>
-                                            </p>
-                                        </div>
-                                        <div>
-                                            <p style="font-size: 24px">
-                                                <span class="fw-bold text-info-emphasis">Qualification:</span>
-                                                &nbsp; <span> {{
-                          detail.patient__Phone }}</span>
-                                            </p>
-                                        </div>
-                                        <div>
-                                            <p style="font-size: 24px">
-                                                <span class="fw-bold text-info-emphasis">Speciality:</span>
-                                                &nbsp; <span> {{
-                          detail.patient__Phone }}</span>
-                                            </p>
-                                        </div>
-                                        
-                                       
-                                    </div>
-                                    <div class=" justify-content-evenly mt-4">
-                                        
-                                        <div>
-                                            <p style="font-size: 24px">
-                                                <span class="fw-bold text-info-emphasis">Doctor Fees:</span>
-                                                &nbsp; <span>{{
-                          detail.patient__age }}</span>
-                                            </p>
-                                        </div>
-                                        <div>
-                                            <p style="font-size: 24px">
-                                                <span class="fw-bold text-info-emphasis">Phone:</span>
-                                                &nbsp; <span> {{
-                          detail.patient__gender }}</span>
-                                            </p>
-                                        </div>
-                                        <div>
-                                            <p style="font-size: 24px">
-                                                <span class="fw-bold text-info-emphasis">Address:</span>
-                                                &nbsp; <span> {{
-                          detail.doctor__address }}</span>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-
-        </div>
-        <div>
-            <div class="col-md-12 mt-5" ng-show="patientDoctor">
-                <div class="col-md-2"></div>
-                <div class="container-fluid col-md-10 mt-5">
-                    <h4 class="d-flex justify-content-center blockquote" style="font-size: 32px; color: #276acf; ">
-                        Doctor details
-                    </h4>
-                    <div class="row mt-3">
-                        <div class="card-body ms-5">
-                            <div class="d-flex justify-content-center">
-                                <table id="exportable" class="table  border-primary ">
-                                    <thead>
-                                        <tr class="border-success">
-                                            <th class="display-1" style="font-size: 30px">S.No</th>
-                                            <th class="display-1" style="font-size: 30px">Name</th>
-                                            <th class="display-1" style="font-size: 30px">Address</Nth>
-                                            <th class="display-1" style="font-size: 30px">
-                                                Qualification
-                                            </th>
-                                            <th class="display-1" style="font-size: 30px">Email</th>
-                                            <th class="display-1" style="font-size: 30px">
-                                                Speciality
-                                            </th>
-                                            <th class="display-1" style="font-size: 30px">Fees</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td></td>
-                                            <td><input type="text" class="form-control border border-black w-50 " ng-model="searchname"
-                                                placeholder="Name"></td>
-                                            <td><input type="text" class="form-control border border-black w-50 " ng-model="searchAddress"
-                                                placeholder="Address"></td>
-                                            <td><input type="text" class="form-control border border-black w-50 " ng-model="searchqualification"
-                                                placeholder="Qualification"></td>
-                                            <td><input type="text" class="form-control border border-black w-50 " ng-model="searchEmail"
-                                                placeholder="Email"></td>
-                                            <td><input type="text" class="form-control border border-black w-50 " ng-model="searchSpeciality"
-                                                placeholder="Speciality"></td>
-                                            <td><input type="text" class="form-control border border-black w-50 " ng-model="searchFees"
-                                                placeholder="Fees"></td>
-                                            
-                                        <!-- </tr> -->
-                                        <th>
-                                            <tr ng-repeat="doctor in doctorDetails| filter: {
+                  <th>
+                    <tr
+                      ng-repeat="doctor in doctorDetails| filter: {
                                                  first_name: searchname ,
                                                  doctor__address: searchAddress,
                                                  doctor__qualification__qualification: searchqualification,
                                                  email: searchEmail,  
                                                  doctor__speciality__speciality: searchSpeciality,
                                                  doctor__fees: searchFees
-                                                }">
-                                                <th>{{$index + 1}}</th>
-                                                <td style="font-size: 18px">
-                                                    {{doctor.first_name}} {{doctor.last_name}}
-                                                </td>
-                                                <td style="font-size: 18px">
-                                                    {{doctor.doctor__address}}
-                                                </td>
-                                                <td style="font-size: 18px">
-                                                    {{doctor.doctor__qualification__qualification}}
-                                                </td>
-                                                <td style="font-size: 18px">{{doctor.email}}</td>
-                                                <td style="font-size: 18px">
-                                                    {{doctor.doctor__speciality__speciality}}
-                                                </td>
-                                                <td style="font-size: 18px">{{doctor.doctor__fees}}</td>
-                                            </tr>
-                                        </th>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <button class="btn text-white float-end btn-primary" style=" font-size: 18px" ng-click="exportTableToExcel('exportable', 'doctor')">
-                                Export to excel
-                            </button>
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
+                                                }"
+                    >
+                      <th>{{$index + 1}}</th>
+                      <td style="font-size: 18px">
+                        {{doctor.first_name}} {{doctor.last_name}}
+                      </td>
+                      <td style="font-size: 18px">
+                        {{doctor.doctor__address}}
+                      </td>
+                      <td style="font-size: 18px">
+                        {{doctor.doctor__qualification__qualification}}
+                      </td>
+                      <td style="font-size: 18px">{{doctor.email}}</td>
+                      <td style="font-size: 18px">
+                        {{doctor.doctor__speciality__speciality}}
+                      </td>
+                      <td style="font-size: 18px">{{doctor.doctor__fees}}</td>
+                    </tr>
+                  </th>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <button
+            class="btn text-white float-end btn-primary"
+            style="font-size: 18px"
+            ng-click="exportTableToExcel('exportable', 'doctor')"
+          >
+            Export to excel
+          </button>
         </div>
+      </div>
     </div>
-    </body>
-</html>
+  </div>
+</div>

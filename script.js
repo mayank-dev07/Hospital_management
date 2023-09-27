@@ -5,11 +5,6 @@ myApp.config([
   "$urlRouterProvider",
   function ($stateProvider, $urlRouterProvider) {
     $stateProvider
-      .state("main", {
-        url: "/main",
-        templateUrl: "/html/main.html",
-        controller: "mainController",
-      })
       .state("login", {
         url: "/login",
         templateUrl: "/html/login.html",
@@ -25,7 +20,47 @@ myApp.config([
         templateUrl: "/html/docreg.html",
         controller: "docregController",
       })
-      .state("docPatient", {
+      .state("dashboard", {
+        url: "/dashboard",
+        templateUrl: "/html/dashboard.html",
+        controller: "dashboardController",
+      })
+      .state("dashboard.profile", {
+        url: "/main",
+        templateUrl: "/html/main.html",
+        controller: "mainController",
+      })
+      .state("dashboard.appointment", {
+        url: "/appointment",
+        templateUrl: "/html/appointment.html",
+        controller: "appointmentController",
+      })
+      .state("dashboard.showappointment", {
+        url: "/showappointment",
+        templateUrl: "/html/showappointment.html",
+        controller: "showAppointmentsController",
+      })
+      .state("dashboard.doctors", {
+        url: "/doctors",
+        templateUrl: "/html/doctors.html",
+        controller: "doctorController",
+      })
+      .state("dashboard.recAppointment", {
+        url: "/recAppointment",
+        templateUrl: "/html/recAppointment.html",
+        controller: "recAppointmentController",
+      })
+      .state("dashboard.docprofile", {
+        url: "/docprofile",
+        templateUrl: "/html/docprofile.html",
+        controller: "docprofileController",
+      })
+      .state("dashboard.patient", {
+        url: "/patient",
+        templateUrl: "/html/patient.html",
+        controller: "patientController",
+      })
+      .state("dashboard.docPatient", {
         url: "/docPatient",
         templateUrl: "/html/docPatient.html",
         controller: "docPatientController",
@@ -35,51 +70,18 @@ myApp.config([
         templateUrl: "/html/prescription.html",
         controller: "prescriptionController",
       })
-      .state("appointment", {
-        url: "/appointment",
-        templateUrl: "/html/appointment.html",
-        controller: "appointmentController",
-      })
-      .state("recAppointment", {
-        url: "/recAppointment",
-        templateUrl: "/html/recAppointment.html",
-        controller: "recAppointmentController",
-      })
-      .state("allDoctorappt", {
+   
+      .state("dashboard.allDoctorappt", {
         url: "/allDoctorappt",
         templateUrl: "/html/allDoctorappt.html",
         controller: "allDoctorapptController",
       })
-      .state("doctors", {
-        url: "/doctors",
-        templateUrl: "/html/doctors.html",
-        controller: "doctorController",
-      })
-      .state("dashboard", {
-        url: "/dashboard",
-        templateUrl: "/html/dashboard.html",
-        controller: "dashboardController",
-      })
-      .state("patient", {
-        url: "/patient",
-        templateUrl: "/html/patient.html",
-        controller: "patientController",
-      })
-      .state("showappointment", {
-        url: "/showappointment",
-        templateUrl: "/html/showappointment.html",
-        controller: "showAppointmentsController",
-      })
-      .state("docprofile", {
-        url: "/docprofile",
-        templateUrl: "/html/docprofile.html",
-        controller: "docprofileController",
-      });
+      
     $urlRouterProvider.otherwise("/login");
   },
 ]);
 
-const apiUrl = "https://10.21.81.64:8000";
+const apiUrl = "https://a139-2401-4900-eab-3330-b396-47ff-eff9-172a.ngrok-free.app/";
 
 myApp.controller("registrationController", [
   "$scope",
@@ -1388,6 +1390,13 @@ myApp.controller("docPatientController", [
           .then(function (response) {
             console.log(response.data);
             $scope.patientDetails = response.data;
+            if($scope.patientDetails.length == 0){
+              $location.path('/dashboard')
+              Swal.fire({
+                icon: "error",
+                text: "No Patient to show",
+              });
+            }
           })
           .catch(function (error) {
             console.log(error);
@@ -1446,6 +1455,14 @@ myApp.controller("allDoctorapptController", ['$scope', '$http', '$location', 'sh
       .then(function(response){
         console.log(response)
         $scope.appointments = response.data
+        if($scope.appointments.length == 0){
+          $location.path('/dashboard')
+          $location.path('/dashboard')
+          Swal.fire({
+            icon: "error",
+            text: "No Appointment to show",
+          });
+        }
       })
       .catch(function(error){
         console.log(error)
