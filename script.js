@@ -70,18 +70,23 @@ myApp.config([
         templateUrl: "/html/prescription.html",
         controller: "prescriptionController",
       })
-   
+      .state("dashboard.patientDoc", {
+        url: "/patientDoc",
+        templateUrl: "/html/patientDoc.html",
+        controller: "patientDocController",
+      })
       .state("dashboard.allDoctorappt", {
         url: "/allDoctorappt",
         templateUrl: "/html/allDoctorappt.html",
         controller: "allDoctorapptController",
-      })
-      
+      });
+
     $urlRouterProvider.otherwise("/login");
   },
 ]);
 
-const apiUrl = "https://a139-2401-4900-eab-3330-b396-47ff-eff9-172a.ngrok-free.app/";
+const apiUrl =
+  "https://a139-2401-4900-eab-3330-b396-47ff-eff9-172a.ngrok-free.app/";
 
 myApp.controller("registrationController", [
   "$scope",
@@ -285,7 +290,7 @@ myApp.controller("loginController", [
   "$http",
   "$location",
 
-  function ($scope, $http, $location,) {
+  function ($scope, $http, $location) {
     $scope.register = function () {
       $location.path("/registration");
     };
@@ -446,10 +451,7 @@ myApp.controller("appointmentController", [
         });
       });
 
-    $scope.patient = function (url) {
-      console.log(url);
-      $location.path(url);
-    };
+    
 
     $http
       .get(apiUrl + "/hospitalapp/patientprofile", {
@@ -582,10 +584,7 @@ myApp.controller("mainController", [
         });
       });
 
-    $scope.patient = function (url) {
-      console.log(url);
-      $location.path(url);
-    };
+    
 
     $scope.patientDoctor = true;
     $http
@@ -604,22 +603,7 @@ myApp.controller("mainController", [
         });
       });
 
-    $http
-      .get(apiUrl + "/hospitalapp/patientdashboard/", {
-        withCredentials: true,
-      })
-      .then(function (response) {
-        console.log(response.data);
-        $scope.doctorDetails = response.data;
-      })
-      .catch(function (error) {
-        console.log(error);
-        Swal.fire({
-          icon: "error",
-          text: error,
-        });
-      });
-
+   
     $scope.exportTableToExcel = function (id, name) {
       exportToExcel(id, name);
     };
@@ -714,10 +698,7 @@ myApp.controller("showAppointmentsController", [
       exportToExcel(id, name);
     };
 
-    $scope.patient = function (url) {
-      console.log(url);
-      $location.path(url);
-    };
+    
     $scope.logout = function () {
       $http
         .get(apiUrl + "/hospitalapp/logout/", {
@@ -738,8 +719,48 @@ myApp.controller("showAppointmentsController", [
           });
         });
     };
+    $scope.view = function (id) {
+      console.log(id);
+      $http
+        .get(apiUrl + "/hospitalapp/appointmentStatus/", {
+          withCredentials: true,
+          params: { id: id },
+        })
+        .then(function (response) {
+          console.log(response);
+          Swal.fire({
+            title: " Your Appointment is "+ response.data.message,  
+          });
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    };
   },
 ]);
+
+
+myApp.controller("patientDocController", [
+  "$scope",
+  "$http",
+  "$location",
+  function ($scope, $http, $location) {
+$http
+.get(apiUrl + "/hospitalapp/patientdashboard/", {
+  withCredentials: true,
+})
+.then(function (response) {
+  console.log(response.data);
+  $scope.doctorDetails = response.data;
+})
+.catch(function (error) {
+  console.log(error);
+  Swal.fire({
+    icon: "error",
+    text: error,
+  });
+});
+  }]);
 
 myApp.controller("recAppointmentController", [
   "$scope",
@@ -764,10 +785,7 @@ myApp.controller("recAppointmentController", [
         });
       });
 
-    $scope.patient = function (url) {
-      console.log(url);
-      $location.path(url);
-    };
+    
 
     $http
       .get(apiUrl + "/hospitalapp/appointments/", {
@@ -776,13 +794,13 @@ myApp.controller("recAppointmentController", [
       .then(function (response) {
         $scope.appointments = response.data;
         console.log($scope.appointments);
-        $scope.loader = false
+        $scope.loader = false;
         if ($scope.appointments.length == 0) {
           Swal.fire({
             title: "No appointments to show",
             confirmButtonText: "Ok",
           });
-          $location.path('/dashboard')
+          $location.path("/dashboard");
         }
 
         $scope.approve = function (id) {
@@ -813,7 +831,7 @@ myApp.controller("recAppointmentController", [
                       title: "No appointments to show",
                       confirmButtonText: "Ok",
                     });
-                    $location.path('/dashboard')
+                    $location.path("/dashboard");
                   }
                 })
                 .catch(function (error) {
@@ -877,7 +895,7 @@ myApp.controller("recAppointmentController", [
                         title: "No appointments to show",
                         confirmButtonText: "Ok",
                       });
-                      $location.path('/dashboard')
+                      $location.path("/dashboard");
                     }
                     $scope.loader = false;
                     $scope.appointment = true;
@@ -969,10 +987,7 @@ myApp.controller("doctorController", [
       exportToExcel(id, name);
     };
 
-    $scope.patient = function (url) {
-      console.log(url);
-      $location.path(url);
-    };
+    
 
     $scope.view = function (id) {
       console.log(id);
@@ -1094,7 +1109,7 @@ myApp.controller("docprofileController", [
                   withCredentials: true,
                 })
                 .then(function (response) {
-                  $scope.loader=true;
+                  $scope.loader = true;
                   console.log(response);
                   $scope.doctorProfile = response.data;
                   let id = $scope.doctorProfile[0].doctor__id;
@@ -1272,10 +1287,7 @@ myApp.controller("docprofileController", [
       });
     };
 
-    $scope.patient = function (url) {
-      console.log(url);
-      $location.path(url);
-    };
+    
     $scope.exportTableToExcel = function (id, name) {
       exportToExcel(id, name);
     };
@@ -1308,10 +1320,7 @@ myApp.controller("patientController", [
     $scope.exportTableToExcel = function (id, name) {
       exportToExcel(id, name);
     };
-    $scope.patient = function (url) {
-      console.log(url);
-      $location.path(url);
-    };
+    
     $http
       .get(apiUrl + "/hospitalapp/allPatient/", {
         withCredentials: true,
@@ -1390,8 +1399,8 @@ myApp.controller("docPatientController", [
           .then(function (response) {
             console.log(response.data);
             $scope.patientDetails = response.data;
-            if($scope.patientDetails.length == 0){
-              $location.path('/dashboard')
+            if ($scope.patientDetails.length == 0) {
+              $location.path("/dashboard");
               Swal.fire({
                 icon: "error",
                 text: "No Patient to show",
@@ -1406,120 +1415,125 @@ myApp.controller("docPatientController", [
         console.log(error);
       });
 
-    $scope.patient = function (url) {
-      console.log(url);
-      $location.path(url);
-    };
+    
     $scope.exportTableToExcel = function (id, name) {
       exportToExcel(id, name);
     };
-    $scope.view = function(id){
-      console.log(id)
-    }
+    $scope.view = function (id) {
+      console.log(id);
+    };
   },
 ]);
-myApp.controller("allDoctorapptController", ['$scope', '$http', '$location', 'sharedDataService', function ($scope, $http, $location,  sharedDataService) {
+myApp.controller("allDoctorapptController", [
+  "$scope",
+  "$http",
+  "$location",
+  "sharedDataService",
+  function ($scope, $http, $location, sharedDataService) {
     $http
-    .get(apiUrl + "/hospitalapp/panelname/", {
-      withCredentials: true,
-    })
-    .then(function (response) {
-      console.log(response.data);
-      $scope.leftPanel = response.data;
-      console.log($scope.leftPanel);
-      $scope.loader = false;
-    })
-    .catch(function (error) {
-      console.log(error);
-      Swal.fire({
-        icon: "error",
-        text: error,
+      .get(apiUrl + "/hospitalapp/panelname/", {
+        withCredentials: true,
+      })
+      .then(function (response) {
+        console.log(response.data);
+        $scope.leftPanel = response.data;
+        console.log($scope.leftPanel);
+        $scope.loader = false;
+      })
+      .catch(function (error) {
+        console.log(error);
+        Swal.fire({
+          icon: "error",
+          text: error,
+        });
       });
-    });
-    $scope.patient = function (url) {
-      console.log(url);
-      $location.path(url);
-    };
+    
     $http
-    .get(apiUrl + "/hospitalapp/identifyDoctor/", {
-      withCredentials: true,
-    })
-    .then(function (response) {
-      console.log(response.data);
-      let id = response.data[0].id;
-      console.log(id);
-      $http.get(apiUrl + '/hospitalapp/doctorAppointment/',{
-        withCredentials:true,
-        params:{id:id}
+      .get(apiUrl + "/hospitalapp/identifyDoctor/", {
+        withCredentials: true,
       })
-      .then(function(response){
-        console.log(response)
-        $scope.appointments = response.data
-        if($scope.appointments.length == 0){
-          $location.path('/dashboard')
-          $location.path('/dashboard')
-          Swal.fire({
-            icon: "error",
-            text: "No Appointment to show",
+      .then(function (response) {
+        console.log(response.data);
+        let id = response.data[0].id;
+        console.log(id);
+        $http
+          .get(apiUrl + "/hospitalapp/doctorAppointment/", {
+            withCredentials: true,
+            params: { id: id },
+          })
+          .then(function (response) {
+            console.log(response);
+            $scope.appointments = response.data;
+            if ($scope.appointments.length == 0) {
+              $location.path("/dashboard");
+              $location.path("/dashboard");
+              Swal.fire({
+                icon: "error",
+                text: "No Appointment to show",
+              });
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
           });
-        }
       })
-      .catch(function(error){
-        console.log(error)
-      })
-    })
-    .catch(function(error){
-      console.log(error)
-    })
+      .catch(function (error) {
+        console.log(error);
+      });
 
-    $scope.view = function(id){
-      console.log(id)
+    $scope.view = function (id) {
+      console.log(id);
       sharedDataService.setId(id);
-      $location.path('/prescription')
-    }
-   
-  }]);
-
-  myApp.service('sharedDataService', function () {
-    var id = null;
-    return {
-      getId: function () {
-        return id;
-      },
-      setId: function (newId) {
-        id = newId;
-      }
+      $location.path("/prescription");
     };
-  });
-  
+  },
+]);
 
-  myApp.controller('prescriptionController',['$scope','$http','$location', 'sharedDataService', function ($scope, $http, $location, sharedDataService) {
+myApp.service("sharedDataService", function () {
+  var id = null;
+  return {
+    getId: function () {
+      return id;
+    },
+    setId: function (newId) {
+      id = newId;
+    },
+  };
+});
+
+myApp.controller("prescriptionController", [
+  "$scope",
+  "$http",
+  "$location",
+  "sharedDataService",
+  function ($scope, $http, $location, sharedDataService) {
     $scope.prescriptions = [];
 
     $scope.add = function () {
       $scope.prescriptions.push({
         medicine: $scope.medicine,
         dosage: $scope.dosage,
-        Purpose: $scope.Purpose
+        Purpose: $scope.Purpose,
       });
-  
-      $scope.medicine = '';
-      $scope.dosage = '';
-      $scope.Purpose = '';
+
+      $scope.medicine = "";
+      $scope.dosage = "";
+      $scope.Purpose = "";
     };
 
     var id = sharedDataService.getId();
     console.log(id);
-    $http.get(apiUrl + '/hospitalapp/prescriptionDetails/',{
-      withCredentials:true,
-      params:{id:id}
-    })
-    .then(function(response){
-      console.log(response.data)
-    })
-    .catch(function(error){
-      console.log(error)
-    })
+    $http
+      .get(apiUrl + "/hospitalapp/prescriptionDetails/", {
+        withCredentials: true,
+        params: { id: id },
+      })
+      .then(function (response) {
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
     $scope.del = function (index) {
       $scope.prescriptions.splice(index, 1);
     };
@@ -1528,5 +1542,5 @@ myApp.controller("allDoctorapptController", ['$scope', '$http', '$location', 'sh
       console.log($scope.prescriptions);
       $scope.prescriptions = [];
     };
-
-  }])
+  },
+]);

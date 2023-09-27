@@ -1,225 +1,220 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="/node_modules/angular/angular.min.js"></script>
-    <script src="/node_modules/@uirouter/angularjs/release/angular-ui-router.min.js"></script>
-    <link
-      rel="stylesheet"
-      href="/node_modules/bootstrap/dist/css/bootstrap.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="/node_modules/bootstrap-icons/font/bootstrap-icons.css"
-    />
-</head>
-<body ng-app="myModule" ng-controller="prescriptionController">
-    <div class="container-fluid" style="background-color: #e2e1e14e">
+<nav class="navbar container-fluid d-flex justify-content-between">
+  <i
+    class="bi bi-house-door ms-5"
+    style="font-size: 32px"
+    data-bs-toggle="offcanvas"
+    data-bs-target="#offcanvasExample"
+    aria-controls="offcanvasExample"
+  ></i>
+  <div class="col-md-4">
+    <form class="" role="search">
+      <input
+        class="form-control autocomplete-control topbar-search rounded-pill p-2"
+        type="search"
+        placeholder="Search"
+        aria-label="Search"
+        style="background-color: #ccd2d4"
+        ng-model="searchname"
+      />
+    </form>
+  </div>
+  <div class="d-flex col-md-1">
+    <p class="p-2" style="font-size: 24px">Logout</p>
+    <i class="bi bi-box-arrow-right" style="font-size: 28px"></i>
+  </div>
+</nav>
+
+<div class="container-fluid vh-100 d-flex justify-content-center">
+  <div class="col-md-7 mt-5">
+    <p
+      class="text-black d-flex justify-content-center fw-bold"
+      style="font-size: 32px"
+    >
+      Prescription
+    </p>
+    <hr class="border border-warning border-4 opacity-50 ms-5 me-5" />
+    <p class="d-flex justify-content-center" style="font-size: 26px">
+      Patient's &nbsp; Details
+    </p>
+    <div class="card-body m-3">
+      <div class="row d-flex justify-content-evenly p-3">
         <div class="row">
-          <div
-            class="offcanvas offcanvas-start"
-            tabindex="-1"
-            id="offcanvasExample"
-            aria-labelledby="offcanvasExampleLabel"
-          >
-            <div class="offcanvas-header">
-              <h5 class="offcanvas-title" id="offcanvasExampleLabel">
-                Dashboard
-              </h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="offcanvas"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="offcanvas-body" style="background-color: #fbfbfb">
-              <div ng-repeat="details in leftPanel">
-                <a href="" ng-click="patient(details.patientLink)">
-                  <h5 class="mt-5">{{ details.patientPanel}}</h5>
-                </a>
-                <a href="" ng-click="receptionist(details.id)">
-                  <h5 class="mt-5">{{ details.recpstPanel}}</h5>
-                </a>
-                <h5 class="mt-5">{{ details.doctorPanel}}</h5>
-              </div>
-            </div>
+          <div class="col-md-4">
+            <p style="font-size: 18px">
+              Patient name: &nbsp; {{ detail.first_name }} {{ detail.last_name}}
+            </p>
           </div>
-  
-          <nav class="navbar container-fluid d-flex justify-content-between">
-            <i
-              class="bi bi-house-door ms-5"
-              style="font-size: 32px"
-              data-bs-toggle="offcanvas"
-              data-bs-target="#offcanvasExample"
-              aria-controls="offcanvasExample"
-            ></i>
-            <div class="col-md-4">
-              <form class="" role="search">
-                <input
-                  class="form-control autocomplete-control topbar-search rounded-pill p-2"
-                  type="search"
-                  placeholder="Search"
-                  aria-label="Search"
-                  style="background-color: #ccd2d4"
-                  ng-model="searchname"
-                />
-              </form>
-            </div>
-            <div class="d-flex col-md-1">
-              <p class="p-2" style="font-size: 24px">Logout</p>
-              <i class="bi bi-box-arrow-right" style="font-size: 28px"></i>
-            </div>
-          </nav>
+          <div class="col-md-4">
+            <p style="font-size: 18px">Email: &nbsp; {{ detail.email }}</p>
+          </div>
+          <div class="col-md-2">
+            <p style="font-size: 18px">Age: &nbsp; {{ detail.patient__age }}</p>
+          </div>
+          <div class="col-md-2">
+            <p style="font-size: 18px">
+              Sex: &nbsp; {{ detail.patient__gender }}
+            </p>
+          </div>
         </div>
-      </div>
-  
-      <div ng-show="loader">
-        <div class="vh-100 d-flex justify-content-center align-items-center">
-          <div class="text-center">
-            <div class="spinner-border" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
+        <div class="row mt-3">
+          <div class="col-md-7">
+            <p style="font-size: 18px">
+              Address: &nbsp; {{ detail.patient__address }}
+            </p>
+          </div>
+          <div class="col-md-4">
+            <p style="font-size: 18px">
+              Phone: &nbsp; {{ detail.patient__Phone }}
+            </p>
           </div>
         </div>
       </div>
+    </div>
+    <hr class="border border-danger border-3 opacity-50 mt-3" />
+    <p class="d-flex justify-content-center" style="font-size: 26px">
+      Medical Details
+    </p>
+    <div class="row mt-5 d-flex justify-content-center">
+      <div class="col-md-5">
+        <p style="font-size: 18px">
+          Suffering From: &nbsp; {{ detail.patient__age }}
+        </p>
+      </div>
+      <div class="col-md-5">
+        <p style="font-size: 18px">
+          Current Symptoms: &nbsp; {{ detail.patient__age }}
+        </p>
+      </div>
 
-      
-      <div class="container-fluid vh-100 d-flex justify-content-center ">
-        <div class="col-md-7 mt-5">
-            <p class="text-black d-flex justify-content-center fw-bold" style="font-size: 32px;"> Prescription </p>
-            <hr class="border border-warning border-4 opacity-50 ms-5 me-5 ">
-            <p class=" d-flex justify-content-center" style="font-size: 26px;">Patient's &nbsp; Details</p>
-            <div class="card-body m-3">
-              <div class="row d-flex justify-content-evenly p-3" >
-                <div class="row">
-                  <div class="col-md-4">
-                    <p style="font-size: 18px;">Patient name: &nbsp; {{ detail.first_name }} {{ detail.last_name}}</p>
-                  </div>
-                  <div class="col-md-4">
-                    <p style="font-size: 18px;">Email: &nbsp; {{ detail.email }}</p>
-      
-                  </div>
-                  <div class="col-md-2">
-                    <p style="font-size: 18px;">Age: &nbsp; {{ detail.patient__age }}</p>
-      
-                  </div>
-                  <div class="col-md-2">
-                    <p style="font-size: 18px;">Sex: &nbsp; {{ detail.patient__gender }}</p>
-      
-                  </div>
-                </div>
-                <div class="row mt-3">
-                  <div class="col-md-7">
-                    <p style="font-size: 18px;">Address: &nbsp; {{ detail.patient__address }}</p>
-      
-                  </div>
-                  <div class="col-md-4">
-                    <p style="font-size: 18px;">Phone: &nbsp; {{ detail.patient__Phone }}</p>
-      
-                  </div>
-                </div>
-              </div>
-            </div>
-              <hr class="border border-danger border-3 opacity-50 mt-3">
-              <p class=" d-flex justify-content-center" style="font-size: 26px;">Medical Details</p>
-              <div class="row mt-5 d-flex justify-content-center">
-                <div class="col-md-5">
-                  <p style="font-size: 18px;">Suffering From: &nbsp; {{ detail.patient__age }}</p>
-                </div>
-                <div class="col-md-5">
-                  <p style="font-size: 18px;">Current Symptoms: &nbsp; {{ detail.patient__age }}</p>
-                </div>
+      <div class="d-flex justify-content-evenly mt-5">
+        <div class="col-md-3">
+          <label for="exampleInputEmail1" class="form-label">Medicine</label>
+          <input
+            type="text"
+            class="p-2 form-control border border-black"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+            ng-model="medicine"
+            placeholder=" Enter NA if none"
+          />
+        </div>
+        <div class="col-md-3">
+          <label for="exampleInputEmail1" class="form-label">Dosage</label>
+          <input
+            type="text"
+            class="p-2 form-control border border-black"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+            ng-model="dosage"
+            placeholder=" Enter NA if none"
+          />
+        </div>
+        <div class="col-md-3">
+          <label for="exampleInputEmail1" class="form-label">Purpose</label>
+          <input
+            type="text"
+            class="p-2 form-control border border-black"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+            ng-model="Purpose"
+            placeholder=" Enter NA if none"
+          />
+        </div>
+        <button
+          class="btn text-white float-end mt-4 btn-danger"
+          ng-click="add()"
+        >
+          <i class="bi bi-file-earmark-plus" style="font-size: 24px"></i>
+        </button>
+      </div>
 
-                <div class="d-flex justify-content-evenly mt-5">
-                  <div class="col-md-3">
-                    <label for="exampleInputEmail1" class="form-label">Medicine</label>
-                  <input type="text" class="p-2 form-control border border-black" id="exampleInputEmail1"
-                  aria-describedby="emailHelp" ng-model="medicine" placeholder=" Enter NA if none">
-                </div>
-                <div class="col-md-3">
-                  <label for="exampleInputEmail1" class="form-label">Dosage</label>
-                  <input type="text" class="p-2 form-control border border-black" id="exampleInputEmail1"
-                  aria-describedby="emailHelp" ng-model="dosage" placeholder=" Enter NA if none">
-                </div><div class="col-md-3">
-                  <label for="exampleInputEmail1" class="form-label">Purpose</label>
-                  <input type="text" class="p-2 form-control border border-black" id="exampleInputEmail1"
-                  aria-describedby="emailHelp" ng-model="Purpose" placeholder=" Enter NA if none">
-                </div>
-                <button class="btn text-white float-end mt-4 btn-danger"  ng-click="add()">
-                  <i class="bi bi-file-earmark-plus" style="font-size: 24px;"></i>
-              </button>
-              
-              </div>
+      <div
+        class="d-flex justify-content-evenly mt-2"
+        ng-repeat="prescription in prescriptions"
+      >
+        <div class="col-md-3">
+          <label class="form-label">Medicine</label>
+          <input
+            type="text"
+            class="p-2 form-control border border-black"
+            ng-model="prescription.medicine"
+            readonly
+          />
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Dosage</label>
+          <input
+            type="text"
+            class="p-2 form-control border border-black"
+            ng-model="prescription.dosage"
+            readonly
+          />
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Purpose</label>
+          <input
+            type="text"
+            class="p-2 form-control border border-black"
+            ng-model="prescription.Purpose"
+            readonly
+          />
+        </div>
+        <button
+          class="btn text-white float-end mt-4 btn-danger"
+          ng-click="del($index)"
+        >
+          <i class="bi bi-trash" style="font-size: 24px"></i>
+        </button>
+      </div>
 
-              <div class="d-flex justify-content-evenly mt-2" ng-repeat="prescription in prescriptions">
-                <div class="col-md-3">
-                  <label class="form-label">Medicine</label>
-                  <input type="text" class="p-2 form-control border border-black" ng-model="prescription.medicine" readonly>
-                </div>
-                <div class="col-md-3">
-                  <label class="form-label">Dosage</label>
-                  <input type="text" class="p-2 form-control border border-black" ng-model="prescription.dosage" readonly>
-                </div>
-                <div class="col-md-3">
-                  <label class="form-label">Purpose</label>
-                  <input type="text" class="p-2 form-control border border-black" ng-model="prescription.Purpose" readonly>
-                </div>
-                <button class="btn text-white float-end mt-4 btn-danger"  ng-click="del($index)">
-                  <i class="bi bi-trash" style="font-size: 24px;"></i>
-              </button>
-              </div>
+      <div class="row mt-3">
+        <div class="card-body ms-5">
+          <div class="d-flex justify-content-center">
+            <table id="exportable" class="table">
+              <tbody>
+                <tr
+                  ng-repeat="doctor in Medicines| filter: { first_name: searchname }"
+                >
+                  <td style="font-size: 18px">{{doctor.medicine}}</td>
+                  <td style="font-size: 18px">{{doctor.dosage}}</td>
+                  <td style="font-size: 18px">{{doctor.purpose}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
 
-              <div class="row mt-3">
-                <div class="card-body ms-5">
-                    <div class="d-flex justify-content-center">
-                        <table id="exportable" class="table ">
-                            <tbody>
-                                    <tr ng-repeat="doctor in Medicines| filter: { first_name: searchname }">
-                                        <td style="font-size: 18px">
-                                            {{doctor.medicine}}
-                                        </td>
-                                        <td style="font-size: 18px">
-                                            {{doctor.dosage}}
-                                        </td>
-                                        <td style="font-size: 18px">
-                                            {{doctor.purpose}}
-                                        </td>
-                                    </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                   
-                    
-                </div>
-            </div>
-            
-            <div class="card-body m-3">
-                    <hr class="border border-primary border-3 opacity-50 mt-3">
-                    <div class="row d-flex justify-content-evenly p-3" >
-                      <!-- <div class="row "> -->
-                        <div class="col-md-4">
-                          <p style="font-size: 18px;">Doctor name: &nbsp; {{ detail.first_name }} {{ detail.last_name}}</p>
-                        </div>
-                        <div class="col-md-4">
-                          <p style="font-size: 18px;"> Doctor Email: &nbsp; {{ detail.email }}</p>
-            
-                        </div>
-                        <div class="col-md-4">
-                          <p style="font-size: 18px;">Doctor Phone: &nbsp; {{ detail.patient__Phone }}</p>
-            
-                        </div>
-                    </div>
-                  </div>
-            
-              <div class="d-flex justify-content-center mt-5">
-               
-                  <button class="btn btn-primary text-white" style="font-size: 20px;"
-      ng-click="confirm()">Submit Prescription</button>
-                
-              </div>
-          </div></div>
-    </body>
-</html>
+      <div class="card-body m-3">
+        <hr class="border border-primary border-3 opacity-50 mt-3" />
+        <div class="row d-flex justify-content-evenly p-3">
+          <div class="col-md-4">
+            <p style="font-size: 18px">
+              Doctor name: &nbsp; {{ detail.first_name }} {{ detail.last_name}}
+            </p>
+          </div>
+          <div class="col-md-4">
+            <p style="font-size: 18px">
+              Doctor Email: &nbsp; {{ detail.email }}
+            </p>
+          </div>
+          <div class="col-md-4">
+            <p style="font-size: 18px">
+              Doctor Phone: &nbsp; {{ detail.patient__Phone }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-center mt-5">
+        <button
+          class="btn btn-primary text-white"
+          style="font-size: 20px"
+          ng-click="confirm()"
+        >
+          Submit Prescription
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

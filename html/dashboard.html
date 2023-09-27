@@ -37,9 +37,12 @@
             ></button>
           </div>
           <div class="offcanvas-body" style="background-color: #fbfbfb">
-            <div ng-repeat="details in leftPanel">
+            <div class="d-flex" ng-repeat="details in leftPanel">
+              <div class="col-md-2">
+                <img class="img-thumbnail" src="https://a139-2401-4900-eab-3330-b396-47ff-eff9-172a.ngrok-free.app/media/{{details.panelicon}}" alt="">
+              </div>
               <a ui-sref="{{details.panelLink}}">
-                <h5 class="mt-5">{{ details.panel}}</h5>
+                <h5 class="p-3">{{ details.panel}}</h5>
               </a>
             </div>
           </div>
@@ -60,7 +63,7 @@
                 type="search"
                 placeholder="Search"
                 aria-label="Search"
-                style="background-color: #ccd2d4"
+                style="background-color: #e1e3e4"
                 ng-model="searchname"
               />
             </form>
@@ -79,7 +82,10 @@
 
     <div class="col-md-12 mt-3">
       <div class="container-fluid vh-100" ui-view>
-        <div ng-show="showcarousel">
+        <div>
+          
+        </div>
+        <div>
           <div
             id="carouselDarkVariant"
             class="carousel slide carousel-fade carousel-dark"
