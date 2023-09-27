@@ -184,13 +184,13 @@
                       <td style="font-size: 18px">{{doctor.time}}</td>
                       <td
                         style="font-size: 18px"
-                        ng-if="doctor.approve_doctor || doctor.approve_receptionist "
+                        ng-if="doctor.approve_doctor "
                       >
                         <button class="btn btn-primary">Prescription</button>
                       </td>
                       <td
                         style="font-size: 18px"
-                        ng-if="!doctor.approve_doctor && !doctor.approve_receptionist"
+                        ng-if="!doctor.approve_doctor || !doctor.approve_receptionist"
                       >
                         Waiting...
                       </td>

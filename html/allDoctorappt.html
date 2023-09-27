@@ -15,7 +15,7 @@
       href="/node_modules/bootstrap-icons/font/bootstrap-icons.css"
     />
   </head>
-  <body ng-app="myModule" ng-controller="docPatientController">
+  <body ng-app="myModule" ng-controller="allDoctorapptController">
     <div class="container-fluid" style="background-color: #e2e1e14e">
       <div class="row">
         <div
@@ -76,7 +76,7 @@
       </div>
     </div>
 
-    <div ng-show="loader">
+    <!-- <div ng-show="loader">
       <div class="vh-100 d-flex justify-content-center align-items-center">
         <div class="text-center">
           <div class="spinner-border" role="status">
@@ -84,78 +84,79 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
-    <div class="col-md-12 mt-5">
+    <div class="col-md-12 mt-5" >
       <div class="col-md-2"></div>
       <div class="container-fluid col-md-10 mt-5">
         <h4
           class="d-flex justify-content-center blockquote"
-          style="font-size: 34px; color: #276acf"
+          style="font-size: 32px; color: #276acf"
         >
-          Patients details
+          Appointments details
         </h4>
         <div class="row mt-3">
           <div class="card-body ms-5">
             <div class="d-flex justify-content-center">
-              <table id="allPatient" class="table">
-                <thead class="border-success">
-                  <tr>
+              <table class="table border-primary" id="appointment">
+                <thead>
+                  <tr class="border-success">
                     <th class="display-1" style="font-size: 30px">S.No</th>
                     <th class="display-1" style="font-size: 30px">
-                      Patient Name
+                      Patient name
                     </th>
-                    <th class="display-1" style="font-size: 30px">Address</th>
                     <th class="display-1" style="font-size: 30px">
                       Patient Email
                     </th>
                     <th class="display-1" style="font-size: 30px">
                       Patient Phone
                     </th>
+                    <th class="display-1" style="font-size: 30px">Address</th>
                     <th class="display-1" style="font-size: 30px">Age</th>
                     <th class="display-1" style="font-size: 30px">Gender</th>
                     <th></th>
                   </tr>
                 </thead>
-                <tbody class="border-primary">
-                  <tr
-                    ng-repeat="patient in patientDetails| filter: { patient_id__user_id__first_name: searchname }"
-                  >
-                    <th>{{$index + 1}}</th>
-                    <td style="font-size: 22px">
-                      {{ patient.patient_id__user_id__first_name}} {{
-                      patient.patient_id__user_id__last_name }}
-                    </td>
-                    <td style="font-size: 22px">
-                      {{ patient.patient_id__address}}
-                    </td>
-
-                    <td style="font-size: 22px">
-                      {{patient.patient_id__user_id__email}}
-                    </td>
-                    <td style="font-size: 22px">
-                      {{patient.patient_id__Phone}}
-                    </td>
-                    <td style="font-size: 22px">{{patient.patient_id__age}}</td>
-                    <td style="font-size: 22px">
-                      {{patient.patient_id__gender}}
-                    </td>
-                    <!-- <td>
+                <tbody>
+                 
+                
+                    <tr
+                      ng-repeat="doctor in appointments| filter: { 
+                        patient_id__user_id__first_name : searchname ,
+                      }"
+                    >
+                      <th>{{$index + 1}}</th>
+                      <td style="font-size: 18px">
+                        {{ doctor.patient_id__user_id__first_name }} {{
+                        doctor.patient_id__user_id__last_name }}
+                      </td>
+                      <td style="font-size: 18px">
+                        {{doctor.patient_id__user_id__email}}
+                      </td>
+                      <td style="font-size: 18px">
+                        {{doctor.patient_id__Phone}}
+                      </td>
+                      <td style="font-size: 18px">{{doctor.patient_id__address}}</td>
+                      <td style="font-size: 18px">{{doctor.patient_id__age}}</td>
+                      <td style="font-size: 18px">{{doctor.patient_id__gender}}</td>   
+                      <td>
                       <button
                         class="btn btn-primary"
-                        ng-click="view(id)"
+                        ng-click="view(doctor.id)"
                         style="font-size: 18px"
                       >
-                        view
+                        Prescription
                       </button>
-                    </td> -->
-                  </tr>
+                    </td>                   
+                    </tr>
+                  </th>
                 </tbody>
               </table>
             </div>
             <button
-              class="btn btn-primary float-end"
-              ng-click="exportTableToExcel('allPatient', 'AllPatient')"
+              class="btn text-white float-end"
+              style="background-color: #276acf; font-size: 18px"
+              ng-click="exportTableToExcel('appointment', 'appointment')"
             >
               Export to excel
             </button>

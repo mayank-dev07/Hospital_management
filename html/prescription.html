@@ -123,9 +123,6 @@
                 </div>
               </div>
             </div>
-      
-      
-            
               <hr class="border border-danger border-3 opacity-50 mt-3">
               <p class=" d-flex justify-content-center" style="font-size: 26px;">Medical Details</p>
               <div class="row mt-5 d-flex justify-content-center">
@@ -154,6 +151,25 @@
                 <button class="btn text-white float-end mt-4 btn-danger"  ng-click="add()">
                   <i class="bi bi-file-earmark-plus" style="font-size: 24px;"></i>
               </button>
+              
+              </div>
+
+              <div class="d-flex justify-content-evenly mt-2" ng-repeat="prescription in prescriptions">
+                <div class="col-md-3">
+                  <label class="form-label">Medicine</label>
+                  <input type="text" class="p-2 form-control border border-black" ng-model="prescription.medicine" readonly>
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Dosage</label>
+                  <input type="text" class="p-2 form-control border border-black" ng-model="prescription.dosage" readonly>
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Purpose</label>
+                  <input type="text" class="p-2 form-control border border-black" ng-model="prescription.Purpose" readonly>
+                </div>
+                <button class="btn text-white float-end mt-4 btn-danger"  ng-click="del($index)">
+                  <i class="bi bi-trash" style="font-size: 24px;"></i>
+              </button>
               </div>
 
               <div class="row mt-3">
@@ -161,8 +177,6 @@
                     <div class="d-flex justify-content-center">
                         <table id="exportable" class="table ">
                             <tbody>
-                              <!-- </th> -->
-                                <!-- <th> -->
                                     <tr ng-repeat="doctor in Medicines| filter: { first_name: searchname }">
                                         <td style="font-size: 18px">
                                             {{doctor.medicine}}
@@ -177,9 +191,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <!-- <button class="btn text-black float-end" style="background-color: #c9d1d1; font-size: 18px" ng-click="exportTableToExcel('exportable', 'doctor')">
-                        Export to excel
-                    </button> -->
+                   
                     
                 </div>
             </div>
@@ -203,14 +215,10 @@
                   </div>
             
               <div class="d-flex justify-content-center mt-5">
-                <!-- <div class="col-md-6"> -->
+               
                   <button class="btn btn-primary text-white" style="font-size: 20px;"
       ng-click="confirm()">Submit Prescription</button>
-                <!-- </div class="col-md-6">
-                  <button class="btn text-black" style="background-color: #c9d1d1; font-size: 18px;"
-      ng-click="cancel()">Cancel Prescription</button>
-                <div> -->
-                <!-- </div> -->
+                
               </div>
           </div></div>
     </body>
