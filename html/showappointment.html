@@ -3,7 +3,7 @@
       <div class="container-fluid col-md-10 mt-5">
         <h4
           class="d-flex justify-content-center blockquote"
-          style="font-size: 32px; color: #276acf"
+          style="font-size: 32px; color: #276acf;text-decoration: underline;"
         >
           Appointments details
         </h4>
@@ -13,89 +13,44 @@
               <table class="table border-primary" id="appointment">
                 <thead>
                   <tr class="border-success">
-                    <th class="display-1" style="font-size: 30px">S.No</th>
-                    <th class="display-1" style="font-size: 30px">
+                    <th class="fw-bold" style="font-size: 24px">S.No</th>
+                    <th class="fw-bold" style="font-size: 24px">
                       Doctor name
                     </th>
-                    <th class="display-1" style="font-size: 30px">
+                    <th class="fw-bold" style="font-size: 24px">
                       Doctor Email
                     </th>
-                    <th class="display-1" style="font-size: 30px">
+                    <th class="fw-bold" style="font-size: 24px">
                       Doctor Phone
                     </th>
-                    <th class="display-1" style="font-size: 30px">Date</th>
-                    <th class="display-1" style="font-size: 30px">Time</th>
-                    <th class="display-1" style="font-size: 30px">Status</th>
+                    <th class="fw-bold" style="font-size: 24px">Date</th>
+                    <th class="fw-bold" style="font-size: 24px">Time</th>
+                    <th class="fw-bold" style="font-size: 24px">Status</th>
                     <th></th>
                   </tr>
                 </thead>
                 <tbody>
-                  <td></td>
-                  <td>
-                    <input
-                      type="text"
-                      class="form-control border border-black w-50"
-                      ng-model="searchname"
-                      placeholder="Name"
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      class="form-control border border-black w-50"
-                      ng-model="searchEmail"
-                      placeholder="Email"
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      class="form-control border border-black w-50"
-                      ng-model="searchPhone"
-                      placeholder="Phone"
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      class="form-control border border-black w-50"
-                      ng-model="searchDate"
-                      placeholder="Date"
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      class="form-control border border-black w-50"
-                      ng-model="searchTime"
-                      placeholder="Time"
-                    />
-                  </td>
-                  <th>
+           
                     <tr
                       ng-repeat="doctor in appointments| filter: { 
-                        doctor_id__user_id__first_name: searchname ,
-                        doctor_id__user_id__email:searchEmail,
-                        doctor_id__phone:searchPhone,
-                        date:searchDate,
-                        time:searchTime,
+                        doctor__user__first_name: searchname ,
                       }"
                     >
                       <th>{{$index + 1}}</th>
-                      <td style="font-size: 18px">
+                      <td style="font-size: 24px">
                         {{ doctor.doctor__user__first_name }} {{
                         doctor.doctor__user__last_name }}
                       </td>
-                      <td style="font-size: 18px">
+                      <td style="font-size: 24px">
                         {{doctor.doctor_id__user_id__email}}
                       </td>
-                      <td style="font-size: 18px">
+                      <td style="font-size: 24px">
                         {{doctor.doctor_id__phone}}
                       </td>
-                      <td style="font-size: 18px">{{doctor.date}}</td>
-                      <td style="font-size: 18px">{{doctor.time}}</td>
+                      <td style="font-size: 24px">{{doctor.date}}</td>
+                      <td style="font-size: 24px">{{doctor.time}}</td>
                       <td
-                        style="font-size: 18px"
+                        style="font-size: 24px"
                         
                       >
                         <button class="btn btn-primary" ng-click="view(doctor.id)">Status</button>

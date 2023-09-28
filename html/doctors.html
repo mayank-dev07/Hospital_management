@@ -10,7 +10,7 @@
     <div class="row mt-3">
       <div class="card-body ms-5">
         <div class="d-flex justify-content-center">
-          <table id="exportable" class="table border-primary">
+          <table id="doctor" class="table border-primary">
             <thead class="border-success">
               <tr>
                 <th class="display-1" style="font-size: 30px">S.No</th>
@@ -24,83 +24,25 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td></td>
-                <td>
-                  <input
-                    type="text"
-                    class="form-control border border-black w-50"
-                    ng-model="searchname"
-                    placeholder="Name"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    class="form-control border border-black w-50"
-                    ng-model="searchAddress"
-                    placeholder="Address"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    class="form-control border border-black w-50"
-                    ng-model="searchQualification"
-                    placeholder="Qualification"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    class="form-control border border-black w-50"
-                    ng-model="searchEmail"
-                    placeholder="Email"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    class="form-control border border-black w-50"
-                    ng-model="searchSpeciality"
-                    placeholder="Speciality"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    class="form-control border border-black w-50"
-                    ng-model="searchFees"
-                    placeholder="Fees"
-                  />
-                </td>
-
-                <th></th>
-
-                <th>
                   <tr
                     ng-repeat="doctor in doctorDetails| filter: { 
                       first_name: searchname ,
-                      doctor__address:searchAddress,
-                      doctor__qualification__qualification:searchQualification,
-                      email:searchEmail,
-                      doctor__speciality__speciality:searchSpeciality,
-                      doctor__fees: searchFees
+                      
                     }"
                   >
                     <th>{{$index + 1}}</th>
-                    <td style="font-size: 18px">
+                    <td style="font-size: 20px">
                       {{doctor.first_name}} {{doctor.last_name}}
                     </td>
-                    <td style="font-size: 18px">{{doctor.doctor__address}}</td>
-                    <td style="font-size: 18px">
+                    <td style="font-size: 20px">{{doctor.doctor__address}}</td>
+                    <td style="font-size: 20px">
                       {{doctor.doctor__qualification__qualification}}
                     </td>
-                    <td style="font-size: 18px">{{doctor.email}}</td>
-                    <td style="font-size: 18px">
+                    <td style="font-size: 20px">{{doctor.email}}</td>
+                    <td style="font-size: 20px">
                       {{doctor.doctor__speciality__speciality}}
                     </td>
-                    <td style="font-size: 18px">{{doctor.doctor__fees}}</td>
+                    <td style="font-size: 20px">{{doctor.doctor__fees}}</td>
                     <td>
                       <button
                         type="button"
@@ -122,7 +64,7 @@
         <button
           class="btn text-white float-end"
           style="background-color: #276acf; font-size: 18px"
-          ng-click="exportTableToExcel('appointment', 'appointment')"
+          ng-click="exportTableToExcel('doctor', 'alldoctor')"
         >
           Export to excel
         </button>
@@ -137,11 +79,20 @@
   tabindex="-1"
   aria-labelledby="exampleModalLabel"
   aria-hidden="true"
+  
 >
   <div class="modal-dialog modal-xl modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-body">
-        <div class="col-md-12 mt-5">
+        <div ng-if="!patientDetails || patientDetails.length === 0">
+          <h4
+            class="d-flex justify-content-center blockquote"
+            style="font-size: 32px"
+          >
+            No Patient details Availiable
+          </h4>
+        </div>
+        <div class="col-md-12 mt-5" ng-repeat="doctor in patientDetails">
           <h4
             class="d-flex justify-content-center blockquote"
             style="font-size: 32px"
@@ -151,7 +102,7 @@
           <div class="row mt-3">
             <div class="card-body ms-5">
               <div class="d-flex justify-content-center">
-                <table id="patient" class="table">
+                <table id="patient" class="table" >
                   <thead class="border-success">
                     <tr>
                       <th class="display-1" style="font-size: 30px">S.No</th>
@@ -165,7 +116,7 @@
                     </tr>
                   </thead>
                   <tbody class="border-primary">
-                    <tr ng-repeat="doctor in patientDetails">
+                    <tr>
                       <th>{{$index + 1}}</th>
                       <td style="font-size: 18px">
                         {{doctor.patient_id__user_id__first_name}}

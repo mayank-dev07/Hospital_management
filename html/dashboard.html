@@ -39,7 +39,7 @@
           <div class="offcanvas-body" style="background-color: #fbfbfb">
             <div class="d-flex" ng-repeat="details in leftPanel">
               <div class="col-md-2">
-                <img class="img-thumbnail" src="https://a139-2401-4900-eab-3330-b396-47ff-eff9-172a.ngrok-free.app/media/{{details.panelicon}}" alt="">
+                <img class="img-thumbnail" src="https://10.21.81.64:8000/media/{{details.panelicon}}" alt="">
               </div>
               <a ui-sref="{{details.panelLink}}">
                 <h5 class="p-3">{{ details.panel}}</h5>
@@ -68,12 +68,12 @@
               />
             </form>
           </div>
-          <div class="d-flex col-md-1">
+          <div class="d-flex col-md-1" ng-click="logout()">
             <p class="p-2" style="font-size: 24px">Logout</p>
             <i
               class="bi bi-box-arrow-right"
               style="font-size: 28px"
-              ng-click="logout()"
+              
             ></i>
           </div>
         </nav>
@@ -82,6 +82,7 @@
 
     <div class="col-md-12 mt-3">
       <div class="container-fluid vh-100" ui-view>
+        
         <div>
           
         </div>

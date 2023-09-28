@@ -14,11 +14,6 @@
   <style>
     body {
       background-color: hsl(218, 41%, 15%);
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       background-image: radial-gradient(
           650px circle at 0% 0%,
           hsl(218, 41%, 35%) 15%,
@@ -38,7 +33,7 @@
     }
   </style>
   <body ng-app="myModule" ng-controller="docregController">
-    <div class="container-fluid mt-5"></div>
+    <div class="container-fluid vh-100 d-flex justify-content-center align-items-center">
     <div class="row m-5">
       <div class="col-md-5">
         <h1 class="fw-bold ms-5 p-4 text-white">
@@ -242,6 +237,7 @@
           </div>
         </div>
       </div>
+    </div>
     </div>
   </body>
 </html>

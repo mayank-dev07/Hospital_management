@@ -3,25 +3,25 @@
     <div class="container-fluid col-md-10 mt-5">
       <h4
         class="d-flex justify-content-center blockquote"
-        style="font-size: 32px; color: #276acf"
+        style="font-size: 34px; color: #276acf; text-decoration: underline;"
       >
         Doctor details
       </h4>
       <div class="row mt-3">
         <div class="card-body ms-5">
           <div class="d-flex justify-content-center">
-            <table id="exportable" class="table border-primary">
+            <table id="patientDoctor" class="table border-primary">
               <thead>
                 <tr class="border-success">
-                  <th class="display-1" style="font-size: 30px">S.No</th>
-                  <th class="display-1" style="font-size: 30px">Name</th>
-                  <th class="display-1" style="font-size: 30px">Address</th>
-                  <th class="display-1" style="font-size: 30px">
+                  <th class="fw-bold" style="font-size: 24px">S.No</th>
+                  <th class="fw-bold" style="font-size: 24px">Name</th>
+                  <th class="fw-bold" style="font-size: 24px">Address</th>
+                  <th class="fw-bold" style="font-size: 24px">
                     Qualification
                   </th>
-                  <th class="display-1" style="font-size: 30px">Email</th>
-                  <th class="display-1" style="font-size: 30px">Speciality</th>
-                  <th class="display-1" style="font-size: 30px">Fees</th>
+                  <th class="fw-bold" style="font-size: 24px">Email</th>
+                  <th class="fw-bold" style="font-size: 24px">Speciality</th>
+                  <th class="fw-bold" style="font-size: 24px">Fees</th>
                   <th></th>
                 </tr>
               </thead>
@@ -35,20 +35,20 @@
                                                 }"
                     >
                       <th>{{$index + 1}}</th>
-                      <td style="font-size: 18px">
+                      <td style="font-size: 22px">
                         {{doctor.first_name}} {{doctor.last_name}}
                       </td>
-                      <td style="font-size: 18px">
+                      <td style="font-size: 22px">
                         {{doctor.doctor__address}}
                       </td>
-                      <td style="font-size: 18px">
+                      <td style="font-size: 22px">
                         {{doctor.doctor__qualification__qualification}}
                       </td>
-                      <td style="font-size: 18px">{{doctor.email}}</td>
-                      <td style="font-size: 18px">
+                      <td style="font-size: 22px">{{doctor.email}}</td>
+                      <td style="font-size: 22px">
                         {{doctor.doctor__speciality__speciality}}
                       </td>
-                      <td style="font-size: 18px">{{doctor.doctor__fees}}</td>
+                      <td style="font-size: 22px">{{doctor.doctor__fees}}</td>
                     </tr>
                   </th>
                 </tr>
@@ -58,7 +58,7 @@
           <button
             class="btn text-white float-end btn-primary"
             style="font-size: 18px"
-            ng-click="exportTableToExcel('exportable', 'doctor')"
+            ng-click="exportTableToExcel('patientDoctor', 'patientdoctor')"
           >
             Export to excel
           </button>

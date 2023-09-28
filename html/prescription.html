@@ -1,30 +1,4 @@
-<nav class="navbar container-fluid d-flex justify-content-between">
-  <i
-    class="bi bi-house-door ms-5"
-    style="font-size: 32px"
-    data-bs-toggle="offcanvas"
-    data-bs-target="#offcanvasExample"
-    aria-controls="offcanvasExample"
-  ></i>
-  <div class="col-md-4">
-    <form class="" role="search">
-      <input
-        class="form-control autocomplete-control topbar-search rounded-pill p-2"
-        type="search"
-        placeholder="Search"
-        aria-label="Search"
-        style="background-color: #ccd2d4"
-        ng-model="searchname"
-      />
-    </form>
-  </div>
-  <div class="d-flex col-md-1">
-    <p class="p-2" style="font-size: 24px">Logout</p>
-    <i class="bi bi-box-arrow-right" style="font-size: 28px"></i>
-  </div>
-</nav>
-
-<div class="container-fluid vh-100 d-flex justify-content-center">
+<div class="container-fluid vh-100 d-flex justify-content-center" ng-repeat="detail in prescription">
   <div class="col-md-7 mt-5">
     <p
       class="text-black d-flex justify-content-center fw-bold"
@@ -41,11 +15,11 @@
         <div class="row">
           <div class="col-md-4">
             <p style="font-size: 18px">
-              Patient name: &nbsp; {{ detail.first_name }} {{ detail.last_name}}
+              Patient name: &nbsp; {{ detail.patient_id__user_id__first_name }} {{ detail.patient_id__user_id__last_name}}
             </p>
           </div>
           <div class="col-md-4">
-            <p style="font-size: 18px">Email: &nbsp; {{ detail.email }}</p>
+            <p style="font-size: 18px">Email: &nbsp; {{ detail.patient_id__user_id__email }}</p>
           </div>
           <div class="col-md-2">
             <p style="font-size: 18px">Age: &nbsp; {{ detail.patient__age }}</p>

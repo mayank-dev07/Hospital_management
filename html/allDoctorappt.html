@@ -10,7 +10,7 @@
     <div class="row mt-3">
       <div class="card-body ms-5">
         <div class="d-flex justify-content-center">
-          <table class="table border-primary" id="appointment">
+          <table class="table border-primary" id="appAppointment">
             <thead>
               <tr class="border-success">
                 <th class="display-1" style="font-size: 30px">S.No</th>
@@ -30,25 +30,30 @@
                       }"
               >
                 <th>{{$index + 1}}</th>
-                <td style="font-size: 18px">
+                <td style="font-size: 22px">
                   {{ doctor.patient_id__user_id__first_name }} {{
                   doctor.patient_id__user_id__last_name }}
                 </td>
-                <td style="font-size: 18px">
+                <td style="font-size: 22px">
                   {{doctor.patient_id__user_id__email}}
                 </td>
-                <td style="font-size: 18px">{{doctor.patient_id__Phone}}</td>
-                <td style="font-size: 18px">{{doctor.patient_id__address}}</td>
-                <td style="font-size: 18px">{{doctor.patient_id__age}}</td>
-                <td style="font-size: 18px">{{doctor.patient_id__gender}}</td>
-                <td>
-                  <button
-                    class="btn btn-primary"
-                    ng-click="view(doctor.id)"
-                    style="font-size: 18px"
-                  >
-                    Prescription
-                  </button>
+                <td style="font-size: 22px">{{doctor.patient_id__Phone}}</td>
+                <td style="font-size: 22px">{{doctor.patient_id__address}}</td>
+                <td style="font-size: 22px">{{doctor.patient_id__age}}</td>
+                <td style="font-size: 22px">{{doctor.patient_id__gender}}</td>
+                <td ng-if="!doctor.prescription_status">
+                  <button class="btn btn-primary"
+ng-click="view(doctor.id)"
+style="font-size: 18px" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+   Prescription
+</button>
+                </td>
+                <td ng-if="doctor.prescription_status">
+                  <button class="btn btn-primary"
+                  ng-click="download(doctor.id)"
+style="font-size: 18px">
+   Download
+</button>
                 </td>
               </tr>
             </tbody>
@@ -57,10 +62,206 @@
         <button
           class="btn text-white float-end"
           style="background-color: #276acf; font-size: 18px"
-          ng-click="exportTableToExcel('appointment', 'appointment')"
+          ng-click="exportTableToExcel('appAppointment', 'appAppointment')"
         >
           Export to excel
         </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid d-flex justify-content-center" ng-repeat="detail in prescription"  >
+            <div class="col-md-12 mt-3">
+            <p
+            class="text-black fw-bold d-flex justify-content-center"
+            style="font-size: 32px"
+            >
+            Prescription
+            </p>
+            <hr class="border border-warning border-3 opacity-50 mt-3" />
+
+            <p class="d-flex justify-content-center" style="font-size: 26px; text-decoration: underline; ">
+              Patient's &nbsp; Details
+            </p>
+            <div class="card-body m-3">
+              <div class="row d-flex justify-content-evenly p-3">
+                <div class="row">
+                  <div class="col-md-6">
+                    <p style="font-size: 20px">
+                      <span class="fw-bold text-info-emphasis" style="font-size: 22px;">
+                      Patient name:
+                    </span>
+                     &nbsp; {{ detail.patient_id__user_id__first_name }} {{ detail.patient_id__user_id__last_name}}
+                    </p>
+                  </div>
+                  <div class="col-md-6">
+                    <p style="font-size: 20px">
+                      <span class="fw-bold text-info-emphasis" style="font-size: 22px;">
+                      
+                      Email:
+                      </span> &nbsp; {{ detail.patient_id__user_id__email }}</p>
+                  </div>
+                 
+                  <div class="row mt-4">
+                    <div class="col-md-4">
+                    <p style="font-size: 20px">
+                      <span class="fw-bold text-info-emphasis" style="font-size: 22px;">
+
+                      Address: 
+                      </span>&nbsp; {{ detail.patient_id__address }}
+                    </p>
+                  </div>
+                  <div class="col-md-4">
+                    <p style="font-size: 20px">
+                      <span class="fw-bold text-info-emphasis" style="font-size: 22px;">
+
+                      Phone: </span>&nbsp; {{ detail.patient_id__Phone }}
+                    </p>
+                  </div>
+                  <div class="col-md-2">
+                    <p style="font-size: 20px">
+                      <span class="fw-bold text-info-emphasis" style="font-size: 22px;">
+                        Age:</span> &nbsp; {{ detail.patient_id__age}}</p>
+                  </div>
+                  <div class="col-md-2">
+                    <p style="font-size: 20px">
+                      <span class="fw-bold text-info-emphasis" style="font-size: 22px;">
+                        Sex:</span> &nbsp; {{ detail.patient_id__gender }}
+                    </p>
+                  </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr class="border border-danger border-3 opacity-50 mt-3" />
+            <p class="d-flex justify-content-center" style="font-size: 26px; text-decoration: underline;">
+              Medical Details
+            </p>
+            <div class="row mt-5 d-flex justify-content-evenly" ng-controller="prescriptionController">
+              <div class="col-md-5">
+                <p style="font-size: 20px">
+                  <span class="fw-bold text-info-emphasis" style="font-size: 22px;">
+
+                  Suffering From: 
+                  </span>&nbsp; {{ detail.medicalhistory__disease }}
+                </p>
+              </div>
+              <div class="col-md-5">
+                <p style="font-size: 20px">
+                  <span class="fw-bold text-info-emphasis" style="font-size: 22px;">
+
+                  Current Symptoms: 
+                  </span>&nbsp; {{ detail.medicalhistory__symptoms}}
+                </p>
+              </div>
+        
+              <div class="d-flex justify-content-evenly mt-3">
+                <div class="col-md-3">
+                  <label for="exampleInputEmail1" class="form-label" style="font-size: 20px;">Medicine</label>
+                  <input
+                    type="text"
+                    class="p-2 form-control border border-black"
+                    id="exampleInputEmail1"
+                    aria-describedby="emailHelp"
+                    ng-model="medicine"
+                    placeholder=" Enter NA if none"
+                  />
+                </div>
+                <div class="col-md-3">
+                  <label for="exampleInputEmail1" class="form-label" style="font-size: 20px;">Dosage</label>
+                  <input
+                    type="text"
+                    class="p-2 form-control border border-black"
+                    id="exampleInputEmail1"
+                    aria-describedby="emailHelp"
+                    ng-model="dosage"
+                    placeholder=" Enter NA if none"
+                  />
+                </div>
+                <div class="col-md-3">
+                  <label for="exampleInputEmail1" class="form-label" style="font-size: 20px;">Purpose</label>
+                  <input
+                    type="text"
+                    class="p-2 form-control border border-black"
+                    id="exampleInputEmail1"
+                    aria-describedby="emailHelp"
+                    ng-model="Purpose"
+                    placeholder=" Enter NA if none"
+                  />
+                </div>
+                <button
+                  class="btn text-white float-end mt-4 btn-danger"
+                  ng-click="add()"
+                >
+                  <i class="bi bi-file-earmark-plus" style="font-size: 22px"></i>
+                </button>
+              </div>    
+              <div class="d-flex justify-content-evenly mt-2" ng-repeat="prescription in prescriptions">
+                <div class="col-md-3">
+                  <label class="form-label">Medicine</label>
+                  <input type="text" class="p-2 form-control border border-black" ng-model="prescription.medicine"/>
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Dosage</label>
+                  <input type="text" class="p-2 form-control border border-black" ng-model="prescription.dosage"/>
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Purpose</label>
+                  <input type="text" class="p-2 form-control border border-black" ng-model="prescription.Purpose" />
+                </div>
+                <button class="btn text-white float-end mt-4 btn-danger" ng-click="del($index)">
+                  <i class="bi bi-trash" style="font-size: 24px"></i>
+                </button>
+              </div>
+              
+        
+              
+        
+              <div class="card-body m-3">
+                <hr class="border border-primary border-3 opacity-50 mt-3"> </hr>
+                <p class="d-flex justify-content-center" style="font-size: 26px; text-decoration: underline;">
+                  Doctor Details
+                </p>
+                <div class="row d-flex justify-content-evenly mt-4">
+                  <div class="col-md-5">
+                    <p style="font-size: 20px">
+                  <span class="fw-bold text-info-emphasis" style="font-size: 22px;">
+                      Doctor name:
+                      </span> &nbsp; {{ detail.doctor_id__user_id__first_name }} {{ detail.doctor_id__user_id__last_name}}
+                    </p>
+                  </div>
+                  <div class="col-md-6">
+                    <p style="font-size: 20px">
+                      <span class="fw-bold text-info-emphasis" style="font-size: 22px;">
+                        Doctor Email: 
+                      </span>&nbsp; {{ detail.doctor_id__user_id__email }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+        
+              <div class="d-flex justify-content-center mb-5 mt-4">
+                <button
+                  class="btn btn-primary text-white"
+                  style="font-size: 20px"
+                  ng-click="confirm()"
+                  data-bs-dismiss="modal"
+                >
+                  Submit Prescription
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
       </div>
     </div>
   </div>
