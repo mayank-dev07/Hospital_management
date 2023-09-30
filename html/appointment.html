@@ -60,7 +60,26 @@
               Doctor's &nbsp; Details
             </p>
             <div class="row">
-              <div class="col-md-12">
+              <div class="col-md-6">
+                <div class="input-group mt-4">
+                  <label
+                    class="input-group-text p-2 border-success"
+                    for="inputGroupSelect01"
+                    >Choose Department
+                  </label>
+                  <select
+                    class="form-select border-success"
+                    id="inputGroupSelect01"
+                    ng-model="doc"
+                    ng-options="doctor as doctor.speciality for doctor in doctors"
+                    ng-click="department(doc.id)"
+                    placeholder="choose department"
+                  >
+                    <option value="">Choose a Department</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6">
                 <div class="input-group mt-4">
                   <label
                     class="input-group-text p-2 border-success"
@@ -70,8 +89,9 @@
                   <select
                     class="form-select border-success"
                     id="inputGroupSelect01"
-                    ng-model="doc"
-                    ng-options="doctor as doctor.first_name for doctor in doctors"
+                    ng-model="doct"
+                    ng-options="doctor as doctor.user_id__first_name for doctor in select"
+                    placeholder="choose doctor"
                   >
                     <option value="">Choose a Doctor</option>
                   </select>
@@ -86,12 +106,14 @@
                 >
                 <input
                   type="date"
+                  
                   name="textInput"
                   class="form-control form-control border-success"
                   placeholder="Enter date"
                   id="textInput"
                   aria-describedby="emailHelp"
                   ng-model="appDate"
+                  min="{{ getCurrentDate() }}" 
                 />
               </div>
               <div class="col-md-6">

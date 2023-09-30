@@ -1,14 +1,14 @@
 <div class="col-md-12 mt-5">
-  <div class="col-md-2"></div>
+  <!-- <div class="col-md-2"></div> -->
   <div class="container-fluid col-md-10 mt-5">
     <h4
       class="d-flex justify-content-center blockquote"
       style="font-size: 32px; color: #276acf"
     >
-      Appointments details
+      Prescriptions details
     </h4>
     <div class="row mt-3">
-      <div class="card-body ms-5">
+      <div class="card-body ">
         <div class="d-flex justify-content-center">
           <table class="table border-primary" id="appAppointment">
             <thead>
@@ -24,9 +24,71 @@
               </tr>
             </thead>
             <tbody>
+              <tr>
+                <!-- <td></td>
+                <td>
+                <input
+                class="border border-black p-2 "
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+                ng-model="searchname"
+              />
+            </td><td>
+              <input
+              class="border border-black p-2 "
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+          
+              ng-model="searchemail"
+            />
+          </td><td>
+            <input
+            class="border border-black p-2 "
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+    
+            ng-model="searchphone"
+          />
+        </td><td>
+          <input
+          class="border border-black p-2 "
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+  
+          ng-model="searchaddress"
+        />
+      </td><td>
+        <input
+        class="border border-black p-2 "
+        type="search"
+        placeholder="Search"
+        aria-label="Search"
+
+        ng-model="searchage"
+      />
+    </td><td>
+      <input
+      class="border border-black p-2 "
+      type="search"
+      placeholder="Search"
+      aria-label="Search"
+      ng-model="searchgender"
+    />
+  </td>
+
+              </tr> -->
               <tr
                 ng-repeat="doctor in appointments| filter: { 
                         patient_id__user_id__first_name : searchname ,
+                        patient_id__user_id__email : searchemail,
+                        patient_id__Phone : searchphone,
+                        patient_id__address :searchaddress,
+                        patient_id__age : searchage,
+                        patient_id__gender : searchgender
                       }"
               >
                 <th>{{$index + 1}}</th>
@@ -49,11 +111,7 @@ style="font-size: 18px" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
 </button>
                 </td>
                 <td ng-if="doctor.prescription_status">
-                  <button class="btn btn-primary"
-                  ng-click="download(doctor.id)"
-style="font-size: 18px">
-   Download
-</button>
+                  <i class="bi bi-check2-square" style="font-size: 24px;"></i>
                 </td>
               </tr>
             </tbody>

@@ -92,7 +92,7 @@
             No Patient details Availiable
           </h4>
         </div>
-        <div class="col-md-12 mt-5" ng-repeat="doctor in patientDetails">
+        <div class="col-md-12 mt-5"  ng-if=" patientDetails.length != 0">
           <h4
             class="d-flex justify-content-center blockquote"
             style="font-size: 32px"
@@ -116,11 +116,11 @@
                     </tr>
                   </thead>
                   <tbody class="border-primary">
-                    <tr>
+                    <tr ng-repeat="doctor in patientDetails">
                       <th>{{$index + 1}}</th>
                       <td style="font-size: 18px">
                         {{doctor.patient_id__user_id__first_name}}
-                        {{doctor.last_name}}
+                        {{doctor.patient_id__user_id__last_name}}
                       </td>
                       <td style="font-size: 18px">
                         {{doctor.patient__address}}

@@ -70,10 +70,25 @@ myApp.config([
         templateUrl: "/html/prescription.html",
         controller: "prescriptionController",
       })
+      .state("dashboard.prescriptionDetails", {
+        url: "/prescriptionDetails",
+        templateUrl: "/html/prescriptionDetails.html",
+        controller: "prescriptionDetailsController",
+      })
       .state("dashboard.patientDoc", {
         url: "/patientDoc",
         templateUrl: "/html/patientDoc.html",
         controller: "patientDocController",
+      })
+      .state("dashboard.patientPrescription", {
+        url: "/patientPrescription",
+        templateUrl: "/html/patientPrescription.html",
+        controller: "patientPrescriptionController",
+      })
+      .state("dashboard.patientPrecDetails", {
+        url: "/patientPrecDetails",
+        templateUrl: "/html/patientPrecDetails.html",
+        controller: "patientPrecDetailsController",
       })
       .state("dashboard.allDoctorappt", {
         url: "/allDoctorappt",
@@ -85,8 +100,7 @@ myApp.config([
   },
 ]);
 
-const apiUrl =
-  "https://e683-2401-4900-c12-2ce6-2cbd-8981-dc7f-f58b.ngrok-free.app/";
+const apiUrl = "https://10.21.84.81:8000";
 
 myApp.controller("registrationController", [
   "$scope",
@@ -123,7 +137,7 @@ myApp.controller("registrationController", [
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: "Enter all Details!",
+          text: "Enter all Details Correctly!",
         });
       } else if (data.Email == null) {
         Swal.fire({
@@ -157,10 +171,10 @@ myApp.controller("registrationController", [
               }
             })
             .catch(function (error) {
-              console.log(error);
+              console.log(error.data);
               Swal.fire({
                 icon: "error",
-                text: error,
+                text: error.data.message,
               });
             });
         } else {
@@ -192,10 +206,10 @@ myApp.controller("docregController", [
         console.log($scope.doctors);
       })
       .catch(function (error) {
-        console.log(error);
+        console.log(error.data);
         Swal.fire({
           icon: "error",
-          text: error,
+          text: error.data.message,
         });
       });
 
@@ -220,12 +234,18 @@ myApp.controller("docregController", [
       console.log(data);
       if (
         data.firstName == null ||
+        data.firstName == "" ||
         data.lastName == null ||
+        data.lastName == "" ||
         data.Phone == null ||
         data.Address == null ||
+        data.Address == "" ||
         data.userName == null ||
+        data.userName == "" ||
         data.Qualification == null ||
-        data.Speciality == null
+        data.Qualification == "" ||
+        data.Speciality == null ||
+        data.Speciality == ""
       ) {
         Swal.fire({
           icon: "error",
@@ -264,7 +284,7 @@ myApp.controller("docregController", [
               }
             })
             .catch(function (error) {
-              console.log(error);
+              console.log(error.data);
               Swal.fire({
                 icon: "error",
                 text: "There is an error!",
@@ -300,14 +320,17 @@ myApp.controller("loginController", [
         username: $scope.loginName,
         password: $scope.loginPassword,
       };
-      console.log(login);
-      if (login.username == null) {
+      console.log(login.username);
+      if (
+        login.username == null ||
+        login.username == "" ||
+        login.password == ""
+      ) {
         Swal.fire({
           icon: "error",
-          text: "enter all details!",
+          text: "Enter all details!",
         });
-      }
-      if (login.password == null) {
+      } else if (login.username != null && login.password == null) {
         Swal.fire({
           icon: "error",
           title: "Enter valid password!",
@@ -325,10 +348,10 @@ myApp.controller("loginController", [
             $location.path("/dashboard");
           })
           .catch(function (error) {
-            console.log(error);
+            console.log(error.data);
             Swal.fire({
               icon: "error",
-              text: error,
+              text: error.data.message,
             });
           });
       }
@@ -352,8 +375,6 @@ function exportToExcel(tableId, fileName) {
   document.body.removeChild(a);
 }
 
-var patientId = "";
-
 myApp.controller("dashboardController", [
   "$http",
   "$scope",
@@ -373,10 +394,10 @@ myApp.controller("dashboardController", [
         $scope.showcarousel = true;
       })
       .catch(function (error) {
-        console.log(error);
+        console.log(error.data);
         Swal.fire({
           icon: "error",
-          text: error,
+          text: error.data.message,
         });
       });
 
@@ -418,7 +439,7 @@ myApp.controller("appointmentController", [
   function ($scope, $http, $location) {
     $scope.loader = true;
     $http
-      .get(apiUrl + "/hospitalapp/patientdashboard/", {
+      .get(apiUrl + "/hospitalapp/register/", {
         withCredentials: true,
       })
       .then(function (response) {
@@ -427,12 +448,32 @@ myApp.controller("appointmentController", [
         $scope.loader = false;
       })
       .catch(function (error) {
-        console.log(error);
+        console.log(error.data);
         Swal.fire({
           icon: "error",
-          text: error,
+          text: error.data.message,
         });
       });
+
+    $scope.department = function (id) {
+      console.log(id);
+      $http
+        .get(apiUrl + "/hospitalapp/dependentDropdown/", {
+          withCredentials: true,
+          params: { id: id },
+        })
+        .then(function (response) {
+          console.log(response);
+          $scope.select = response.data;
+        })
+        .catch(function (error) {
+          console.log(error.data);
+          Swal.fire({
+            icon: "error",
+            text: error.data.message,
+          });
+        });
+    };
 
     $http
       .get(apiUrl + "/hospitalapp/patientprofile", {
@@ -443,17 +484,25 @@ myApp.controller("appointmentController", [
         $scope.details = response.data;
       })
       .catch(function (error) {
-        console.log(error);
+        console.log(error.data);
         Swal.fire({
           icon: "error",
-          text: error,
+          text: error.data.message,
         });
       });
+
+    $scope.getCurrentDate = function () {
+      var currentDate = new Date();
+      var year = currentDate.getFullYear();
+      var month = String(currentDate.getMonth() + 1).padStart(2, "0");
+      var day = String(currentDate.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    };
 
     $scope.confirm = function () {
       console.log("appointment");
       let data = {
-        doc_id: $scope.doc.doctor__id,
+        doc_id: $scope.doct.id,
         time: $scope.appointmentTime,
         date: formatDate($scope.appDate),
         disease: $scope.appointmentDisease,
@@ -462,8 +511,8 @@ myApp.controller("appointmentController", [
         alcohol: $scope.alcohol,
       };
       console.log(data);
-      function formatDate(dateString) {
-        var date = new Date(dateString);
+      function formatDate(date) {
+        var date = new Date(date);
         var year = date.getFullYear();
         var month = String(date.getMonth() + 1).padStart(2, "0");
         var day = String(date.getDate()).padStart(2, "0");
@@ -472,6 +521,8 @@ myApp.controller("appointmentController", [
 
       console.log(data);
       if (
+        data.doc_id == null ||
+        data.doc_id == "" ||
         data.time == null ||
         data.date == null ||
         data.disease == "" ||
@@ -509,10 +560,10 @@ myApp.controller("appointmentController", [
             $location.path("/dashboard");
           })
           .catch(function (error) {
-            console.log(error);
+            console.log(error.data);
             Swal.fire({
               icon: "error",
-              text: error,
+              text: error.data.message,
             });
           });
       }
@@ -522,6 +573,7 @@ myApp.controller("appointmentController", [
     };
   },
 ]);
+
 myApp.controller("mainController", [
   "$scope",
   "$http",
@@ -541,10 +593,10 @@ myApp.controller("mainController", [
         $scope.details = response.data;
       })
       .catch(function (error) {
-        console.log(error);
+        console.log(error.data);
         Swal.fire({
           icon: "error",
-          text: error,
+          text: error.data.message,
         });
       });
 
@@ -571,10 +623,10 @@ myApp.controller("showAppointmentsController", [
         $scope.loader = false;
       })
       .catch(function (error) {
-        console.log(error);
+        console.log(error.data);
         Swal.fire({
           icon: "error",
-          text: error,
+          text: error.data.message,
         });
       });
     $http
@@ -584,7 +636,7 @@ myApp.controller("showAppointmentsController", [
       .then(function (response) {
         console.log(response.data);
         $scope.details = response.data;
-        patientId = $scope.details[0].patient__id;
+        var patientId = $scope.details[0].patient__id;
         console.log(patientId);
         $http
           .get(apiUrl + "/hospitalapp/patientAppointments/", {
@@ -604,18 +656,18 @@ myApp.controller("showAppointmentsController", [
             }
           })
           .catch(function (error) {
-            console.log(error);
+            console.log(error.data);
             Swal.fire({
               icon: "error",
-              text: error,
+              text: error.data.message,
             });
           });
       })
       .catch(function (error) {
-        console.log(error);
+        console.log(error.data);
         Swal.fire({
           icon: "error",
-          text: error,
+          text: error.data.message,
         });
       });
 
@@ -637,7 +689,7 @@ myApp.controller("showAppointmentsController", [
           });
         })
         .catch(function (error) {
-          console.log(error);
+          console.log(error.data);
         });
     };
   },
@@ -657,10 +709,10 @@ myApp.controller("patientDocController", [
         $scope.doctorDetails = response.data;
       })
       .catch(function (error) {
-        console.log(error);
+        console.log(error.data);
         Swal.fire({
           icon: "error",
-          text: error,
+          text: error.data.message,
         });
       });
     $scope.exportTableToExcel = function (id, name) {
@@ -725,18 +777,18 @@ myApp.controller("recAppointmentController", [
                   }
                 })
                 .catch(function (error) {
-                  console.log(error);
+                  console.log(error.data);
                   Swal.fire({
                     icon: "error",
-                    text: error,
+                    text: error.data.message,
                   });
                 });
             })
             .catch(function (error) {
-              console.log(error);
+              console.log(error.data);
               Swal.fire({
                 icon: "error",
-                text: error,
+                text: error.data.message,
               });
             });
         };
@@ -791,30 +843,34 @@ myApp.controller("recAppointmentController", [
                     $scope.appointment = true;
                   })
                   .catch(function (error) {
-                    console.log(error);
+                    console.log(error.data);
                     Swal.fire({
                       icon: "error",
-                      text: error,
+                      text: error.data.message,
                     });
                   });
               })
               .catch(function (error) {
-                console.log(error);
+                console.log(error.data);
                 Swal.fire({
                   icon: "error",
-                  text: error,
+                  text: error.data.message,
                 });
               });
           });
         };
       })
       .catch(function (error) {
-        console.log(error);
+        console.log(error.data);
         Swal.fire({
           icon: "error",
-          text: error,
+          text: error.data.message,
         });
       });
+
+    $scope.exportTableToExcel = function (id, name) {
+      exportToExcel(id, name);
+    };
   },
 ]);
 
@@ -836,7 +892,7 @@ myApp.controller("doctorController", [
         $scope.doctorDetails = response.data;
       })
       .catch(function (error) {
-        console.log(error);
+        console.log(error.data);
       });
 
     $scope.exportTableToExcel = function (id, name) {
@@ -858,7 +914,7 @@ myApp.controller("doctorController", [
           }
         })
         .catch(function (error) {
-          console.log(error);
+          console.log(error.data);
         });
     };
   },
@@ -895,11 +951,11 @@ myApp.controller("docprofileController", [
             }
           })
           .catch(function (error) {
-            console.log(error);
+            console.log(error.data);
           });
       })
       .catch(function (error) {
-        console.log(error);
+        console.log(error.data);
       });
     $scope.view = function (id) {
       console.log(id);
@@ -951,15 +1007,15 @@ myApp.controller("docprofileController", [
                       }
                     })
                     .catch(function (error) {
-                      console.log(error);
+                      console.log(error.data);
                     });
                 })
                 .catch(function (error) {
-                  console.log(error);
+                  console.log(error.data);
                 });
             })
             .catch(function (error) {
-              console.log(error);
+              console.log(error.data);
             });
         } else if (result.isDenied) {
           console.log(id);
@@ -1020,89 +1076,99 @@ myApp.controller("docprofileController", [
                         }
                       })
                       .catch(function (error) {
-                        console.log(error);
+                        console.log(error.data);
                       });
                   })
                   .catch(function (error) {
-                    console.log(error);
+                    console.log(error.data);
                   });
               })
               .catch(function (error) {
-                console.log(error);
+                console.log(error.data);
                 Swal.fire({
                   icon: "error",
-                  text: error,
+                  text: error.data.message,
                 });
               });
           });
         } else if (result.dismiss == "cancel") {
-          Swal.fire({
-            title: "Login Form",
-            html: `<input type="date" id="date" class="swal2-input" placeholder="Username">
-            <input type="time" id="time" class="swal2-input" placeholder="time">`,
-            confirmButtonText: "Update",
-            focusConfirm: false,
-            preConfirm: () => {
-              const date = Swal.getPopup().querySelector("#date").value;
-              const time = Swal.getPopup().querySelector("#time").value;
-              if (!date || !time) {
-                Swal.showValidationMessage(`Please enter Date and Time`);
-              }
-              return { date: date, time: time };
-            },
-          }).then((result) => {
-            let date = result.value.date;
-            let time = result.value.time;
-            let data = {
-              date: date,
-              time: time,
-              id: id,
-            };
-            $scope.loader = true;
+          const doctor = $scope.appointments.find(
+            (appointment) => appointment.id === id
+          );
+          console.log(doctor);
+          if (doctor) {
+            let date = doctor.date;
+            let time = doctor.time;
+            Swal.fire({
+              title: "Update Appointment",
+              html: `<div style="display: flex-column; justify-content: space-between;">
+              <input type="date" id="date" class="swal2-input" placeholder="Date" style="flex: 1;" value="${date}">
+              <input type="time" id="time" class="swal2-input" placeholder="Time" style="flex: 1;" value="${time}">
+            </div>`,
+              confirmButtonText: "Update",
+              focusConfirm: false,
+              preConfirm: () => {
+                const date = Swal.getPopup().querySelector("#date").value;
+                const time = Swal.getPopup().querySelector("#time").value;
+                if (!date || !time) {
+                  Swal.showValidationMessage(`Please enter Date and Time`);
+                }
+                return { date: date, time: time };
+              },
+            }).then((result) => {
+              let date = result.value.date;
+              let time = result.value.time;
+              let data = {
+                date: date,
+                time: time,
+                id: id,
+              };
+              $scope.loader = true;
 
-            $http
-              .post(apiUrl + "/hospitalapp/updateApptDoctor/", data, {
-                withCredentials: true,
-              })
-              .then(function (response) {
-                console.log(response);
-                $http
-                  .get(apiUrl + "/hospitalapp/doctorProfile/", {
-                    withCredentials: true,
-                  })
-                  .then(function (response) {
-                    console.log(response);
-                    $scope.doctorProfile = response.data;
-                    let id = $scope.doctorProfile[0].doctor__id;
-                    console.log(id);
-                    $http
-                      .get(apiUrl + "/hospitalapp/pendingAppointment/", {
-                        withCredentials: true,
-                        params: { id: id },
-                      })
-                      .then(function (response) {
-                        console.log(response);
-                        $scope.appointments = response.data;
-                        $scope.loader = false;
+              $http
+                .post(apiUrl + "/hospitalapp/updateApptDoctor/", data, {
+                  withCredentials: true,
+                })
+                .then(function (response) {
+                  console.log(response);
+                  $http
+                    .get(apiUrl + "/hospitalapp/doctorProfile/", {
+                      withCredentials: true,
+                    })
+                    .then(function (response) {
+                      console.log(response);
+                      $scope.doctorProfile = response.data;
+                      let id = $scope.doctorProfile[0].doctor__id;
+                      console.log(id);
+                      $http
+                        .get(apiUrl + "/hospitalapp/pendingAppointment/", {
+                          withCredentials: true,
+                          params: { id: id },
+                        })
+                        .then(function (response) {
+                          console.log(response);
+                          $scope.appointments = response.data;
+                          $scope.loader = false;
 
-                        if ($scope.appointments.length == 0) {
-                          $scope.pending = true;
-                        } else {
-                          $scope.appointment = true;
-                        }
-                      })
-                      .catch(function (error) {
-                        console.log(error);
-                      });
-                  })
-                  .catch(function (error) {
-                    console.log(error);
-                  });
-              })
-              .catch(function (error) {
-                console.log(error);
-              });
-          });
+                          if ($scope.appointments.length == 0) {
+                            $scope.pending = true;
+                          } else {
+                            $scope.appointment = true;
+                          }
+                        })
+                        .catch(function (error) {
+                          console.log(error.data);
+                        });
+                    })
+                    .catch(function (error) {
+                      console.log(error.data);
+                    });
+                })
+                .catch(function (error) {
+                  console.log(error.data);
+                });
+            });
+          }
         }
       });
     };
@@ -1134,10 +1200,10 @@ myApp.controller("patientController", [
         $scope.patientDetails = response.data;
       })
       .catch(function (error) {
-        console.log(error);
+        console.log(error.data);
         Swal.fire({
           icon: "error",
-          text: error,
+          text: error.data.message,
         });
       });
     $scope.approve = function (id) {
@@ -1176,11 +1242,19 @@ myApp.controller("docPatientController", [
             }
           })
           .catch(function (error) {
-            console.log(error);
+            console.log(error.data);
+            Swal.fire({
+              icon: "error",
+              text: error.data.message,
+            });
           });
       })
       .catch(function (error) {
-        console.log(error);
+        console.log(error.data);
+        Swal.fire({
+          icon: "error",
+          text: error.data.message,
+        });
       });
 
     $scope.exportTableToExcel = function (id, name) {
@@ -1197,8 +1271,8 @@ myApp.controller("allDoctorapptController", [
   "$http",
   "$location",
   "sharedDataService",
-  "$window",
-  function ($scope, $http, $location, sharedDataService, $window) {
+  "$rootScope",
+  function ($scope, $http, $location, sharedDataService, $rootScope) {
     $http
       .get(apiUrl + "/hospitalapp/identifyDoctor/", {
         withCredentials: true,
@@ -1225,11 +1299,19 @@ myApp.controller("allDoctorapptController", [
             }
           })
           .catch(function (error) {
-            console.log(error);
+            console.log(error.data);
+            Swal.fire({
+              icon: "error",
+              text: error.data.message,
+            });
           });
       })
       .catch(function (error) {
-        console.log(error);
+        console.log(error.data);
+        Swal.fire({
+          icon: "error",
+          text: error.data.message,
+        });
       });
 
     $scope.exportTableToExcel = function (id, name) {
@@ -1246,14 +1328,18 @@ myApp.controller("allDoctorapptController", [
         })
         .then(function (response) {
           console.log(response.data);
-          $scope.prescription = response.data;
+          $scope.prescription = response.data.allDetails;
         })
         .catch(function (error) {
-          console.log(error);
+          console.log(error.data);
+          Swal.fire({
+            icon: "error",
+            text: error.data.message,
+          });
         });
     };
 
-    $scope.$on("prescriptionSubmitted", function () {
+    $rootScope.$on("prescriptionSubmitted", function () {
       $http
         .get(apiUrl + "/hospitalapp/identifyDoctor/", {
           withCredentials: true,
@@ -1280,29 +1366,21 @@ myApp.controller("allDoctorapptController", [
               }
             })
             .catch(function (error) {
-              console.log(error);
+              console.log(error.data);
+              Swal.fire({
+                icon: "error",
+                text: error.data.message,
+              });
             });
         })
         .catch(function (error) {
-          console.log(error);
+          console.log(error.data);
+          Swal.fire({
+            icon: "error",
+            text: error.data.message,
+          });
         });
     });
-
-    $scope.download = function (id) {
-      console.log(id);
-      $http
-        .get(apiUrl + "/hospitalapp/generate_pdf_response/", {
-          withCredentials: true,
-          params: { id: id },
-          responseType: "arraybuffer",
-        })
-        .then(function (response) {
-          console.log(response);
-          var blob = new Blob([response.data], { type: "application/pdf" });
-          var objectUrl = URL.createObjectURL(blob);
-          $window.open(objectUrl);
-        });
-    };
   },
 ]);
 
@@ -1374,7 +1452,11 @@ myApp.controller("prescriptionController", [
             });
           })
           .catch(function (error) {
-            console.log(error);
+            console.log(error.data);
+            Swal.fire({
+              icon: "error",
+              text: error.data.message,
+            });
           });
       } else {
         Swal.fire({
@@ -1383,6 +1465,208 @@ myApp.controller("prescriptionController", [
         });
       }
       $scope.prescriptions = [];
+    };
+  },
+]);
+
+myApp.controller("patientPrescriptionController", [
+  "$scope",
+  "$http",
+  "$location",
+  "$window",
+  "sharedDataService",
+  function ($scope, $http, $location, $window, sharedDataService) {
+    $http
+      .get(apiUrl + "/hospitalapp/patientPrescription/", {
+        withCredentials: true,
+      })
+      .then(function (response) {
+        console.log(response);
+        $scope.prescriptions = response.data;
+        if ($scope.prescriptions.length == 0) {
+          $location.path("/dashboard");
+          Swal.fire({
+            icon: "error",
+            text: "No prescription to show",
+          });
+        }
+      })
+      .catch(function (error) {
+        console.log(error.data);
+        Swal.fire({
+          icon: "error",
+          text: error.data.message,
+        });
+        $location.path("/dashboard");
+      });
+
+    $scope.bill = function (id) {
+      console.log(id);
+      $http
+        .get(apiUrl + "/hospitalapp/generate_pdf_response/", {
+          withCredentials: true,
+          params: { id: id },
+          responseType: "arraybuffer",
+        })
+        .then(function (response) {
+          console.log(response);
+          var blob = new Blob([response.data], { type: "application/pdf" });
+          var objectUrl = URL.createObjectURL(blob);
+          $window.open(objectUrl);
+        })
+        .catch(function (error) {
+          console.log(error);
+          Swal.fire({
+            icon: "error",
+            text: error.data.message,
+          });
+        });
+    };
+
+    $scope.prescription = function (id) {
+      console.log(id);
+      sharedDataService.setId(id);
+      $location.path("/dashboard/prescriptionDetails");
+    };
+  },
+]);
+
+myApp.controller("prescriptionDetailsController", [
+  "$scope",
+  "$http",
+  "$location",
+  "$window",
+  "sharedDataService",
+  function ($scope, $http, $location, $window, sharedDataService) {
+    var id = sharedDataService.getId();
+    console.log(id);
+    if (id == null) {
+      $location.path("/dashboard/patientPrescription");
+    } else {
+      $http
+        .get(apiUrl + "/hospitalapp/prescriptionDetails/", {
+          withCredentials: true,
+          params: { id: id },
+        })
+        .then(function (response) {
+          console.log(response.data);
+          $scope.allDetails = response.data.allDetails;
+          $scope.medication = response.data.medicineDetails;
+        })
+        .catch(function (error) {
+          console.log(error);
+          Swal.fire({
+            icon: "error",
+            text: error.data.message,
+          });
+        });
+
+      $scope.print = function () {
+        const data = document.getElementById("patientPrescription");
+        const display = window.open("", "_blank");
+        display.document.write(data.innerHTML);
+        display.document.close();
+        display.focus();
+        display.print();
+        display.close();
+      };
+    }
+  },
+]);
+
+myApp.controller("patientPrecDetailsController", [
+  "$scope",
+  "$http",
+  "$location",
+  "$window",
+  "sharedDataService",
+  function ($scope, $http, $location, $window, sharedDataService) {
+    $http
+      .get(apiUrl + "/hospitalapp/recpstPrescription/", {
+        withCredentials: true,
+      })
+      .then(function (response) {
+        console.log(response);
+        $scope.recstPrescription = response.data;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+    $scope.bill = function (id) {
+      console.log(id);
+      $http
+        .get(apiUrl + "/hospitalapp/presStatus/", {
+          withCredentials: true,
+          params: { id: id },
+        })
+        .then(function (response) {
+          console.log(response);
+          if (response.data[0].prescription_status) {
+            console.log("bill");
+            $http
+              .get(apiUrl + "/hospitalapp/generate_pdf_response/", {
+                withCredentials: true,
+                params: { id: id },
+                responseType: "arraybuffer",
+              })
+              .then(function (response) {
+                console.log(response);
+                var blob = new Blob([response.data], {
+                  type: "application/pdf",
+                });
+                var objectUrl = URL.createObjectURL(blob);
+                $window.open(objectUrl);
+              })
+              .catch(function (error) {
+                console.log(error);
+                Swal.fire({
+                  icon: "error",
+                  text: error.data.message,
+                });
+              });
+          } else {
+            Swal.fire({
+              icon: "error",
+              text: "No bill found",
+            });
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+          Swal.fire({
+            icon: "error",
+            text: error.data.message,
+          });
+        });
+    };
+
+    $scope.prescription = function (id) {
+      console.log(id);
+      $http
+        .get(apiUrl + "/hospitalapp/presStatus/", {
+          withCredentials: true,
+          params: { id: id },
+        })
+        .then(function (response) {
+          if (response.data[0].prescription_status) {
+            console.log("bill");
+            sharedDataService.setId(id);
+            $location.path("/dashboard/prescriptionDetails");
+          } else {
+            Swal.fire({
+              icon: "error",
+              text: "No prescription found",
+            });
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+          Swal.fire({
+            icon: "error",
+            text: error.data.message,
+          });
+        });
     };
   },
 ]);

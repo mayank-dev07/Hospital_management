@@ -183,7 +183,7 @@
                   class="form-select border-black"
                   id="inputGroupSelect02"
                   ng-model="registerationSpecialization"
-                  ng-options="doctor.id as doctor.speciality for doctor in doctors"
+                  ng-options="doctor.id as doctor.speciality for doctor in doctors | filter:{speciality: '!!'}"
                 >
                   <option value="">Choose a Specialization</option>
                 </select>

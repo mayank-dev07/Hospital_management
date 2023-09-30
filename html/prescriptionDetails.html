@@ -1,0 +1,138 @@
+<div class="container-fluid vh-100 d-flex justify-content-center" id="patientPrescription">
+    <div class="col-md-8">
+      <p
+        class="text-black d-flex justify-content-center fw-bold"
+        style="font-size: 32px"
+      >
+        Prescription
+      </p>
+      <hr class="border border-warning border-4 opacity-50 ms-5 me-5" />
+      <p class="d-flex justify-content-center" style="font-size: 26px">
+        Patient's &nbsp; Details
+      </p>
+      <div class="card-body m-3" ng-repeat="detail in allDetails">
+        <div class="row d-flex justify-content-evenly p-3">
+          <div class="row" >
+            <div class="col-md-4">
+              <p style="font-size: 20px">
+                Patient name: &nbsp; {{ detail.patient_id__user_id__first_name }} {{ detail.patient_id__user_id__last_name}}
+              </p>
+            </div>
+            <div class="col-md-4">
+              <p style="font-size: 20px">Email: &nbsp; {{ detail.patient_id__user_id__email }}</p>
+            </div>
+            <div class="col-md-2">
+              <p style="font-size: 20px">Age: &nbsp; {{ detail.patient_id__age
+            }}</p>
+            </div>
+            <div class="col-md-2">
+              <p style="font-size: 20px">
+                Sex: &nbsp; {{ detail.patient_id__gender }}
+              </p>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-7">
+              <p style="font-size: 20px">
+                Address: &nbsp; {{ detail.patient_id__address }}
+              </p>
+            </div>
+            <div class="col-md-4">
+              <p style="font-size: 20px">
+                Phone: &nbsp; {{ detail.patient_id__Phone }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr class="border border-danger border-3 opacity-50 mt-3" />
+      <p class="d-flex justify-content-center" style="font-size: 26px">
+        Medical Details
+      </p>
+      <div class=" mt-5 d-flex justify-content-evenly" ng-repeat="detail in allDetails">
+        <div>
+          <p style="font-size: 20px">
+            Suffering From: &nbsp; {{ detail.medicalhistory__disease
+            }}
+          </p>
+        </div>
+        <div>
+          <p style="font-size: 20px">
+            Current Symptoms: &nbsp; {{ detail.medicalhistory__symptoms
+            }}
+          </p>
+        </div>
+        <div>
+          <p style="font-size: 20px">
+            Alcohol Comsumption: &nbsp; {{ detail.medicalhistory__alcohol
+            }}
+          </p>
+        </div>
+        <div>
+          <p style="font-size: 20px">
+            Have any allergy: &nbsp; {{ detail.medicalhistory__allergy
+            }}
+          </p>
+        </div>
+        </div>
+        <div class="row">
+
+        <div class="col-md-2"></div>
+        <div
+  class="d-flex justify-content-evenly mt-2 col-md-8"
+>
+  <table class="table  table-bordered" >
+    <thead>
+        <tr class="border-success">
+        <th style="font-size: 22px">Medicine</th>
+        <th style="font-size: 22px">Dosage</th>
+        <th style="font-size: 22px">Purpose</th>
+      </tr>
+    </thead>
+  
+  <tbody ng-repeat="prescription in medication">
+      <tr class="border-success">
+        <td style="font-size: 20px;">{{ prescription.medication_name }}</td>
+        <td style="font-size: 20px;">{{ prescription.dosage }}</td>
+        <td style="font-size: 20px;">{{ prescription.purpose }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>
+
+  
+        <div class="card-body m-3" ng-repeat="detail in allDetails">
+          <hr class="border border-primary border-3 opacity-50 mt-3" />
+          <div class="row d-flex justify-content-evenly p-3">
+            <div class="col-md-4">
+              <p style="font-size: 20px">
+                Doctor name: &nbsp; {{ detail.doctor_id__user_id__first_name }} {{ detail.doctor_id__user_id__last_name}}
+              </p>
+            </div>
+            <div class="col-md-4">
+              <p style="font-size: 20px">
+                Doctor Email: &nbsp; {{ detail.doctor_id__user_id__email }}
+              </p>
+            </div>
+            <div class="col-md-4">
+              <p style="font-size: 20px">
+                Doctor Phone: &nbsp; {{ detail.doctor_id__phone }}
+              </p>
+            </div>
+          </div>
+        </div>
+  
+        <div class="d-flex justify-content-center mt-5">
+          <button
+            class="btn btn-primary text-white"
+            style="font-size: 20px"
+            ng-click="print()"
+          >
+            Print Prescription
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

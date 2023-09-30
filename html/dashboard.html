@@ -27,7 +27,7 @@
         >
           <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasExampleLabel">
-              Dashboard
+              Health Tech
             </h5>
             <button
               type="button"
@@ -37,13 +37,17 @@
             ></button>
           </div>
           <div class="offcanvas-body" style="background-color: #fbfbfb">
-            <div class="d-flex" ng-repeat="details in leftPanel">
-              <div class="col-md-2">
-                <img class="img-thumbnail" src="https://10.21.81.64:8000/media/{{details.panelicon}}" alt="">
-              </div>
-              <a ui-sref="{{details.panelLink}}">
-                <h5 class="p-3">{{ details.panel}}</h5>
-              </a>
+            <div class="d-flex" ng-repeat="details in leftPanel | filter:{panel:searchname}">
+              <button class="btn btn-outline-light mb-4">
+                <div class="d-flex">
+                  <div class="col-md-2">
+                    <img class="img-thumbnail" src="https://10.21.84.81:8000/media/{{details.panelicon}}" alt="">
+                  </div>
+                  <a ui-sref="{{details.panelLink}}" style="text-decoration: none;  ">
+                    <h5 class="p-3 fw-bold" >{{ details.panel}}</h5>
+                  </a>
+                </div>
+              </button>
             </div>
           </div>
         </div>
