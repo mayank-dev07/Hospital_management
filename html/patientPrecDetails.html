@@ -1,8 +1,15 @@
-<div class="col-md-12 mt-5" >
+
+<div class="d-flex justify-content-center align-items-center vh-100" ng-show="loader">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
+<div class="col-md-12 mt-5"ng-show ="data" >
     <div class="col-md-2"></div>
     <div class="container-fluid col-md-10 mt-5">
       <h4
-        class="d-flex justify-content-center blockquote fw-bold"
+        class="d-flex justify-content-center blockquote "
         style="font-size: 32px; color: #276acf;text-decoration: underline;"
       >
         Prescriptions & Payment Detail
@@ -13,22 +20,22 @@
             <table class="table border-primary" id="appointment">
               <thead>
                 <tr class="border-success">
-                  <th class="fw-bold" style="font-size: 24px">S.No</th>
-                  <th class="fw-bold" style="font-size: 24px">
+                  <th  style="font-size: 22px">S.No</th>
+                  <th  style="font-size: 22px">
                     Doctor name
                   </th>
-                  <th class="fw-bold" style="font-size: 24px">
+                  <th  style="font-size: 22px">
                     Patient name
                   </th>
-                  <th class="fw-bold" style="font-size: 24px">
+                  <th  style="font-size: 22px">
                     Speciality
                   </th>
-                  <th class="fw-bold" style="font-size: 24px">
+                  <th  style="font-size: 22px">
                    Time
                   </th>
-                  <th class="fw-bold" style="font-size: 24px">Date</th>
-                 <th class="fw-bold" style="font-size: 24px">Download</th>
-                 <th class="fw-bold" style="font-size: 24px">Download</th>
+                  <th  style="font-size: 22px">Date</th>
+                 <th  style="font-size: 22px">Download</th>
+                 <th  style="font-size: 22px">Download</th>
                  
 
                 </tr>
@@ -41,21 +48,21 @@
                     }"
                   >
                     <th>{{$index + 1}}</th>
-                    <td style="font-size: 24px">
+                    <td style="font-size: 20px">
                       {{ doctor.doctor_id__user_id__first_name}} {{
                       doctor.doctor_id__user_id__last_name }}
                     </td>
-                    <td style="font-size: 24px">
+                    <td style="font-size: 20px">
                         {{ doctor.patient_id__user_id__first_name}} {{
                         doctor.patient_id__user_id__last_name }}
                       </td>
-                    <td style="font-size: 24px">
+                    <td style="font-size: 20px">
                       {{doctor.doctor_id__speciality_id__speciality}}
                     </td>
-                    <td style="font-size: 24px">
+                    <td style="font-size: 20px">
                       {{doctor.time}}
                     </td>
-                    <td style="font-size: 24px">{{doctor.date}}</td> 
+                    <td style="font-size: 20px">{{doctor.date}}</td> 
                     <td
                     style="font-size: 28px"
                   >

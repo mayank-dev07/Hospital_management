@@ -1,9 +1,16 @@
-<div class="col-md-12 mt-5">
+
+<div class="d-flex justify-content-center align-items-center vh-100" ng-show="loader">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
+<div class="col-md-12 mt-5" ng-show="data">
     <div class="col-md-2"></div>
     <div class="container-fluid col-md-10 mt-5">
       <h4
-        class="d-flex justify-content-center blockquote fw-bold"
-        style="font-size: 34px; color: #276acf; text-decoration: underline;"
+        class="d-flex justify-content-center blockquote"
+        style="font-size: 32px; color: #276acf; text-decoration: underline;"
       >
         Doctor details
       </h4>
@@ -13,15 +20,15 @@
             <table id="patientDoctor" class="table border-primary">
               <thead>
                 <tr class="border-success">
-                  <th class="fw-bold" style="font-size: 24px">S.No</th>
-                  <th class="fw-bold" style="font-size: 24px">Name</th>
-                  <th class="fw-bold" style="font-size: 24px">Address</th>
-                  <th class="fw-bold" style="font-size: 24px">
+                  <th style="font-size: 22px">S.No</th>
+                  <th style="font-size: 22px">Name</th>
+                  <th style="font-size: 22px">Address</th>
+                  <th style="font-size: 22px">
                     Qualification
                   </th>
-                  <th class="fw-bold" style="font-size: 24px">Email</th>
-                  <th class="fw-bold" style="font-size: 24px">Speciality</th>
-                  <th class="fw-bold" style="font-size: 24px">Fees</th>
+                  <th style="font-size: 22px">Email</th>
+                  <th style="font-size: 22px">Speciality</th>
+                  <th style="font-size: 22px">Fees</th>
                   <th></th>
                 </tr>
               </thead>
@@ -35,20 +42,20 @@
                                                 }"
                     >
                       <th>{{$index + 1}}</th>
-                      <td style="font-size: 22px">
+                      <td style="font-size: 20px">
                         {{doctor.first_name}} {{doctor.last_name}}
                       </td>
-                      <td style="font-size: 22px">
+                      <td style="font-size: 20px">
                         {{doctor.doctor__address}}
                       </td>
-                      <td style="font-size: 22px">
+                      <td style="font-size: 20px">
                         {{doctor.doctor__qualification__qualification}}
                       </td>
-                      <td style="font-size: 22px">{{doctor.email}}</td>
-                      <td style="font-size: 22px">
+                      <td style="font-size: 20px">{{doctor.email}}</td>
+                      <td style="font-size: 20px">
                         {{doctor.doctor__speciality__speciality}}
                       </td>
-                      <td style="font-size: 22px">{{doctor.doctor__fees}}</td>
+                      <td style="font-size: 20px">{{doctor.doctor__fees}}</td>
                     </tr>
                   </th>
                 </tr>

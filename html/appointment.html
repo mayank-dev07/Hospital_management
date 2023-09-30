@@ -1,8 +1,15 @@
 
+<div class="d-flex justify-content-center align-items-center vh-100" ng-show="loader">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
       <div
         class="d-flex justify-content-center"
         ng-repeat="detail in details"
         ng-controller="appointmentController"
+        ng-show="data"
       >
         <div class="col-md-7 m-3">
           <p
@@ -225,6 +232,3 @@
           </form>
         </div>
       </div>
-    </div>
-  </body>
-</html>

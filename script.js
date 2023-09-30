@@ -394,7 +394,7 @@ myApp.controller("loginController", [
           .then(function (response) {
             $scope.loading = false;
             console.log(response.data);
-            Swal.fire("Login!", "success");
+            Swal.fire("Logged in!");
             $location.path("/dashboard");
           })
           .catch(function (error) {
@@ -459,7 +459,7 @@ myApp.controller("dashboardController", [
         .then(function (response) {
           console.log(response);
           logmess = response.data.message;
-          Swal.fire("Great!", response.data.message, "success");
+          Swal.fire("logged out!");
           $location.path("/login");
         })
         .catch(function (error) {
@@ -488,6 +488,7 @@ myApp.controller("appointmentController", [
   "$location",
   function ($scope, $http, $location) {
     $scope.loader = true;
+    $scope.data = false;
     $http
       .get(apiUrl + "/hospitalapp/register/", {
         withCredentials: true,
@@ -496,6 +497,7 @@ myApp.controller("appointmentController", [
         console.log(response.data);
         $scope.doctors = response.data;
         $scope.loader = false;
+        $scope.data = true;
       })
       .catch(function (error) {
         console.log(error.data);
@@ -596,9 +598,9 @@ myApp.controller("appointmentController", [
             let mss = response.data.message;
             if (mss == "appointment booked .. waiting for approval") {
               Swal.fire(
-                "Great!",
+              
                 "You booked an appointment... waiting for approval!",
-                "success"
+            
               );
               $location.path("/dashboard");
             } else {
@@ -630,6 +632,7 @@ myApp.controller("mainController", [
   "$location",
   function ($scope, $http, $location) {
     $scope.loader = true;
+    $scope.data = false;
     $scope.leftPanel = [];
     $scope.doctorDetails = [];
 
@@ -640,6 +643,8 @@ myApp.controller("mainController", [
       })
       .then(function (response) {
         console.log(response.data);
+        $scope.loader = false;
+        $scope.data = true;
         $scope.details = response.data;
       })
       .catch(function (error) {
@@ -662,7 +667,7 @@ myApp.controller("showAppointmentsController", [
   "$location",
   function ($scope, $http, $location) {
     $scope.loader = true;
-
+    $scope.data = false;
     $http
       .get(apiUrl + "/hospitalapp/panelname/", {
         withCredentials: true,
@@ -671,6 +676,7 @@ myApp.controller("showAppointmentsController", [
         console.log(response.data);
         $scope.leftPanel = response.data;
         $scope.loader = false;
+        $scope.data = true;
       })
       .catch(function (error) {
         console.log(error.data);
@@ -750,12 +756,16 @@ myApp.controller("patientDocController", [
   "$http",
   "$location",
   function ($scope, $http, $location) {
+    $scope.loader = true;
+    $scope.data = false;
     $http
       .get(apiUrl + "/hospitalapp/patientdashboard/", {
         withCredentials: true,
       })
       .then(function (response) {
         console.log(response.data);
+        $scope.loader = false;
+        $scope.data = true;
         $scope.doctorDetails = response.data;
       })
       .catch(function (error) {
@@ -777,7 +787,7 @@ myApp.controller("recAppointmentController", [
   "$location",
   function ($scope, $http, $location) {
     $scope.loader = true;
-    $scope.appointment = true;
+    $scope.appointment = false;
 
     $http
       .get(apiUrl + "/hospitalapp/appointments/", {
@@ -787,6 +797,7 @@ myApp.controller("recAppointmentController", [
         $scope.appointments = response.data;
         console.log($scope.appointments);
         $scope.loader = false;
+        $scope.appointment = true;
         if ($scope.appointments.length == 0) {
           Swal.fire({
             title: "No appointments to show",
@@ -934,6 +945,7 @@ myApp.controller("doctorController", [
   "$location",
   function ($scope, $http, $location) {
     $scope.loader = true;
+    $scope.data = false;
     $scope.patientDetails = [];
 
     $http
@@ -943,6 +955,7 @@ myApp.controller("doctorController", [
       .then(function (response) {
         console.log(response);
         $scope.loader = false;
+        $scope.data = true;
         $scope.doctorDetails = response.data;
       })
       .catch(function (error) {
@@ -980,6 +993,7 @@ myApp.controller("docprofileController", [
   "$location",
   function ($scope, $http, $location) {
     $scope.loader = true;
+    $scope.data = false;
     $scope.patientDetails = [];
     $http
       .get(apiUrl + "/hospitalapp/doctorProfile/", {
@@ -988,6 +1002,8 @@ myApp.controller("docprofileController", [
       .then(function (response) {
         console.log(response);
         $scope.doctorProfile = response.data;
+        $scope.data= true;
+        $scope.loader = false;
         let id = $scope.doctorProfile[0].doctor__id;
         console.log(id);
         $http
@@ -1240,6 +1256,7 @@ myApp.controller("patientController", [
   function ($scope, $http, $location) {
     $scope.leftPanel = [];
     $scope.loader = true;
+    $scope.data = false;
 
     $scope.exportTableToExcel = function (id, name) {
       exportToExcel(id, name);
@@ -1251,6 +1268,8 @@ myApp.controller("patientController", [
       })
       .then(function (response) {
         console.log(response);
+        $scope.loader= false;
+        $scope.data = true;
         $scope.patientDetails = response.data;
       })
       .catch(function (error) {
@@ -1271,6 +1290,8 @@ myApp.controller("docPatientController", [
   "$http",
   "$location",
   function ($scope, $http, $location) {
+    $scope.loader = true;
+    $scope.data = false
     $http
       .get(apiUrl + "/hospitalapp/identifyDoctor/", {
         withCredentials: true,
@@ -1327,6 +1348,8 @@ myApp.controller("allDoctorapptController", [
   "sharedDataService",
   "$rootScope",
   function ($scope, $http, $location, sharedDataService, $rootScope) {
+    $scope.loader= true;
+    $scope.data = false;
     $http
       .get(apiUrl + "/hospitalapp/identifyDoctor/", {
         withCredentials: true,
@@ -1343,6 +1366,8 @@ myApp.controller("allDoctorapptController", [
           .then(function (response) {
             console.log(response);
             $scope.appointments = response.data;
+            $scope.loader= false;
+            $scope.data= true;
             if ($scope.appointments.length == 0) {
               $location.path("/dashboard");
 
@@ -1530,6 +1555,8 @@ myApp.controller("patientPrescriptionController", [
   "$window",
   "sharedDataService",
   function ($scope, $http, $location, $window, sharedDataService) {
+    $scope.loader = true;
+    $scope.data = false;
     $http
       .get(apiUrl + "/hospitalapp/patientPrescription/", {
         withCredentials: true,
@@ -1537,6 +1564,8 @@ myApp.controller("patientPrescriptionController", [
       .then(function (response) {
         console.log(response);
         $scope.prescriptions = response.data;
+        $scope.loader = false;
+        $scope.data = true;
         if ($scope.prescriptions.length == 0) {
           $location.path("/dashboard");
           Swal.fire({
@@ -1635,6 +1664,8 @@ myApp.controller("patientPrecDetailsController", [
   "$window",
   "sharedDataService",
   function ($scope, $http, $location, $window, sharedDataService) {
+    $scope.loader = true;
+    $scope.data = false;
     $http
       .get(apiUrl + "/hospitalapp/recpstPrescription/", {
         withCredentials: true,
@@ -1642,6 +1673,8 @@ myApp.controller("patientPrecDetailsController", [
       .then(function (response) {
         console.log(response);
         $scope.recstPrescription = response.data;
+        $scope.loader = false;
+        $scope.data = true;
       })
       .catch(function (error) {
         console.log(error);
@@ -1726,11 +1759,16 @@ myApp.controller("patientPrecDetailsController", [
 ]);
 myApp.controller("MedicalhistoryController", [
   "$http",
-  function  ($http) {
+  "$scope",
+  function  ($http,$scope) {
+    $scope.loader = true;
+    $scope.data = false;
     $http.get(apiUrl + '/hospitalapp/graphdetails', {
       withCredentials: true
     })
       .then(function (response) {
+        $scope.loader = false;
+        $scope.data = true;
         console.log(response);   
         new Chart('myChart', {
           type: 'bar',
@@ -1739,9 +1777,25 @@ myApp.controller("MedicalhistoryController", [
             datasets: [{
             label: 'Doctor Count',
             data: response.data.doctor_count,
-            backgroundColor: '#2d81fd',
-            borderColor: 'black',
-            borderWidth: 1
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(255, 159, 64, 0.2)',
+              'rgba(255, 205, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(201, 203, 207, 0.2)'
+            ],
+            borderColor: [
+              'rgb(255, 99, 132)',
+              'rgb(255, 159, 64)',
+              'rgb(255, 205, 86)',
+              'rgb(75, 192, 192)',
+              'rgb(54, 162, 235)',
+              'rgb(153, 102, 255)',
+              'rgb(201, 203, 207)'
+            ],
+            borderWidth: 2
           }]
           },
           options: {
@@ -1783,14 +1837,25 @@ myApp.controller("MedicalhistoryController", [
                 datasets: [{
                     data: response.data.patient_count,
                     backgroundColor: [
-                        'red',
-                        'blue',
-                        'green',
-                        'yellow',
-                        'orange'
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(255, 159, 64, 0.2)',
+                      'rgba(255, 205, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(201, 203, 207, 0.2)'
                     ],
-                    borderColor: 'black',
-                    borderWidth: 1
+                    borderColor: [
+                      'rgb(255, 99, 132)',
+                      'rgb(255, 159, 64)',
+                      'rgb(255, 205, 86)',
+                      'rgb(75, 192, 192)',
+                      'rgb(54, 162, 235)',
+                      'rgb(153, 102, 255)',
+                      'rgb(201, 203, 207)'
+                    ],
+                    borderWidth: 2,
+                    hoverOffset: 4
                 }]
             },
             options: {
@@ -1801,36 +1866,4 @@ myApp.controller("MedicalhistoryController", [
     .catch(function (error) {
         console.log(error);
     });
-    
-    $http.get(apiUrl + '/hospitalapp/graph/', {
-      withCredentials: true
-  })
-  .then(function (response) {
-      console.log(response);
-  
-      new Chart('myChart2', {
-          type: 'pie',
-          data: {
-              labels: response.data.doctor_name,
-              datasets: [{
-                  data: response.data.patient_count,
-                  backgroundColor: [
-                      'red',
-                      'blue',
-                      'green',
-                      'yellow',
-                      'orange'
-                  ],
-                  borderColor: 'black',
-                  borderWidth: 1
-              }]
-          },
-          options: {
-              responsive: true,
-          }
-      });
-  })
-  .catch(function (error) {
-      console.log(error);
-  });
   }]);

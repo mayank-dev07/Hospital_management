@@ -1,4 +1,11 @@
-<div class="col-md-12 mt-5">
+
+<div class="d-flex justify-content-center align-items-center vh-100" ng-show="loader">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
+<div class="col-md-12 mt-5" ng-show="data">
   <div class="col-md-2"></div>
   <div class="container-fluid col-md-10 mt-5">
     <h4
@@ -37,14 +44,6 @@
                 <td style="font-size: 22px">{{patient.patient__Phone}}</td>
                 <td style="font-size: 22px">{{patient.patient__age}}</td>
                 <td style="font-size: 22px">{{patient.patient__gender}}</td>
-                <!-- <td>
-                  <button
-                    class="btn btn-outline-danger"
-                    ng-click="reject(patient.id)"
-                  >
-                    Reject
-                  </button>
-                </td> -->
               </tr>
             </tbody>
           </table>
