@@ -90,6 +90,11 @@ myApp.config([
         templateUrl: "/html/patientPrecDetails.html",
         controller: "patientPrecDetailsController",
       })
+      .state("dashboard.Medicalhistory", {
+        url: "/Medicalhistory",
+        templateUrl: "/html/Medicalhistory.html",
+        controller: "MedicalhistoryController",
+      })
       .state("dashboard.allDoctorappt", {
         url: "/allDoctorappt",
         templateUrl: "/html/allDoctorappt.html",
@@ -439,7 +444,7 @@ myApp.controller("dashboardController", [
         $scope.showcarousel = true;
       })
       .catch(function (error) {
-        console.log(error.data);
+        console.log(error);
         Swal.fire({
           icon: "error",
           text: error.data.message,
@@ -794,7 +799,6 @@ myApp.controller("recAppointmentController", [
           let data = {
             id: id,
           };
-          $scope.loader = true;
           $scope.appointment = false;
           console.log(data);
           $http
@@ -802,10 +806,12 @@ myApp.controller("recAppointmentController", [
               withCredentials: true,
             })
             .then(function (response) {
-              console.log(response.data);
-              $scope.loader = false;
+              console.log(response.data)
               $scope.appointment = true;
-              Swal.fire("Good job!", response.data.message, "success");
+              Swal.fire({
+                title: "The appointmnet is " + response.data.message,
+                confirmButtonText: "Ok",
+              });
               $http
                 .get(apiUrl + "/hospitalapp/appointments/", {
                   withCredentials: true,
@@ -869,7 +875,10 @@ myApp.controller("recAppointmentController", [
               })
               .then(function (response) {
                 console.log(response);
-                Swal.fire("Good job!", response.data.message, "success");
+                Swal.fire({
+                  title: "The appointmnet is " + response.data.message,
+                  confirmButtonText: "Ok",
+                });
                 $http
                   .get(apiUrl + "/hospitalapp/appointments/", {
                     withCredentials: true,
@@ -1093,7 +1102,7 @@ myApp.controller("docprofileController", [
               })
               .then(function (response) {
                 console.log(response);
-                Swal.fire("Good job!", response.data.message, "success");
+                Swal.fire(response.data.message);
                 $http
                   .get(apiUrl + "/hospitalapp/doctorProfile/", {
                     withCredentials: true,
@@ -1176,6 +1185,7 @@ myApp.controller("docprofileController", [
                 })
                 .then(function (response) {
                   console.log(response);
+                  Swal.fire(response.data.message);
                   $http
                     .get(apiUrl + "/hospitalapp/doctorProfile/", {
                       withCredentials: true,
@@ -1193,8 +1203,7 @@ myApp.controller("docprofileController", [
                         .then(function (response) {
                           console.log(response);
                           $scope.appointments = response.data;
-                          $scope.loader = false;
-
+                          Swal.fire(response.data.message);
                           if ($scope.appointments.length == 0) {
                             $scope.pending = true;
                           } else {
@@ -1715,3 +1724,40 @@ myApp.controller("patientPrecDetailsController", [
     };
   },
 ]);
+myApp.controller("MedicalhistoryController", [
+  "$scope",
+  "$http",
+  "$location",
+  function ($scope, $http, $location) {
+    $http.get(apiUrl + '/hospitalapp/graphdetails', {
+      withCredentials: true
+    })
+      .then(function (response) {
+        console.log(response); 
+        const data = {
+          labels: response.data.speciality,
+          datasets: [{
+            label: 'Doctor Count',
+            data: response.data.doctor_count,
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'black',
+            borderWidth: 1
+          }]
+        };
+        new Chart('myChart', {
+          type: 'bar',
+          data: data,
+          options: {
+            responsive: true,
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }]);
