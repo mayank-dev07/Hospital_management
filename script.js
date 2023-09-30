@@ -105,7 +105,7 @@ myApp.config([
   },
 ]);
 
-const apiUrl = "https://10.21.84.81:8000";
+const apiUrl = "https://d338-2401-4900-5c3b-3fd2-984-c24c-51f0-85bc.ngrok-free.app/";
 
 myApp.controller("registrationController", [
   "$scope",
@@ -1725,33 +1725,42 @@ myApp.controller("patientPrecDetailsController", [
   },
 ]);
 myApp.controller("MedicalhistoryController", [
-  "$scope",
   "$http",
-  "$location",
-  function ($scope, $http, $location) {
+  function  ($http) {
     $http.get(apiUrl + '/hospitalapp/graphdetails', {
       withCredentials: true
     })
       .then(function (response) {
-        console.log(response); 
-        const data = {
-          labels: response.data.speciality,
-          datasets: [{
+        console.log(response);   
+        new Chart('myChart', {
+          type: 'bar',
+          data: {
+            labels: response.data.speciality,
+            datasets: [{
             label: 'Doctor Count',
             data: response.data.doctor_count,
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            backgroundColor: '#2d81fd',
             borderColor: 'black',
             borderWidth: 1
           }]
-        };
-        new Chart('myChart', {
-          type: 'bar',
-          data: data,
+          },
           options: {
             responsive: true,
             scales: {
               y: {
-                beginAtZero: true
+                beginAtZero: true,
+                ticks: {
+                  font:{
+                    size: 20,
+                  }
+                }
+              },
+              x:{
+                ticks:{
+                  font:{
+                    size: 20,
+                  }
+                }
               }
             }
           }
@@ -1760,4 +1769,68 @@ myApp.controller("MedicalhistoryController", [
       .catch(function (error) {
         console.log(error);
       });
+
+      $http.get(apiUrl + '/hospitalapp/graph_appt/', {
+        withCredentials: true
+    })
+    .then(function (response) {
+        console.log(response);
+    
+        new Chart('myChart1', {
+            type: 'pie',
+            data: {
+                labels: response.data.doctor_name,
+                datasets: [{
+                    data: response.data.patient_count,
+                    backgroundColor: [
+                        'red',
+                        'blue',
+                        'green',
+                        'yellow',
+                        'orange'
+                    ],
+                    borderColor: 'black',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+            }
+        });
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
+    
+    $http.get(apiUrl + '/hospitalapp/graph/', {
+      withCredentials: true
+  })
+  .then(function (response) {
+      console.log(response);
+  
+      new Chart('myChart2', {
+          type: 'pie',
+          data: {
+              labels: response.data.doctor_name,
+              datasets: [{
+                  data: response.data.patient_count,
+                  backgroundColor: [
+                      'red',
+                      'blue',
+                      'green',
+                      'yellow',
+                      'orange'
+                  ],
+                  borderColor: 'black',
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              responsive: true,
+          }
+      });
+  })
+  .catch(function (error) {
+      console.log(error);
+  });
   }]);

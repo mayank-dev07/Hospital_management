@@ -39,12 +39,11 @@
           <div class="offcanvas-body" style="background-color: #fbfbfb">
             <div class="d-flex" ng-repeat="details in leftPanel | filter:{panel:searchname}">
               <button class="btn col-12">
-                <div class="d-flex">
+                <div class="d-flex ">
                   <div class="col-md-2">
                     <i class="{{details.icon}}" style="font-size:32px;"></i>
                   </div>
-                  <div class='col-10'>
-
+                  <div class='col-md-10'>
                     <a ui-sref="{{details.panelLink}}" style="text-decoration: none;  ">
                       <h5 class="p-3 " >{{ details.panel}}</h5>
                     </a>
