@@ -139,7 +139,38 @@ myApp.controller("registrationController", [
           title: "Oops...",
           text: "Enter all Details Correctly!",
         });
-      } else if (data.Email == null) {
+      } 
+      else if(isNaN(data.Age)){
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Age should be number!",
+        });
+      }
+      else if(data.firstName == null ||
+        data.lastName == null ){
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Name should contain alphabet only",
+          });
+      }
+      else if(
+        data.username == null){
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Username should contain alphabet only",
+          });
+      }
+      else if(data.Phone == null || data.Phone == ""){
+        Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Number should be max of 10 chars & First digit is not zero",
+            });
+      }
+      else if (data.Email == null) {
         Swal.fire({
           icon: "error",
           title: "Oops...",
@@ -237,7 +268,6 @@ myApp.controller("docregController", [
         data.firstName == "" ||
         data.lastName == null ||
         data.lastName == "" ||
-        data.Phone == null ||
         data.Address == null ||
         data.Address == "" ||
         data.userName == null ||
@@ -252,7 +282,22 @@ myApp.controller("docregController", [
           title: "Oops...",
           text: "Enter all Details!",
         });
-      } else if (data.Email == null) {
+      }
+      else if(isNaN(data.Phone)){
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Phone should be number!",
+        });
+      }
+      else if(isNaN(data.Fees)){
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Fees should be number!",
+        });
+      }
+       else if (data.Email == null) {
         Swal.fire({
           icon: "error",
           title: "Oops...",

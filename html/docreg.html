@@ -106,13 +106,14 @@
                   type="tel"
                   class="p-2 form-control border border-black"
                   id="exampleInputName"
+                  pattern="[a-zA-Z]+"
                   ng-model="registerationUsername"
                   required
                 />
               </div>
 
               <div class="col-md-6">
-                <label for="exampleInputfName" class="form-label"
+                <label for="exampleInputfName" class="form-label" 
                   >First name</label
                 >
                 <input
@@ -120,12 +121,13 @@
                   class="p-2 form-control border border-black"
                   id="exampleInputfName"
                   aria-describedby="emailHelp"
+                  pattern="[a-zA-Z]+"
                   ng-model="registerationfirstName"
                   required
                 />
               </div>
               <div class="col-md-6">
-                <label for="exampleInputlName" class="form-label"
+                <label for="exampleInputlName" class="form-label" 
                   >Last name</label
                 >
                 <input
@@ -133,6 +135,7 @@
                   class="p-2 form-control border border-black"
                   id="exampleInputlName"
                   aria-describedby="emailHelp"
+                  pattern="[a-zA-Z]+"
                   ng-model="registerationlastName"
                   required
                 />
@@ -146,6 +149,7 @@
                   type="tel"
                   class="p-2 form-control border border-black"
                   id="exampleInputName"
+                  pattern="[1-9]{1}[0-9]{9}"
                   ng-model="registerationPhone"
                   required
                 />
