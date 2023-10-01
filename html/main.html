@@ -24,23 +24,23 @@
         <div class="mt-3 mb-4"></div>
         <p style="font-size: 28px">
           <span class="fw-bold text-info-emphasis">Name:</span>
-          &nbsp; <span>{{detail.first_name }} {{ detail.last_name}}</span>
+          &nbsp; <span>{{detail.user_id__first_name }} {{ detail.user_id__last_name}}</span>
         </p>
         <p style="font-size: 28px" class="mt-5">
           <span class="fw-bold text-info-emphasis">Email:</span>
-          &nbsp; <span>{{ detail.email }}</span>
+          &nbsp; <span>{{ detail.user_id__email }}</span>
         </p>
         <div class="d-flex justify-content-center text-center mt-5 mb-2">
           <div>
             <p style="font-size: 28px">
               <span class="fw-bold text-info-emphasis">Age:</span>
-              &nbsp; <span>{{ detail.patient__age }}</span>
+              &nbsp; <span>{{ detail.age }}</span>
             </p>
           </div>
           <div class="px-3">
             <p style="font-size: 28px">
               <span class="fw-bold text-info-emphasis">Address:</span>
-              &nbsp; <span> {{ detail.patient__address }}</span>
+              &nbsp; <span> {{ detail.address }}</span>
             </p>
           </div>
         </div>
@@ -48,13 +48,13 @@
           <div>
             <p style="font-size: 28px">
               <span class="fw-bold text-info-emphasis">Sex:</span>
-              &nbsp; <span> {{ detail.patient__gender }}</span>
+              &nbsp; <span> {{ detail.gender }}</span>
             </p>
           </div>
           <div class="px-3">
             <p style="font-size: 28px">
               <span class="fw-bold text-info-emphasis">Phone:</span>
-              &nbsp; <span> {{ detail.patient__Phone }}</span>
+              &nbsp; <span> {{ detail.Phone }}</span>
             </p>
           </div>
         </div>

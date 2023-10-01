@@ -23,35 +23,35 @@
               <div class="row">
                 <div class="col-md-4">
                   <p style="font-size: 20px">
-                    Patient name: &nbsp; {{ detail.first_name }} {{
-                    detail.last_name}}
+                    Patient name: &nbsp; {{ detail.user_id__first_name }} {{
+                    detail.user_id__last_name}}
                   </p>
                 </div>
                 <div class="col-md-4">
                   <p style="font-size: 20px">
-                    Email: &nbsp; {{ detail.email }}
+                    Email: &nbsp; {{ detail.user_id__email }}
                   </p>
                 </div>
                 <div class="col-md-2">
                   <p style="font-size: 20px">
-                    Age: &nbsp; {{ detail.patient__age }}
+                    Age: &nbsp; {{ detail.age }}
                   </p>
                 </div>
                 <div class="col-md-2">
                   <p style="font-size: 20px">
-                    Sex: &nbsp; {{ detail.patient__gender }}
+                    Sex: &nbsp; {{ detail.gender }}
                   </p>
                 </div>
               </div>
               <div class="row mt-3">
                 <div class="col-md-7">
                   <p style="font-size: 20px">
-                    Address: &nbsp; {{ detail.patient__address }}
+                    Address: &nbsp; {{ detail.address }}
                   </p>
                 </div>
                 <div class="col-md-4">
                   <p style="font-size: 20px">
-                    Phone: &nbsp; {{ detail.patient__Phone }}
+                    Phone: &nbsp; {{ detail.Phone }}
                   </p>
                 </div>
               </div>

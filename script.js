@@ -144,38 +144,31 @@ myApp.controller("registrationController", [
           title: "Oops...",
           text: "Enter all Details Correct!",
         });
-      } 
-      else if(isNaN(data.Age)){
+      } else if (isNaN(data.Age)) {
         Swal.fire({
           icon: "error",
           title: "Oops...",
           text: "Age should be number!",
         });
-      }
-      else if(data.firstName == null ||
-        data.lastName == null ){
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Name should contain alphabet only",
-          });
-      }
-      else if(
-        data.username == null){
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Username should contain alphabet only",
-          });
-      }
-      else if(data.Phone == null || data.Phone == ""){
+      } else if (data.firstName == null || data.lastName == null) {
         Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: "Number should be max of 10 chars & First digit is not zero",
-            });
-      }
-      else if (data.Email == null) {
+          icon: "error",
+          title: "Oops...",
+          text: "Name should contain alphabet only",
+        });
+      } else if (data.username == null) {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Username should contain alphabet only",
+        });
+      } else if (data.Phone == null || data.Phone == "") {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Number should be max of 10 chars & First digit is not zero",
+        });
+      } else if (data.Email == null) {
         Swal.fire({
           icon: "error",
           title: "Oops...",
@@ -196,9 +189,13 @@ myApp.controller("registrationController", [
       } else {
         if (pass === cpass) {
           $http
-            .post(apiUrl + "/hospitalapp/registerpatient/", {username: undefined}, {
-              withCredentials: true,
-            })
+            .post(
+              apiUrl + "/hospitalapp/registerpatient/",
+              { username: undefined },
+              {
+                withCredentials: true,
+              }
+            )
             .then(function (response) {
               console.log(response);
               if (response.data.message == "patient registered!!!") {
@@ -287,22 +284,19 @@ myApp.controller("docregController", [
           title: "Oops...",
           text: "Enter all Details!",
         });
-      }
-      else if(isNaN(data.Phone)){
+      } else if (isNaN(data.Phone)) {
         Swal.fire({
           icon: "error",
           title: "Oops...",
           text: "Phone should be number!",
         });
-      }
-      else if(isNaN(data.Fees)){
+      } else if (isNaN(data.Fees)) {
         Swal.fire({
           icon: "error",
           title: "Oops...",
           text: "Fees should be number!",
         });
-      }
-       else if (data.Email == null) {
+      } else if (data.Email == null) {
         Swal.fire({
           icon: "error",
           title: "Oops...",
@@ -364,7 +358,20 @@ myApp.controller("loginController", [
     $scope.register = function () {
       $location.path("/registration");
     };
-    $scope.loading = true;
+    $http
+      .get(apiUrl + "/hospitalapp/checkuser/", {
+        withCredentials: true,
+      })
+      .then(function (response) {
+        console.log(response.status);
+        if (response.status == 200) {
+          $location.path("/dashboard");
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
     $scope.login = function () {
       let login = {
         username: $scope.loginName,
@@ -392,7 +399,6 @@ myApp.controller("loginController", [
             withCredentials: true,
           })
           .then(function (response) {
-            $scope.loading = false;
             console.log(response.data);
             $location.path("/dashboard");
           })
@@ -596,11 +602,7 @@ myApp.controller("appointmentController", [
             console.log(response.data.message);
             let mss = response.data.message;
             if (mss == "appointment booked .. waiting for approval") {
-              Swal.fire(
-              
-                "You booked an appointment... waiting for approval!",
-            
-              );
+              Swal.fire("You booked an appointment... waiting for approval!");
               $location.path("/dashboard");
             } else {
               Swal.fire({
@@ -691,7 +693,7 @@ myApp.controller("showAppointmentsController", [
       .then(function (response) {
         console.log(response.data);
         $scope.details = response.data;
-        var patientId = $scope.details[0].patient__id;
+        var patientId = $scope.details[0].id;
         console.log(patientId);
         $http
           .get(apiUrl + "/hospitalapp/patientAppointments/", {
@@ -816,7 +818,7 @@ myApp.controller("recAppointmentController", [
               withCredentials: true,
             })
             .then(function (response) {
-              console.log(response.data)
+              console.log(response.data);
               $scope.appointment = true;
               Swal.fire({
                 title: "The appointmnet is " + response.data.message,
@@ -1001,7 +1003,7 @@ myApp.controller("docprofileController", [
       .then(function (response) {
         console.log(response);
         $scope.doctorProfile = response.data;
-        $scope.data= true;
+        $scope.data = true;
         // $scope.loader = false;
         let id = $scope.doctorProfile[0].doctor__id;
         console.log(id);
@@ -1104,61 +1106,61 @@ myApp.controller("docprofileController", [
             },
           }).then((result) => {
             if (result.isConfirmed) {
-            console.log(result);
-            let reason = result.value.reason;
-            let data = {
-              reason: reason,
-              id: id,
-            };
-            $scope.loader = true;
+              console.log(result);
+              let reason = result.value.reason;
+              let data = {
+                reason: reason,
+                id: id,
+              };
+              $scope.loader = true;
 
-            console.log(data);
-            $http
-              .post(apiUrl + "/hospitalapp/doctorApptReject/", data, {
-                withCredentials: true,
-              })
-              .then(function (response) {
-                console.log(response);
-                Swal.fire(response.data.message);
-                $http
-                  .get(apiUrl + "/hospitalapp/doctorProfile/", {
-                    withCredentials: true,
-                  })
-                  .then(function (response) {
-                    console.log(response);
-                    $scope.doctorProfile = response.data;
-                    let id = $scope.doctorProfile[0].doctor__id;
-                    console.log(id);
-                    $http
-                      .get(apiUrl + "/hospitalapp/pendingAppointment/", {
-                        withCredentials: true,
-                        params: { id: id },
-                      })
-                      .then(function (response) {
-                        console.log(response);
-                        $scope.appointments = response.data;
-                        if ($scope.appointments.length == 0) {
-                          $scope.pending = true;
-                          $scope.appointment = false;
-                        } else {
-                          $scope.appointment = true;
-                        }
-                      })
-                      .catch(function (error) {
-                        console.log(error.data);
-                      });
-                  })
-                  .catch(function (error) {
-                    console.log(error.data);
+              console.log(data);
+              $http
+                .post(apiUrl + "/hospitalapp/doctorApptReject/", data, {
+                  withCredentials: true,
+                })
+                .then(function (response) {
+                  console.log(response);
+                  Swal.fire(response.data.message);
+                  $http
+                    .get(apiUrl + "/hospitalapp/doctorProfile/", {
+                      withCredentials: true,
+                    })
+                    .then(function (response) {
+                      console.log(response);
+                      $scope.doctorProfile = response.data;
+                      let id = $scope.doctorProfile[0].doctor__id;
+                      console.log(id);
+                      $http
+                        .get(apiUrl + "/hospitalapp/pendingAppointment/", {
+                          withCredentials: true,
+                          params: { id: id },
+                        })
+                        .then(function (response) {
+                          console.log(response);
+                          $scope.appointments = response.data;
+                          if ($scope.appointments.length == 0) {
+                            $scope.pending = true;
+                            $scope.appointment = false;
+                          } else {
+                            $scope.appointment = true;
+                          }
+                        })
+                        .catch(function (error) {
+                          console.log(error.data);
+                        });
+                    })
+                    .catch(function (error) {
+                      console.log(error.data);
+                    });
+                })
+                .catch(function (error) {
+                  console.log(error.data);
+                  Swal.fire({
+                    icon: "error",
+                    text: error.data.message,
                   });
-              })
-              .catch(function (error) {
-                console.log(error.data);
-                Swal.fire({
-                  icon: "error",
-                  text: error.data.message,
                 });
-              });
             }
           });
         } else if (result.dismiss == "cancel") {
@@ -1186,57 +1188,57 @@ myApp.controller("docprofileController", [
                 return { date: date, time: time };
               },
             }).then((result) => {
-              if(result.isConfirmed){
-              let date = result.value.date;
-              let time = result.value.time;
-              let data = {
-                date: date,
-                time: time,
-                id: id,
-              };
-              $scope.loader = true;
-              $http
-                .post(apiUrl + "/hospitalapp/updateApptDoctor/", data, {
-                  withCredentials: true,
-                })
-                .then(function (response) {
-                  console.log(response);
-                  Swal.fire(response.data.message);
-                  $http
-                    .get(apiUrl + "/hospitalapp/doctorProfile/", {
-                      withCredentials: true,
-                    })
-                    .then(function (response) {
-                      console.log(response);
-                      $scope.doctorProfile = response.data;
-                      let id = $scope.doctorProfile[0].doctor__id;
-                      console.log(id);
-                      $http
-                        .get(apiUrl + "/hospitalapp/pendingAppointment/", {
-                          withCredentials: true,
-                          params: { id: id },
-                        })
-                        .then(function (response) {
-                          console.log(response);
-                          $scope.appointments = response.data;
-                          Swal.fire(response.data.message);
-                          if ($scope.appointments.length == 0) {
-                            $scope.pending = true;
-                          } else {
-                            $scope.appointment = true;
-                          }
-                        })
-                        .catch(function (error) {
-                          console.log(error.data);
-                        });
-                    })
-                    .catch(function (error) {
-                      console.log(error.data);
-                    });
-                })
-                .catch(function (error) {
-                  console.log(error.data);
-                });
+              if (result.isConfirmed) {
+                let date = result.value.date;
+                let time = result.value.time;
+                let data = {
+                  date: date,
+                  time: time,
+                  id: id,
+                };
+                $scope.loader = true;
+                $http
+                  .post(apiUrl + "/hospitalapp/updateApptDoctor/", data, {
+                    withCredentials: true,
+                  })
+                  .then(function (response) {
+                    console.log(response);
+                    Swal.fire(response.data.message);
+                    $http
+                      .get(apiUrl + "/hospitalapp/doctorProfile/", {
+                        withCredentials: true,
+                      })
+                      .then(function (response) {
+                        console.log(response);
+                        $scope.doctorProfile = response.data;
+                        let id = $scope.doctorProfile[0].doctor__id;
+                        console.log(id);
+                        $http
+                          .get(apiUrl + "/hospitalapp/pendingAppointment/", {
+                            withCredentials: true,
+                            params: { id: id },
+                          })
+                          .then(function (response) {
+                            console.log(response);
+                            $scope.appointments = response.data;
+                            Swal.fire(response.data.message);
+                            if ($scope.appointments.length == 0) {
+                              $scope.pending = true;
+                            } else {
+                              $scope.appointment = true;
+                            }
+                          })
+                          .catch(function (error) {
+                            console.log(error.data);
+                          });
+                      })
+                      .catch(function (error) {
+                        console.log(error.data);
+                      });
+                  })
+                  .catch(function (error) {
+                    console.log(error.data);
+                  });
               }
             });
           }
@@ -1269,7 +1271,7 @@ myApp.controller("patientController", [
       })
       .then(function (response) {
         console.log(response);
-        $scope.loader= false;
+        $scope.loader = false;
         $scope.data = true;
         $scope.patientDetails = response.data;
       })
@@ -1292,7 +1294,7 @@ myApp.controller("docPatientController", [
   "$location",
   function ($scope, $http, $location) {
     $scope.loader = true;
-    $scope.data = false
+    $scope.data = false;
     $http
       .get(apiUrl + "/hospitalapp/identifyDoctor/", {
         withCredentials: true,
@@ -1300,7 +1302,7 @@ myApp.controller("docPatientController", [
       .then(function (response) {
         console.log(response.data);
         $scope.loader = false;
-        $scope.data = true
+        $scope.data = true;
         let id = response.data[0].id;
         console.log(id);
         $http
@@ -1351,7 +1353,7 @@ myApp.controller("allDoctorapptController", [
   "sharedDataService",
   "$rootScope",
   function ($scope, $http, $location, sharedDataService, $rootScope) {
-    $scope.loader= true;
+    $scope.loader = true;
     $scope.data = false;
     $http
       .get(apiUrl + "/hospitalapp/identifyDoctor/", {
@@ -1369,8 +1371,8 @@ myApp.controller("allDoctorapptController", [
           .then(function (response) {
             console.log(response);
             $scope.appointments = response.data;
-            $scope.loader= false;
-            $scope.data= true;
+            $scope.loader = false;
+            $scope.data = true;
             if ($scope.appointments.length == 0) {
               $location.path("/dashboard");
 
@@ -1763,44 +1765,47 @@ myApp.controller("patientPrecDetailsController", [
 myApp.controller("MedicalhistoryController", [
   "$http",
   "$scope",
-  function  ($http,$scope) {
-    random()
+  function ($http, $scope) {
+    random();
     $scope.loader = true;
     $scope.data = false;
-    $http.get(apiUrl + '/hospitalapp/graphdetails', {
-      withCredentials: true
-    })
+    $http
+      .get(apiUrl + "/hospitalapp/graphdetails", {
+        withCredentials: true,
+      })
       .then(function (response) {
         $scope.loader = false;
         $scope.data = true;
-        console.log(response);   
-        new Chart('myChart', {
-          type: 'bar',
+        console.log(response);
+        new Chart("myChart", {
+          type: "bar",
           data: {
             labels: response.data.speciality,
-            datasets: [{
-            label: 'Doctor Count',
-            data: response.data.doctor_count,
-            backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(255, 159, 64, 0.2)',
-              'rgba(255, 205, 86, 0.2)',
-              'rgba(75, 192, 192, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(153, 102, 255, 0.2)',
-              'rgba(201, 203, 207, 0.2)'
+            datasets: [
+              {
+                label: "Doctor Count",
+                data: response.data.doctor_count,
+                backgroundColor: [
+                  "rgba(255, 99, 132, 0.2)",
+                  "rgba(255, 159, 64, 0.2)",
+                  "rgba(255, 205, 86, 0.2)",
+                  "rgba(75, 192, 192, 0.2)",
+                  "rgba(54, 162, 235, 0.2)",
+                  "rgba(153, 102, 255, 0.2)",
+                  "rgba(201, 203, 207, 0.2)",
+                ],
+                borderColor: [
+                  "rgb(255, 99, 132)",
+                  "rgb(255, 159, 64)",
+                  "rgb(255, 205, 86)",
+                  "rgb(75, 192, 192)",
+                  "rgb(54, 162, 235)",
+                  "rgb(153, 102, 255)",
+                  "rgb(201, 203, 207)",
+                ],
+                borderWidth: 2,
+              },
             ],
-            borderColor: [
-              'rgb(255, 99, 132)',
-              'rgb(255, 159, 64)',
-              'rgb(255, 205, 86)',
-              'rgb(75, 192, 192)',
-              'rgb(54, 162, 235)',
-              'rgb(153, 102, 255)',
-              'rgb(201, 203, 207)'
-            ],
-            borderWidth: 2
-          }]
           },
           options: {
             responsive: true,
@@ -1808,85 +1813,101 @@ myApp.controller("MedicalhistoryController", [
               y: {
                 beginAtZero: true,
                 ticks: {
-                  font:{
+                  font: {
                     size: 20,
-                  }
-                }
+                  },
+                },
               },
-              x:{
-                ticks:{
-                  font:{
+              x: {
+                ticks: {
+                  font: {
                     size: 20,
-                  }
-                }
-              }
-            }
-          }
+                  },
+                },
+              },
+            },
+          },
         });
       })
       .catch(function (error) {
         console.log(error);
       });
 
-      $http.get(apiUrl + '/hospitalapp/graph_appt/', {
-        withCredentials: true
-    })
-    .then(function (response) {
+    $http
+      .get(apiUrl + "/hospitalapp/graph_appt/", {
+        withCredentials: true,
+      })
+      .then(function (response) {
         console.log(response);
-    
-        new Chart('myChart1', {
-            type: 'pie',
-            data: {
-                labels: response.data.doctor_name,
-                datasets: [{
-                    data: response.data.patient_count,
-                    backgroundColor: [
-                      'rgba(255, 99, 132, 0.2)',
-                      'rgba(255, 159, 64, 0.2)',
-                      'rgba(255, 205, 86, 0.2)',
-                      'rgba(75, 192, 192, 0.2)',
-                      'rgba(54, 162, 235, 0.2)',
-                      'rgba(153, 102, 255, 0.2)',
-                      'rgba(201, 203, 207, 0.2)'
-                    ],
-                    borderColor: [
-                      'rgb(255, 99, 132)',
-                      'rgb(255, 159, 64)',
-                      'rgb(255, 205, 86)',
-                      'rgb(75, 192, 192)',
-                      'rgb(54, 162, 235)',
-                      'rgb(153, 102, 255)',
-                      'rgb(201, 203, 207)'
-                    ],
-                    borderWidth: 2,
-                    hoverOffset: 4
-                }]
-            },
-            options: {
-                responsive: true,
-            }
+
+        new Chart("myChart1", {
+          type: "pie",
+          data: {
+            labels: response.data.doctor_name,
+            datasets: [
+              {
+                data: response.data.patient_count,
+                backgroundColor: [
+                  "rgba(255, 99, 132, 0.2)",
+                  "rgba(255, 159, 64, 0.2)",
+                  "rgba(255, 205, 86, 0.2)",
+                  "rgba(75, 192, 192, 0.2)",
+                  "rgba(54, 162, 235, 0.2)",
+                  "rgba(153, 102, 255, 0.2)",
+                  "rgba(201, 203, 207, 0.2)",
+                ],
+                borderColor: [
+                  "rgb(255, 99, 132)",
+                  "rgb(255, 159, 64)",
+                  "rgb(255, 205, 86)",
+                  "rgb(75, 192, 192)",
+                  "rgb(54, 162, 235)",
+                  "rgb(153, 102, 255)",
+                  "rgb(201, 203, 207)",
+                ],
+                borderWidth: 2,
+                hoverOffset: 4,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+          },
         });
-    })
-    .catch(function (error) {
+      })
+      .catch(function (error) {
         console.log(error);
-    });
-  }]);
+      });
+  },
+]);
 
-  function random(){
-    let repeatName =[];
-    const names = ["Mayank","Amritansh","Swapnil","Himanshu","Saurabh","Keshav","Nikhil","Siddharth","Srijan","Ananya","Sukriti"]
-    console.log(names[(Math.floor(Math.random() * names.length))]);
-    for(let j=0;j<12;j++){
-      repeatName[j] = names[(Math.floor(Math.random() * names.length))]
-      console.log(repeatName[j])
-    }
-    // for(let i =0;i<20;i++){
-    //   for(let j=1;j<20;j++){
-    //   if(repeatName[j] == repeatName[i]){
-    //     console.log(repeatName[j]);
-    //   } 
-    //   break;
-    // }
-
-    // }
+function random() {
+  let repeatName = [];
+  const names = [
+    "Mayank",
+    "Amritansh",
+    "Swapnil",
+    "Himanshu",
+    "Saurabh",
+    "Keshav",
+    "Nikhil",
+    "Siddharth",
+    "Srijan",
+    "Ananya",
+    "Sukriti",
+  ];
+  console.log(names[Math.floor(Math.random() * names.length)]);
+  for (let j = 0; j < 12; j++) {
+    repeatName[j] = names[Math.floor(Math.random() * names.length)];
+    console.log(repeatName[j]);
   }
+  // for(let i =0;i<20;i++){
+  //   for(let j=1;j<20;j++){
+  //   if(repeatName[j] == repeatName[i]){
+  //     console.log(repeatName[j]);
+  //   }
+  //   break;
+  // }
+
+  // }
+}

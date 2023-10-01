@@ -71,7 +71,7 @@
                         <div class="col-md-6">
                             <label for="exampleInputName" class="form-label">username</label>
                             <input type="tel" class="p-2 form-control border border-black " id="exampleInputName" 
-                                ng-model="registerationUsername" required>
+                                ng-model="registerationUsername" required pattern="[a-zA-Z]+.{3,6}">
                         </div>
                         </div>
                        <div class="row mt-3">
@@ -109,11 +109,10 @@
                             <div class="col-md-3">
                                 <label for="exampleInputName" class="form-label">Age</label>
                                 <input type="number" class="p-2 form-control border border-black " id="exampleInputAge"
-                                ng-model="registerationAge" min="1" required>
+                                ng-model="registerationAge" min="0" required>
                             </div>
                         </div>
                        <div class="row mt-3">
-                        
                         <div class="col-112">
                             <label for="inputAddress2" class="form-label">Address</label>
                             <input type="text" class="p-2 form-control border border-black" id="inputAddress2"

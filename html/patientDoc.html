@@ -43,19 +43,19 @@
                     >
                       <th>{{$index + 1}}</th>
                       <td style="font-size: 20px">
-                        {{doctor.first_name}} {{doctor.last_name}}
+                        {{doctor.user_id__first_name}} {{doctor.user_id__last_name}}
                       </td>
                       <td style="font-size: 20px">
-                        {{doctor.doctor__address}}
+                        {{doctor.address}}
                       </td>
                       <td style="font-size: 20px">
-                        {{doctor.doctor__qualification__qualification}}
+                        {{doctor.qualification_id__qualification}}
                       </td>
-                      <td style="font-size: 20px">{{doctor.email}}</td>
+                      <td style="font-size: 20px">{{doctor.user_id__email}}</td>
                       <td style="font-size: 20px">
-                        {{doctor.doctor__speciality__speciality}}
+                        {{doctor.speciality_id__speciality}}
                       </td>
-                      <td style="font-size: 20px">{{doctor.doctor__fees}}</td>
+                      <td style="font-size: 20px">{{doctor.fees}}</td>
                     </tr>
                   </th>
                 </tr>
