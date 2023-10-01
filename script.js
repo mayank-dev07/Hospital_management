@@ -1880,34 +1880,3 @@ myApp.controller("MedicalhistoryController", [
       });
   },
 ]);
-
-function random() {
-  let repeatName = [];
-  const names = [
-    "Mayank",
-    "Amritansh",
-    "Swapnil",
-    "Himanshu",
-    "Saurabh",
-    "Keshav",
-    "Nikhil",
-    "Siddharth",
-    "Srijan",
-    "Ananya",
-    "Sukriti",
-  ];
-  console.log(names[Math.floor(Math.random() * names.length)]);
-  for (let j = 0; j < 12; j++) {
-    repeatName[j] = names[Math.floor(Math.random() * names.length)];
-    console.log(repeatName[j]);
-  }
-  // for(let i =0;i<20;i++){
-  //   for(let j=1;j<20;j++){
-  //   if(repeatName[j] == repeatName[i]){
-  //     console.log(repeatName[j]);
-  //   }
-  //   break;
-  // }
-
-  // }
-}
