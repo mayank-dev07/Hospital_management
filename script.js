@@ -394,7 +394,6 @@ myApp.controller("loginController", [
           .then(function (response) {
             $scope.loading = false;
             console.log(response.data);
-            Swal.fire("Logged in!");
             $location.path("/dashboard");
           })
           .catch(function (error) {
@@ -1099,10 +1098,12 @@ myApp.controller("docprofileController", [
               const reason = Swal.getPopup().querySelector("#reason").value;
               if (!reason) {
                 Swal.showValidationMessage(`Please enter reason`);
+                return false;
               }
               return { reason: reason };
             },
           }).then((result) => {
+            if (result.isConfirmed) {
             console.log(result);
             let reason = result.value.reason;
             let data = {
@@ -1158,6 +1159,7 @@ myApp.controller("docprofileController", [
                   text: error.data.message,
                 });
               });
+            }
           });
         } else if (result.dismiss == "cancel") {
           const doctor = $scope.appointments.find(
@@ -1184,6 +1186,7 @@ myApp.controller("docprofileController", [
                 return { date: date, time: time };
               },
             }).then((result) => {
+              if(result.isConfirmed){
               let date = result.value.date;
               let time = result.value.time;
               let data = {
@@ -1192,7 +1195,6 @@ myApp.controller("docprofileController", [
                 id: id,
               };
               $scope.loader = true;
-
               $http
                 .post(apiUrl + "/hospitalapp/updateApptDoctor/", data, {
                   withCredentials: true,
@@ -1235,6 +1237,7 @@ myApp.controller("docprofileController", [
                 .catch(function (error) {
                   console.log(error.data);
                 });
+              }
             });
           }
         }
