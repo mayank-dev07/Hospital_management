@@ -105,7 +105,7 @@ myApp.config([
   },
 ]);
 
-const apiUrl = "https://d338-2401-4900-5c3b-3fd2-984-c24c-51f0-85bc.ngrok-free.app/";
+const apiUrl = "https://10.21.80.207:8000";
 
 myApp.controller("registrationController", [
   "$scope",
@@ -142,7 +142,7 @@ myApp.controller("registrationController", [
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: "Enter all Details Correctly!",
+          text: "Enter all Details Correct!",
         });
       } 
       else if(isNaN(data.Age)){
@@ -196,7 +196,7 @@ myApp.controller("registrationController", [
       } else {
         if (pass === cpass) {
           $http
-            .post(apiUrl + "/hospitalapp/registerpatient/", data, {
+            .post(apiUrl + "/hospitalapp/registerpatient/", {username: undefined}, {
               withCredentials: true,
             })
             .then(function (response) {
@@ -554,7 +554,7 @@ myApp.controller("appointmentController", [
     $scope.confirm = function () {
       console.log("appointment");
       let data = {
-        doc_id: $scope.doct.id,
+        doc_id: $scope.doct,
         time: $scope.appointmentTime,
         date: formatDate($scope.appDate),
         disease: $scope.appointmentDisease,
@@ -897,6 +897,8 @@ myApp.controller("recAppointmentController", [
                   .then(function (response) {
                     $scope.appointments = response.data;
                     console.log($scope.appointments);
+                    $scope.loader = false;
+                    $scope.appointment = true;
                     if ($scope.appointments.length == 0) {
                       Swal.fire({
                         title: "No appointments to show",
@@ -904,8 +906,6 @@ myApp.controller("recAppointmentController", [
                       });
                       $location.path("/dashboard");
                     }
-                    $scope.loader = false;
-                    $scope.appointment = true;
                   })
                   .catch(function (error) {
                     console.log(error.data);
@@ -944,8 +944,8 @@ myApp.controller("doctorController", [
   "$http",
   "$location",
   function ($scope, $http, $location) {
-    $scope.loader = true;
-    $scope.data = false;
+    // $scope.loader = true;
+    // $scope.data = false;
     $scope.patientDetails = [];
 
     $http
@@ -954,7 +954,7 @@ myApp.controller("doctorController", [
       })
       .then(function (response) {
         console.log(response);
-        $scope.loader = false;
+        // $scope.loader = false;
         $scope.data = true;
         $scope.doctorDetails = response.data;
       })
@@ -992,8 +992,8 @@ myApp.controller("docprofileController", [
   "$http",
   "$location",
   function ($scope, $http, $location) {
-    $scope.loader = true;
-    $scope.data = false;
+    // $scope.loader = true;
+    // $scope.data = false;
     $scope.patientDetails = [];
     $http
       .get(apiUrl + "/hospitalapp/doctorProfile/", {
@@ -1003,7 +1003,7 @@ myApp.controller("docprofileController", [
         console.log(response);
         $scope.doctorProfile = response.data;
         $scope.data= true;
-        $scope.loader = false;
+        // $scope.loader = false;
         let id = $scope.doctorProfile[0].doctor__id;
         console.log(id);
         $http
@@ -1042,7 +1042,7 @@ myApp.controller("docprofileController", [
       }).then((result) => {
         console.log(result);
         if (result.isConfirmed) {
-          $scope.loader = true;
+          // $scope.loader = true;
           $http
             .post(apiUrl + "/hospitalapp/doctorApptApprove/", data, {
               withCredentials: true,
@@ -1055,7 +1055,7 @@ myApp.controller("docprofileController", [
                   withCredentials: true,
                 })
                 .then(function (response) {
-                  $scope.loader = true;
+                  // $scope.loader = true;
                   console.log(response);
                   $scope.doctorProfile = response.data;
                   let id = $scope.doctorProfile[0].doctor__id;
@@ -1068,7 +1068,7 @@ myApp.controller("docprofileController", [
                     .then(function (response) {
                       console.log(response);
                       $scope.appointments = response.data;
-                      $scope.loader = false;
+                      // $scope.loader = false;
                       if ($scope.appointments.length == 0) {
                         $scope.pending = true;
                         $scope.appointment = false;
@@ -1136,8 +1136,6 @@ myApp.controller("docprofileController", [
                       .then(function (response) {
                         console.log(response);
                         $scope.appointments = response.data;
-                        $scope.loader = false;
-
                         if ($scope.appointments.length == 0) {
                           $scope.pending = true;
                           $scope.appointment = false;
@@ -1298,6 +1296,8 @@ myApp.controller("docPatientController", [
       })
       .then(function (response) {
         console.log(response.data);
+        $scope.loader = false;
+        $scope.data = true
         let id = response.data[0].id;
         console.log(id);
         $http
@@ -1761,6 +1761,7 @@ myApp.controller("MedicalhistoryController", [
   "$http",
   "$scope",
   function  ($http,$scope) {
+    random()
     $scope.loader = true;
     $scope.data = false;
     $http.get(apiUrl + '/hospitalapp/graphdetails', {
@@ -1867,3 +1868,22 @@ myApp.controller("MedicalhistoryController", [
         console.log(error);
     });
   }]);
+
+  function random(){
+    let repeatName =[];
+    const names = ["Mayank","Amritansh","Swapnil","Himanshu","Saurabh","Keshav","Nikhil","Siddharth","Srijan","Ananya","Sukriti"]
+    console.log(names[(Math.floor(Math.random() * names.length))]);
+    for(let j=0;j<12;j++){
+      repeatName[j] = names[(Math.floor(Math.random() * names.length))]
+      console.log(repeatName[j])
+    }
+    // for(let i =0;i<20;i++){
+    //   for(let j=1;j<20;j++){
+    //   if(repeatName[j] == repeatName[i]){
+    //     console.log(repeatName[j]);
+    //   } 
+    //   break;
+    // }
+
+    // }
+  }

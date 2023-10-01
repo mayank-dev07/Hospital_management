@@ -11,7 +11,7 @@
         ng-controller="appointmentController"
         ng-show="data"
       >
-        <div class="col-md-7 m-3">
+        <div class="col-md-9 m-3">
           <p
             class="d-flex justify-content-center text-danger-emphasis"
             style="font-size: 26px"
@@ -97,7 +97,7 @@
                     class="form-select border-success"
                     id="inputGroupSelect01"
                     ng-model="doct"
-                    ng-options="doctor as doctor.user_id__first_name for doctor in select"
+                    ng-options="doctor.id as doctor.user_id__first_name for doctor in select"
                     placeholder="choose doctor"
                   >
                     <option value="">Choose a Doctor</option>
