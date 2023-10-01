@@ -26,6 +26,7 @@
                 <th class="display-1" style="font-size: 30px">Address</th>
                 <th class="display-1" style="font-size: 30px">Age</th>
                 <th class="display-1" style="font-size: 30px">Gender</th>
+                <th class="display-1" style="font-size: 30px">Date</th>
                 <th></th>
               </tr>
             </thead>
@@ -109,6 +110,7 @@
                 <td style="font-size: 22px">{{doctor.patient_id__address}}</td>
                 <td style="font-size: 22px">{{doctor.patient_id__age}}</td>
                 <td style="font-size: 22px">{{doctor.patient_id__gender}}</td>
+                <td style="font-size: 22px">{{doctor.date}}</td>
                 <td ng-if="!doctor.prescription_status">
                   <button class="btn btn-primary"
 ng-click="view(doctor.id)"

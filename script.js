@@ -60,6 +60,11 @@ myApp.config([
         templateUrl: "/html/patient.html",
         controller: "patientController",
       })
+      .state("dashboard.pendingappointment", {
+        url: "/pendingappointment",
+        templateUrl: "/html/pendingappointment.html",
+        controller: "pendingappointmentController",
+      })
       .state("dashboard.docPatient", {
         url: "/docPatient",
         templateUrl: "/html/docPatient.html",
@@ -106,6 +111,269 @@ myApp.config([
 ]);
 
 const apiUrl = "https://10.21.80.207:8000";
+
+
+myApp.controller("pendingappointmentController", [
+  "$scope",
+  "$http",
+  "$location",
+  function ($scope, $http, $location) {
+     
+    $scope.patientDetails = [];
+    $http
+      .get(apiUrl + "/hospitalapp/doctorProfile/", {
+        withCredentials: true,
+      })
+      .then(function (response) {
+        console.log(response);
+        $scope.doctorProfile = response.data;
+        $scope.data = true;
+       
+        let id = $scope.doctorProfile[0].doctor__id;
+        console.log(id);
+        $http
+          .get(apiUrl + "/hospitalapp/pendingAppointment/", {
+            withCredentials: true,
+            params: { id: id },
+          })
+          .then(function (response) {
+            console.log(response);
+            $scope.appointments = response.data;
+            if ($scope.appointments.length == 0) {
+              $scope.pending = true;
+            } else {
+              $scope.appointment = true;
+            }
+          })
+          .catch(function (error) {
+            console.log(error.data);
+          });
+      })
+      .catch(function (error) {
+        console.log(error.data);
+      });
+    $scope.view = function (id) {
+      console.log(id);
+      let data = {
+        id: id,
+      };
+      Swal.fire({
+        title: "Appointment status",
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Approve",
+        denyButtonText: `Reject`,
+        cancelButtonText: `Update`,
+      }).then((result) => {
+        console.log(result);
+        if (result.isConfirmed) {
+          
+          $http
+            .post(apiUrl + "/hospitalapp/doctorApptApprove/", data, {
+              withCredentials: true,
+            })
+            .then(function (response) {
+              console.log(response.data);
+              Swal.fire(response.data.message);
+              $http
+                .get(apiUrl + "/hospitalapp/doctorProfile/", {
+                  withCredentials: true,
+                })
+                .then(function (response) {
+                  
+                  console.log(response);
+                  $scope.doctorProfile = response.data;
+                  let id = $scope.doctorProfile[0].doctor__id;
+                  console.log(id);
+                  $http
+                    .get(apiUrl + "/hospitalapp/pendingAppointment/", {
+                      withCredentials: true,
+                      params: { id: id },
+                    })
+                    .then(function (response) {
+                      console.log(response);
+                      $scope.appointments = response.data;
+                      
+                      if ($scope.appointments.length == 0) {
+                        $scope.pending = true;
+                        $scope.appointment = false;
+                      } else {
+                        $scope.appointment = true;
+                      }
+                    })
+                    .catch(function (error) {
+                      console.log(error.data);
+                    });
+                })
+                .catch(function (error) {
+                  console.log(error.data);
+                });
+            })
+            .catch(function (error) {
+              console.log(error.data);
+            });
+        } else if (result.isDenied) {
+          console.log(id);
+          Swal.fire({
+            title: "Reason to reject appointment",
+            html: `<input type="text" id="reason" class="swal2-input" placeholder="Reason">`,
+            confirmButtonText: "Send",
+            showCancelButton: true,
+            focusConfirm: false,
+            preConfirm: () => {
+              const reason = Swal.getPopup().querySelector("#reason").value;
+              if (!reason) {
+                Swal.showValidationMessage(`Please enter reason`);
+                return false;
+              }
+              return { reason: reason };
+            },
+          }).then((result) => {
+            if (result.isConfirmed) {
+              console.log(result);
+              let reason = result.value.reason;
+              let data = {
+                reason: reason,
+                id: id,
+              };
+              $scope.loader = true;
+
+              console.log(data);
+              $http
+                .post(apiUrl + "/hospitalapp/doctorApptReject/", data, {
+                  withCredentials: true,
+                })
+                .then(function (response) {
+                  console.log(response);
+                  Swal.fire(response.data.message);
+                  $http
+                    .get(apiUrl + "/hospitalapp/doctorProfile/", {
+                      withCredentials: true,
+                    })
+                    .then(function (response) {
+                      console.log(response);
+                      $scope.doctorProfile = response.data;
+                      let id = $scope.doctorProfile[0].doctor__id;
+                      console.log(id);
+                      $http
+                        .get(apiUrl + "/hospitalapp/pendingAppointment/", {
+                          withCredentials: true,
+                          params: { id: id },
+                        })
+                        .then(function (response) {
+                          console.log(response);
+                          $scope.appointments = response.data;
+                          if ($scope.appointments.length == 0) {
+                            $scope.pending = true;
+                            $scope.appointment = false;
+                          } else {
+                            $scope.appointment = true;
+                          }
+                        })
+                        .catch(function (error) {
+                          console.log(error.data);
+                        });
+                    })
+                    .catch(function (error) {
+                      console.log(error.data);
+                    });
+                })
+                .catch(function (error) {
+                  console.log(error.data);
+                  Swal.fire({
+                    icon: "error",
+                    text: error.data.message,
+                  });
+                });
+            }
+          });
+        } else if (result.dismiss == "cancel") {
+          const doctor = $scope.appointments.find(
+            (appointment) => appointment.id === id
+          );
+          console.log(doctor);
+          if (doctor) {
+            let date = doctor.date;
+            let time = doctor.time;
+            Swal.fire({
+              title: "Update Appointment",
+              html: `<div style="display: flex-column; justify-content: space-between;">
+              <input type="date" id="date" class="swal2-input" placeholder="Date" style="flex: 1;" value="${date}">
+              <input type="time" id="time" class="swal2-input" placeholder="Time" style="flex: 1;" value="${time}">
+            </div>`,
+              confirmButtonText: "Update",
+              focusConfirm: false,
+              preConfirm: () => {
+                const date = Swal.getPopup().querySelector("#date").value;
+                const time = Swal.getPopup().querySelector("#time").value;
+                if (!date || !time) {
+                  Swal.showValidationMessage(`Please enter Date and Time`);
+                }
+                return { date: date, time: time };
+              },
+            }).then((result) => {
+              if (result.isConfirmed) {
+                let date = result.value.date;
+                let time = result.value.time;
+                let data = {
+                  date: date,
+                  time: time,
+                  id: id,
+                };
+                $scope.loader = true;
+                $http
+                  .post(apiUrl + "/hospitalapp/updateApptDoctor/", data, {
+                    withCredentials: true,
+                  })
+                  .then(function (response) {
+                    console.log(response);
+                    Swal.fire(response.data.message);
+                    $http
+                      .get(apiUrl + "/hospitalapp/doctorProfile/", {
+                        withCredentials: true,
+                      })
+                      .then(function (response) {
+                        console.log(response);
+                        $scope.doctorProfile = response.data;
+                        let id = $scope.doctorProfile[0].doctor__id;
+                        console.log(id);
+                        $http
+                          .get(apiUrl + "/hospitalapp/pendingAppointment/", {
+                            withCredentials: true,
+                            params: { id: id },
+                          })
+                          .then(function (response) {
+                            console.log(response);
+                            $scope.appointments = response.data;
+                            Swal.fire(response.data.message);
+                            if ($scope.appointments.length == 0) {
+                              $scope.pending = true;
+                            } else {
+                              $scope.appointment = true;
+                            }
+                          })
+                          .catch(function (error) {
+                            console.log(error.data);
+                          });
+                      })
+                      .catch(function (error) {
+                        console.log(error.data);
+                      });
+                  })
+                  .catch(function (error) {
+                    console.log(error.data);
+                  });
+              }
+            });
+          }
+        }
+      });
+    };
+
+    $scope.exportTableToExcel = function (id, name) {
+      exportToExcel(id, name);
+    };
+  }])
 
 myApp.controller("registrationController", [
   "$scope",
@@ -415,7 +683,11 @@ myApp.controller("loginController", [
 ]);
 
 function exportToExcel(tableId, fileName) {
-  let table = document.getElementById(tableId);
+  let table = document.getElementById(tableId).cloneNode(true);
+  let remove = table.getElementsByClassName("btn");
+  for (let i = remove.length - 1; i >= 0; i--) {
+    remove[i].parentNode.removeChild(remove[i]);
+  }
   let data = table.outerHTML;
   let blob = new Blob([data], {
     type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -435,6 +707,16 @@ myApp.controller("dashboardController", [
   "$scope",
   "$location",
   function ($http, $scope, $location) {
+    $http.get(apiUrl +'/hospitalapp/checkuser/',{
+      withCredentials:true
+    })
+    .then(function(response){
+      console.log(response)
+    })
+    .catch(function(error){
+      $location.path('/login')
+      console.log(error)
+    })
     $scope.loader = true;
     $scope.showcarousel = false;
     $scope.leftPanel = [];
@@ -945,8 +1227,7 @@ myApp.controller("doctorController", [
   "$http",
   "$location",
   function ($scope, $http, $location) {
-    // $scope.loader = true;
-    // $scope.data = false;
+    
     $scope.patientDetails = [];
 
     $http
@@ -955,7 +1236,7 @@ myApp.controller("doctorController", [
       })
       .then(function (response) {
         console.log(response);
-        // $scope.loader = false;
+       
         $scope.data = true;
         $scope.doctorDetails = response.data;
       })
@@ -993,8 +1274,7 @@ myApp.controller("docprofileController", [
   "$http",
   "$location",
   function ($scope, $http, $location) {
-    // $scope.loader = true;
-    // $scope.data = false;
+    
     $scope.patientDetails = [];
     $http
       .get(apiUrl + "/hospitalapp/doctorProfile/", {
@@ -1004,7 +1284,7 @@ myApp.controller("docprofileController", [
         console.log(response);
         $scope.doctorProfile = response.data;
         $scope.data = true;
-        // $scope.loader = false;
+       
         let id = $scope.doctorProfile[0].doctor__id;
         console.log(id);
         $http
@@ -1027,236 +1307,13 @@ myApp.controller("docprofileController", [
       })
       .catch(function (error) {
         console.log(error.data);
-      });
-    $scope.view = function (id) {
-      console.log(id);
-      let data = {
-        id: id,
-      };
-      Swal.fire({
-        title: "Appointment status",
-        showDenyButton: true,
-        showCancelButton: true,
-        confirmButtonText: "Approve",
-        denyButtonText: `Reject`,
-        cancelButtonText: `Update`,
-      }).then((result) => {
-        console.log(result);
-        if (result.isConfirmed) {
-          // $scope.loader = true;
-          $http
-            .post(apiUrl + "/hospitalapp/doctorApptApprove/", data, {
-              withCredentials: true,
-            })
-            .then(function (response) {
-              console.log(response.data);
-              Swal.fire(response.data.message);
-              $http
-                .get(apiUrl + "/hospitalapp/doctorProfile/", {
-                  withCredentials: true,
-                })
-                .then(function (response) {
-                  // $scope.loader = true;
-                  console.log(response);
-                  $scope.doctorProfile = response.data;
-                  let id = $scope.doctorProfile[0].doctor__id;
-                  console.log(id);
-                  $http
-                    .get(apiUrl + "/hospitalapp/pendingAppointment/", {
-                      withCredentials: true,
-                      params: { id: id },
-                    })
-                    .then(function (response) {
-                      console.log(response);
-                      $scope.appointments = response.data;
-                      // $scope.loader = false;
-                      if ($scope.appointments.length == 0) {
-                        $scope.pending = true;
-                        $scope.appointment = false;
-                      } else {
-                        $scope.appointment = true;
-                      }
-                    })
-                    .catch(function (error) {
-                      console.log(error.data);
-                    });
-                })
-                .catch(function (error) {
-                  console.log(error.data);
-                });
-            })
-            .catch(function (error) {
-              console.log(error.data);
-            });
-        } else if (result.isDenied) {
-          console.log(id);
-          Swal.fire({
-            title: "Reason to reject appointment",
-            html: `<input type="text" id="reason" class="swal2-input" placeholder="Reason">`,
-            confirmButtonText: "Send",
-            showCancelButton: true,
-            focusConfirm: false,
-            preConfirm: () => {
-              const reason = Swal.getPopup().querySelector("#reason").value;
-              if (!reason) {
-                Swal.showValidationMessage(`Please enter reason`);
-                return false;
-              }
-              return { reason: reason };
-            },
-          }).then((result) => {
-            if (result.isConfirmed) {
-              console.log(result);
-              let reason = result.value.reason;
-              let data = {
-                reason: reason,
-                id: id,
-              };
-              $scope.loader = true;
-
-              console.log(data);
-              $http
-                .post(apiUrl + "/hospitalapp/doctorApptReject/", data, {
-                  withCredentials: true,
-                })
-                .then(function (response) {
-                  console.log(response);
-                  Swal.fire(response.data.message);
-                  $http
-                    .get(apiUrl + "/hospitalapp/doctorProfile/", {
-                      withCredentials: true,
-                    })
-                    .then(function (response) {
-                      console.log(response);
-                      $scope.doctorProfile = response.data;
-                      let id = $scope.doctorProfile[0].doctor__id;
-                      console.log(id);
-                      $http
-                        .get(apiUrl + "/hospitalapp/pendingAppointment/", {
-                          withCredentials: true,
-                          params: { id: id },
-                        })
-                        .then(function (response) {
-                          console.log(response);
-                          $scope.appointments = response.data;
-                          if ($scope.appointments.length == 0) {
-                            $scope.pending = true;
-                            $scope.appointment = false;
-                          } else {
-                            $scope.appointment = true;
-                          }
-                        })
-                        .catch(function (error) {
-                          console.log(error.data);
-                        });
-                    })
-                    .catch(function (error) {
-                      console.log(error.data);
-                    });
-                })
-                .catch(function (error) {
-                  console.log(error.data);
-                  Swal.fire({
-                    icon: "error",
-                    text: error.data.message,
-                  });
-                });
-            }
-          });
-        } else if (result.dismiss == "cancel") {
-          const doctor = $scope.appointments.find(
-            (appointment) => appointment.id === id
-          );
-          console.log(doctor);
-          if (doctor) {
-            let date = doctor.date;
-            let time = doctor.time;
-            Swal.fire({
-              title: "Update Appointment",
-              html: `<div style="display: flex-column; justify-content: space-between;">
-              <input type="date" id="date" class="swal2-input" placeholder="Date" style="flex: 1;" value="${date}">
-              <input type="time" id="time" class="swal2-input" placeholder="Time" style="flex: 1;" value="${time}">
-            </div>`,
-              confirmButtonText: "Update",
-              focusConfirm: false,
-              preConfirm: () => {
-                const date = Swal.getPopup().querySelector("#date").value;
-                const time = Swal.getPopup().querySelector("#time").value;
-                if (!date || !time) {
-                  Swal.showValidationMessage(`Please enter Date and Time`);
-                }
-                return { date: date, time: time };
-              },
-            }).then((result) => {
-              if (result.isConfirmed) {
-                let date = result.value.date;
-                let time = result.value.time;
-                let data = {
-                  date: date,
-                  time: time,
-                  id: id,
-                };
-                $scope.loader = true;
-                $http
-                  .post(apiUrl + "/hospitalapp/updateApptDoctor/", data, {
-                    withCredentials: true,
-                  })
-                  .then(function (response) {
-                    console.log(response);
-                    Swal.fire(response.data.message);
-                    $http
-                      .get(apiUrl + "/hospitalapp/doctorProfile/", {
-                        withCredentials: true,
-                      })
-                      .then(function (response) {
-                        console.log(response);
-                        $scope.doctorProfile = response.data;
-                        let id = $scope.doctorProfile[0].doctor__id;
-                        console.log(id);
-                        $http
-                          .get(apiUrl + "/hospitalapp/pendingAppointment/", {
-                            withCredentials: true,
-                            params: { id: id },
-                          })
-                          .then(function (response) {
-                            console.log(response);
-                            $scope.appointments = response.data;
-                            Swal.fire(response.data.message);
-                            if ($scope.appointments.length == 0) {
-                              $scope.pending = true;
-                            } else {
-                              $scope.appointment = true;
-                            }
-                          })
-                          .catch(function (error) {
-                            console.log(error.data);
-                          });
-                      })
-                      .catch(function (error) {
-                        console.log(error.data);
-                      });
-                  })
-                  .catch(function (error) {
-                    console.log(error.data);
-                  });
-              }
-            });
-          }
-        }
-      });
-    };
-
-    $scope.exportTableToExcel = function (id, name) {
-      exportToExcel(id, name);
-    };
-  },
-]);
+      }); 
+}]);
 
 myApp.controller("patientController", [
   "$scope",
   "$http",
-  "$location",
-  function ($scope, $http, $location) {
+  function ($scope, $http) {
     $scope.leftPanel = [];
     $scope.loader = true;
     $scope.data = false;
@@ -1650,9 +1707,9 @@ myApp.controller("prescriptionDetailsController", [
         });
 
       $scope.print = function () {
-        const data = document.getElementById("patientPrescription");
-        const display = window.open("", "_blank");
-        display.document.write(data.innerHTML);
+        const data = document.getElementById("patientPrescription").innerHTML;
+        const display = window.open("", "_blank"); 
+        display.document.write(data);
         display.document.close();
         display.focus();
         display.print();
@@ -1661,8 +1718,8 @@ myApp.controller("prescriptionDetailsController", [
     }
   },
 ]);
-
-myApp.controller("patientPrecDetailsController", [
+ 
+myApp.controller("patientPrecDetailsController", [  
   "$scope",
   "$http",
   "$location",
